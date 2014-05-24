@@ -1,0 +1,72 @@
+material 15_-_Default1
+{
+   technique
+   {
+      pass
+      {
+         scene_blend alpha_blend
+         depth_check on
+         depth_write off
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture HAT.JPG
+         }
+      }
+   }
+}
+
+material 14_-_Default1
+{
+   technique
+   {
+      pass
+      {
+         scene_blend alpha_blend
+         depth_check on
+         depth_write off
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture MALE_03.JPG
+         }
+      }
+   }
+}
+
+material Material_#2
+{
+   technique
+   {
+      pass
+      {
+         scene_blend alpha_blend
+         depth_check on
+         depth_write off
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture HAIR.JPG
+         }
+      }
+   }
+}
+
+material Material_#1
+{
+   technique
+   {
+      pass
+      {
+         scene_blend alpha_blend
+         depth_check on
+         depth_write off
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture FACE.JPG
+         }
+      }
+   }
+}
+

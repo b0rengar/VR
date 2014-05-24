@@ -1,0 +1,24 @@
+Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
+    MaterialParameters {
+        DiffuseMap : Repeat Textures/ground/stucco_1/Cladding_Stucco_White.dds
+        Specular : 1.0 1.0 1.0 1.0
+        Diffuse : 0.8 0.8 0.8 1.0
+        UseMaterialColors : false
+        ParallaxHeight : 0.05
+        Ambient : 1.0 1.0 1.0 0.5
+        Shininess : 16.0
+        NormalMap : Repeat Textures/ground/stucco_1/Cladding_Stucco_White_NORM.dds
+        ParallaxMap : Repeat Textures/ground/stucco_1/Cladding_Stucco_White_DISP.dds
+    }
+    AdditionalRenderState {
+      FaceCull Back
+      Wireframe Off
+      DepthWrite On
+      PolyOffset 0.0 0.0
+      AlphaTestFalloff 0.0
+      Blend Off
+      PointSprite Off
+      ColorWrite On
+      DepthTest On
+    }
+}

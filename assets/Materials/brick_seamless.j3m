@@ -1,0 +1,24 @@
+Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
+    MaterialParameters {
+        DiffuseMap : Repeat Textures/brick/SeamlessBrick.dds
+        Specular : 0.0 0.0 0.0 1.0
+        Diffuse : 1.0 1.0 1.0 1.0
+        UseMaterialColors : false
+        ParallaxHeight : 0.05
+        Ambient : 1.0 1.0 1.0 1.0
+        Shininess : 16.0
+        NormalMap : Repeat Textures/brick/SeamlessBrick_NORM.dds
+        ParallaxMap : Repeat Textures/brick/SeamlessBrick_SPEC.dds
+    }
+    AdditionalRenderState {
+      FaceCull Back
+      Wireframe Off
+      DepthWrite On
+      PolyOffset 0.0 0.0
+      AlphaTestFalloff 0.0
+      Blend Off
+      PointSprite Off
+      ColorWrite On
+      DepthTest On
+    }
+}

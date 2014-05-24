@@ -1,0 +1,24 @@
+Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
+    MaterialParameters {
+        DiffuseMap : Repeat Textures/ground/tiles/pavementTextureNo5918_1024x768.dds
+        Specular : 0.0 0.0 0.0 1.0
+        Diffuse : 1.0 1.0 1.0 1.0
+        UseMaterialColors : false
+        ParallaxHeight : 0.005
+        Ambient : 1.0 1.0 1.0 1.0
+        Shininess : 16.0
+        NormalMap : Repeat Textures/ground/tiles/pavementTextureNo5918_1024x768_NORM.dds
+        ParallaxMap : Repeat Textures/ground/tiles/pavementTextureNo5918_1024x768_SPEC.dds
+    }
+    AdditionalRenderState {
+      FaceCull Back
+      Wireframe Off
+      DepthWrite On
+      PolyOffset 0.0 0.0
+      AlphaTestFalloff 0.0
+      Blend Off
+      PointSprite Off
+      ColorWrite On
+      DepthTest On
+    }
+}
