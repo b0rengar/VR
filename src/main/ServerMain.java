@@ -7,7 +7,6 @@ import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
-import com.jme3.system.JmeContext;
 import config.Settings;
 import config.Setup;
 import java.io.IOException;
@@ -72,9 +71,7 @@ public class ServerMain extends SimpleApplication {
         gameManager = new GameManager();
         stateManager.attach(gameManager);
         new ServerNetListener(this, server, worldManager, gameManager);
-        Logger.getLogger(ServerListener.class.getName()).log(Level.INFO, "Server bereit!");
-
-        
+        Logger.getLogger(ServerListener.class.getName()).log(Level.INFO, "Server bereit!");        
     }
 
     @Override

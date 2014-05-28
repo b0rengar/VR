@@ -17,10 +17,3 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
-
-*.dll
-*.MF
-build/
-nbproject/
-*.jnlp
-build.xml

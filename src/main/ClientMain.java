@@ -12,7 +12,7 @@ import com.jme3.system.AppSettings;
 import com.jme3.system.JmeContext;
 import config.Settings;
 import config.Setup;
-import controller.HUDController;
+
 import controls.UserInputControl;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.textfield.TextFieldControl;
@@ -72,7 +72,9 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         app = new ClientMain();
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
+        
         //app.start(); //startet mit dialog
+        
         app.start(JmeContext.Type.Display); // standard display type
     }
   
@@ -113,16 +115,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         stateManager.attach(sceneManager);
         syncManager.addObject(-1, sceneManager);
         clientNetListener = new ClientNetListener(this, client, sceneManager);
-        
-        //adding/creating controls later attached to user controlled spatial
-//        sceneManager.addUserControl(new UserInputControl(inputManager, cam));
-//        stateManager.attach(sceneManager);
-
-        
-        //register scenemanager with sync manager so that messages can apply their data
-//        syncManager.addObject(-1, sceneManager);
-//        clientNetListener = new ClientNetListener(this, client, sceneManager);
-    }
+   }
     
     private void startNifty() {
 		guiNode.detachAllChildren();
@@ -187,12 +180,12 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     }
 
     public void loadWorld(final String name, final String[] modelNames) {
-            final TextRenderer statusText = nifty.getScreen("load_campus").findElementByName("load_campus_panel").findElementByName("status_text").getRenderer(TextRenderer.class);
+            final TextRenderer statusText = nifty.getScreen("load_world").findElementByName("load_world_panel").findElementByName("status_text").getRenderer(TextRenderer.class);
             inputManager.setCursorVisible(false);
             try {
                     enqueue(new Callable<Void>() {
                             public Void call() throws Exception {
-                                    nifty.gotoScreen("load_campus");
+                                    nifty.gotoScreen("load_world");
                                     statusText.setText("Lade Campus");
                                     return null;
                             }
@@ -210,7 +203,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                                     sceneManager.attachLevel();
                                     //sceneManager.addBox();
                                     statusText.setText("Fertig!");
-                                    nifty.removeScreen("load_campus");
+                                    nifty.removeScreen("load_world");
                                     initCrossHair();
                                     return null;
                             }

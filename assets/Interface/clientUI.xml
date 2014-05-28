@@ -57,9 +57,9 @@
 		</layer>
 	</screen>
 
-	<screen id="load_campus" controller="main.ClientMain">
+	<screen id="load_world" controller="main.ClientMain">
 		<layer id="layer" childLayout="center">
-			<panel id="load_campus_panel" height="140px" width="350px"
+			<panel id="load_world_panel" height="140px" width="350px"
 				align="center" valign="center" style="nifty-panel" childLayout="vertical">
 				<!-- <effect> -->
 				<!-- <onStartScreen name="move" mode="in" direction="top" length="300" 

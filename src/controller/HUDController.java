@@ -34,10 +34,10 @@ public class HUDController implements ScreenController {
     TextRenderer credits_renderer = (TextRenderer)this.screen.findElementByName("hud_layer").findElementByName("panel_right").findElementByName("panel_right").findElementByName("text_01").getRenderer(TextRenderer.class);
     if (this.app == null)
     {
-      credits_renderer.setText("Credits: 0");
+      credits_renderer.setText("Some Info");
       return;
     }
     int credits = 0;
-    credits_renderer.setText("Credits: " + credits);
+    credits_renderer.setText("some text info");
   }
 }

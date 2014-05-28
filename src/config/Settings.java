@@ -28,18 +28,18 @@ public class Settings {
 			version = props.getProperty("version");
 			protocol_version = Integer.valueOf(props.getProperty("protocol_version"));
 			server = props.getProperty("server");
-                        System.out.println(server);
-                                
 			port_tcp = Integer.valueOf(props.getProperty("port_tcp"));
 			port_udp = Integer.valueOf(props.getProperty("port_udp"));
-//			netw_sync_freq = Float.valueOf(props.getProperty("netw_sync_freq"));
-//			netw_max_physicsdelay = Float.valueOf(props.getProperty("netw_max_physicsdelay"));
-//			scene_fps = Integer.valueOf(props.getProperty("scene_fps"));
-//			scene_resolution_width = Integer.valueOf(props.getProperty("scene_resolution_width"));
-//			scene_resolution_height = Integer.valueOf(props.getProperty("scene_resolution_height"));
-//			physics_fps = 1.0f/Integer.valueOf(props.getProperty("physics_fps"));
+                        
+                        scene_resolution_width = Integer.valueOf(props.getProperty("scene_resolution_width"));
+			scene_resolution_height = Integer.valueOf(props.getProperty("scene_resolution_height"));
 			debug = new Boolean(props.getProperty("debug"));
-//			character_speed = Integer.valueOf(props.getProperty("character_speed"));
+                        netw_sync_freq = Float.valueOf(props.getProperty("netw_sync_freq"));
+                        netw_max_physicsdelay = Float.valueOf(props.getProperty("netw_max_physicsdelay"));
+			scene_fps = Integer.valueOf(props.getProperty("scene_fps"));
+			physics_fps = Float.valueOf(props.getProperty("physics_fps"));
+			character_speed = Integer.valueOf(props.getProperty("character_speed"));
+                        
 		} 
 		catch(Exception ex){
 			System.err.println("Error Load Settings: " + ex);
