@@ -19,7 +19,7 @@ public class GameManager extends AbstractAppState {
 	private SyncManager server;
 	private SceneManager sceneManager;
 	private boolean isRunning = false;
-	private String mapName = "Scenes/newScene.j3o";
+	private String mapName = "Scenes/thwildau.j3o";
 	private String[] modelNames = new String[]{"Models/Sinbad/Sinbad.j3o"};
 
 	@Override
