@@ -115,7 +115,7 @@ public class UserCharacterControl extends NetworkedUserControl {
         if (rotAmountY != 0) {
             directionQuat.fromAngleAxis((FastMath.PI) * time_last_update * rotAmountY, directionLeft);
             directionQuat.multLocal(viewDirection);
-            if (viewDirection.getY() > 0.3f || viewDirection.getY() < - 0.3f) {
+            if (viewDirection.getY() > 0.8f || viewDirection.getY() < - 0.8f) {
                 directionQuat.fromAngleAxis((FastMath.PI) * time_last_update * - rotAmountY, directionLeft);
                 directionQuat.multLocal(viewDirection);
             }
