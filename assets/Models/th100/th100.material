@@ -1,0 +1,638 @@
+material haus_100_-_031
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_031.jpg
+         }
+      }
+   }
+}
+
+material Beton_Form_4x8
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Concrete_Form_4x8.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_017
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_017.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_006_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_0061.jpg
+         }
+      }
+   }
+}
+
+material Beton_Körnung_Rauch
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Concrete_Aggregate_Smoke.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_032e
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_032e.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_024
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_024.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_021
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_021.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_007
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_007.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_005
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_005.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_032d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_032d.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_030
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_030.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_028b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_028b.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_028b_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_028b1.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_016
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_016.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_014
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_014.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_013a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_013a.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_010
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_010.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_027
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_027.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_020
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_020.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_032c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_032c.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_029b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_029b.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_028a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_028a.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_019
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_019.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_015
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_015.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_029a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_029a.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_028c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_028c.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_004
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_004.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_001
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_001.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_022
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_022.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_013
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_013.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_032a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_032a.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_018
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_018.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_009
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_009.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_002
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_002.jpg
+         }
+      }
+   }
+}
+
+material Metall_Aluminium_eloxiert
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Metal_Aluminum_Anodized.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_026
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_026.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_003
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_003.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_032b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_032b.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_012_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_0121.jpg
+         }
+      }
+   }
+}
+
+material haus_100_-_008
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_100_-_008.jpg
+         }
+      }
+   }
+}
+
+material SketchupDefault
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1.0 1.0 1.0
+         ambient 1.0 1.0 1.0
+      }
+   }
+}
+
+material SketchupDefault_Back
+{
+   technique
+   {
+      pass
+      {
+         diffuse 0.670588235294118 0.690196078431373 0.8
+         ambient 0.670588235294118 0.690196078431373 0.8
+      }
+   }
+}

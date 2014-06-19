@@ -1,0 +1,293 @@
+material halle_10_-_004c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_004c.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_002b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_002b.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_001b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_001b.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_003b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Halle_10_-_003b.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_004b_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_004b1.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_002e
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_002e.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_005b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_005b.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_002a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_002a.jpg
+         }
+      }
+   }
+}
+
+material Google_Earth_Snapshot1_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture GEI2351.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_004d_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_004d1.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_004a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_004a.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_002f
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_002f.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_005a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_005a.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_002d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_002d.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_003c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Halle_10_-_003c.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_003a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Halle_10_-_003a.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_001a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_001a.jpg
+         }
+      }
+   }
+}
+
+material halle_10_-_002c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture halle_10_-_002c.jpg
+         }
+      }
+   }
+}
+
+material SketchupDefault
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1.0 1.0 1.0
+         ambient 1.0 1.0 1.0
+      }
+   }
+}
+
+material SketchupDefault_Back
+{
+   technique
+   {
+      pass
+      {
+         diffuse 0.670588235294118 0.690196078431373 0.8
+         ambient 0.670588235294118 0.690196078431373 0.8
+      }
+   }
+}

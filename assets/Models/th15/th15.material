@@ -1,0 +1,1493 @@
+material haus_15_-_056d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_056d.jpg
+         }
+      }
+   }
+}
+
+material 15_-_008
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_008.jpg
+         }
+      }
+   }
+}
+
+material 15_-_008_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0081.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_044
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_044.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_048d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_048d.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_061a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_061a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_055b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_055b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_050a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_050a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_031
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_031.jpg
+         }
+      }
+   }
+}
+
+material 15_-_011
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_011.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_059b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_059b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_053c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_053c.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_046
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_046.jpg
+         }
+      }
+   }
+}
+
+material 15_-_030
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_030.jpg
+         }
+      }
+   }
+}
+
+material 15_-_005a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_005a.jpg
+         }
+      }
+   }
+}
+
+material Material3_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0231.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_051c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_051c.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_057c_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_057c1.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_057c_distort_2
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_057c2.jpg
+         }
+      }
+   }
+}
+
+material 15_-_022_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0221.jpg
+         }
+      }
+   }
+}
+
+material 15_-_035
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_035.jpg
+         }
+      }
+   }
+}
+
+material 15_-_001
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_001.jpg
+         }
+      }
+   }
+}
+
+material 15_-_032
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_032.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_045
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_045.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_056c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_056c.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_051b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_051b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_048b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_048b.jpg
+         }
+      }
+   }
+}
+
+material _15_-_017
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_017.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_052a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_052a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_061b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_061b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_055a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_055a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_052c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_052c.jpg
+         }
+      }
+   }
+}
+
+material 15_-_006
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_006.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_058b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_058b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_053b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_053b.jpg
+         }
+      }
+   }
+}
+
+material 15_-_002_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0021.jpg
+         }
+      }
+   }
+}
+
+material 15_-_002_distort_2
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0022.jpg
+         }
+      }
+   }
+}
+
+material 15_-_012
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_012.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_042b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_042b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_057b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_057b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_049c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_049c.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_056b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_056b.jpg
+         }
+      }
+   }
+}
+
+material 15_-_018
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_018.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_060b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_060b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_054b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_054b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_041
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_041.jpg
+         }
+      }
+   }
+}
+
+material 15_-_014
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_014.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_050b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_050b.jpg
+         }
+      }
+   }
+}
+
+material 15_-_036
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_036.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_058a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_058a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_053a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_053a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_010
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_010.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_038
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_038.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_050d_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_050d1.jpg
+         }
+      }
+   }
+}
+
+material 15_-_019
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_019.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_037
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_037.jpg
+         }
+      }
+   }
+}
+
+material Metall_gefalzt
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture Metal_Seamed.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_057a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_057a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_034
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_034.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_062b_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_062b1.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_056a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_056a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_028
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_028.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_048a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_048a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_027
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_027.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_047
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_047.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_060a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_060a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_054a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_054a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_009
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_009.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_042a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_042a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_043a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_043a.jpg
+         }
+      }
+   }
+}
+
+material 15_-_026_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0261.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_049b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_049b.jpg
+         }
+      }
+   }
+}
+
+material 15_-_021_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0211.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_057e
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_057e.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_052d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_052d.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_040
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_040.jpg
+         }
+      }
+   }
+}
+
+material 15_-_025_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0251.jpg
+         }
+      }
+   }
+}
+
+material 15_-_005b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_005b.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_050c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_050c.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_056e
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_056e.jpg
+         }
+      }
+   }
+}
+
+material 15_-_013
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_013.jpg
+         }
+      }
+   }
+}
+
+material 15_-_004
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_004.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_039
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_039.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_062a_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_062a1.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_055c_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_055c1.jpg
+         }
+      }
+   }
+}
+
+material 15_-_029
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_029.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_048c
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_048c.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_049a_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_049a1.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_059a_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_059a1.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_053d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_053d.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_051a
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_051a.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_043b_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_043b1.jpg
+         }
+      }
+   }
+}
+
+material 15_-_003
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_003.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_052b
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_052b.jpg
+         }
+      }
+   }
+}
+
+material 15_-_024_distort_1
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_0241.jpg
+         }
+      }
+   }
+}
+
+material 15_-_020
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_020.jpg
+         }
+      }
+   }
+}
+
+material haus_15_-_057d
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_057d.jpg
+         }
+      }
+   }
+}
+
+material 15_-_033
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1 1 1 1.0
+         texture_unit
+         {
+            texture haus_15_-_033.jpg
+         }
+      }
+   }
+}
+
+material SketchupDefault
+{
+   technique
+   {
+      pass
+      {
+         diffuse 1.0 1.0 1.0
+         ambient 1.0 1.0 1.0
+      }
+   }
+}
+
+material SketchupDefault_Back
+{
+   technique
+   {
+      pass
+      {
+         diffuse 0.670588235294118 0.690196078431373 0.8
+         ambient 0.670588235294118 0.690196078431373 0.8
+      }
+   }
+}
