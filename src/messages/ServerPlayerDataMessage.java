@@ -32,7 +32,7 @@ public class ServerPlayerDataMessage extends AbstractMessage {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+        
 	public byte getType() {
 		return type;
 	}

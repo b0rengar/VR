@@ -16,6 +16,7 @@ public class ServerAddPlayerMessage extends SyncMessage{
         this.playerId = id;
         this.name = name;
         this.client_id = client_id;
+
     }
 
     @Override

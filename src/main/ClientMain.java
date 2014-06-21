@@ -63,12 +63,13 @@ import persistence.Player;
 public class ClientMain extends SimpleApplication implements ScreenController{
     Client myClient = null;
     private static ClientMain app;  
-    
+    private boolean PlayerTab = false;
 	private SceneManager sceneManager;
 	private SyncManager syncManager;
 	private Nifty nifty;
 	private NiftyJmeDisplay niftyDisplay;
 	private TextRenderer statusText;
+        private TextRenderer playerLine;
 	private NetworkClient client;
 	private ClientNetListener clientNetListener;
 	private BulletAppState bulletState;
@@ -177,6 +178,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 
     public void connect() {
             final String userName = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("username_text").getControl(TextFieldControl.class).getText();
+            final String userO2 = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("username_text").getControl(TextFieldControl.class).getText();
             if (userName.trim().length() == 0) {
                     setStatusText("Username invalid");
                     return;
@@ -363,15 +365,24 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         private ActionListener actionListenerList = new ActionListener() {
 
           public void onAction(String name, boolean keyPressed, float tpf) {
+            int cnt = 1;
+            Integer cntInt;
             if (name.equals("List") && !keyPressed) {
-                //if(nifty. != true){    
-                    nifty.gotoScreen("start");
-                //}else{
-                    nifty.removeScreen("start");
-                //}
+                if(PlayerTab == false){    
+                    nifty.fromXmlWithoutStartScreen("Interface/clientUI.xml");                   
+                    PlayerTab = true;
                     for (Player player : Player.getPlayers()) {
-                          System.out.println("Play: " + player.getName());
+                        //System.out.println("Play: " + player.getName());
+                        cntInt = new Integer (cnt);
+                        playerLine = nifty.getScreen("playerTab").findElementByName("layer").findElementByName("panel").findElementByName(cntInt.toString()).getRenderer(TextRenderer.class);
+                        playerLine.setText(player.getName() + "                                            " + player.getO2() + " in Bar"+ "                      " + player.getO2() + " bpm"+ "                      " + player.getO2() + " %");
+                        cnt++;
                     }
+                    nifty.gotoScreen("playerTab");
+                }else{
+                    nifty.removeScreen("playerTab");
+                    PlayerTab = false;
+                }
             }
           }
         };

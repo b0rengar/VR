@@ -8,6 +8,7 @@ public class Player {
 	private static HashMap<Long, Player> players = new HashMap<Long, Player>();
 	private long id;
 	private String name;
+        private int O2;
 	private long character_entity_id = -1;
 	private long entity_id = -1;
 	private int group_id = -1;
@@ -57,6 +58,15 @@ public class Player {
 		this.character_entity_id = -1l;
 	}
 
+        public Player(long id, int groupId, String name, int o2) {
+		this.id = id;
+		this.group_id = groupId;
+		this.name=name;
+		this.entity_id = -1l;
+		this.character_entity_id = -1l;
+                this.O2 = o2;
+	}
+        
 	public long getId() {
 		return id;
 	}
@@ -92,4 +102,12 @@ public class Player {
 	public void setGroup_id(int group_id) {
 		this.group_id = group_id;
 	}
+        
+        public int getO2(){
+            return O2;
+        }
+        
+        public void setO2(int o2){
+                this.O2 = o2;
+        }
 }

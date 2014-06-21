@@ -31,5 +31,4 @@ public class ClientJoinMessage extends AbstractMessage{
 		this.pass = pass;
 	}
     
-    
 }

@@ -7,7 +7,7 @@
 
 	<screen id="load_game" controller="main.ClientMain">
 		<layer id="layer" childLayout="center">
-			<panel id="panel" height="300px" width="350px" align="center"
+			<panel id="panel" height="350px" width="350px" align="center"
 				valign="center" style="nifty-panel" childLayout="vertical">
 				<effect>
 					<onStartScreen name="fade" startColor="#0000"
@@ -31,8 +31,12 @@
 				</image>
 				<text style="nifty-label" text="" />
 				<text style="nifty-label" text="Enter Username" valign="center" />
-				<text style="nifty-label" text="" />
 				<control id="username_text" name="textfield" align="center"
+					valign="center" width="60%">
+					<interact onEnter="connect()" />
+				</control>
+                                <text style="nifty-label" text=" User Oxigen (in Bar)" valign="center" />
+				<control id="usero2_text" name="textfield" align="center"
 					valign="center" width="60%">
 					<interact onEnter="connect()" />
 				</control>
@@ -184,6 +188,23 @@
 		</layer>
 	</screen>
 	
-
+	<screen id="playerTab" controller="main.ClientMain">
+		<layer id="layer" childLayout="center" backgroundColor="#fff0">
+			<panel id="panel" height="450px" width="600px" align="center"
+				valign="center" style="nifty-panel" childLayout="vertical">
+				<text font="aurulent-sans-16.fnt" align="left" color="#ffff" text="Overview of relief units:" />
+                                <text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="-----------------------------------------------------------------------------------------------------------------------------------------" />
+				<text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="Name                                            |           O2           |           Pulse           |           Health" />
+                                <text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="-----------------------------------------------------------------------------------------------------------------------------------------" />
+                                <text id="1" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+                                <text id="2" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+                                <text id="3" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+                                <text id="4" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+                                <text id="5" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+                                <text id="6" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+                                <text id="7" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
+			</panel>
+		</layer>
+	</screen>
 
 </nifty>
