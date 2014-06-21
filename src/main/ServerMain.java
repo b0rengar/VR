@@ -9,6 +9,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import config.Settings;
 import config.Setup;
+import datamodel.sensors.SensorManager;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ public class ServerMain extends SimpleApplication {
     private static Server server;
 
   public static void main(String[] args) {
+    
+      new SensorManager();
     AppSettings settings = new AppSettings(true);
     settings.setRenderer(null);
     settings.setAudioRenderer(null);

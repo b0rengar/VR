@@ -313,19 +313,25 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 //                System.out.println("  You shot " + hit + " at " + pt + ", " + dist + " wu away.");
 //              }
               // 5. Use the results (we mark the hit object)
-              if (results.size() > 0) {
+              if (results.size() > 1) {
                 // The closest collision point is what was truly hit:
                 CollisionResult closest = results.getCollision(1);
                 // For each hit, we know distance, impact point, name of geometry.
                 float dist = closest.getDistance();
                 Vector3f pt = closest.getContactPoint();
+                double x = -1 * pt.getX();
+                double z = -1 * pt.getZ();
+                pt.setX((float)x);
+                pt.setZ((float)z);
                 String hit = closest.getGeometry().getName();
                 System.out.println("* Collision #");
                 System.out.println("  You shot " + hit + " at " + pt + ", " + dist + " wu away.");
                 // Let's interact - we mark the hit with a red dot.
-                mark.setLocalTranslation(closest.getContactPoint());
+//                mark.setLocalTranslation(closest.getContactPoint());
+                mark.setLocalTranslation(pt);
 //                rootNode.attachChild(mark);
                 sceneManager.getWorldRoot().attachChild(mark);
+                
               } else {
                 // No hits? Then remove the red mark.
                 sceneManager.getWorldRoot().detachChild(mark);
