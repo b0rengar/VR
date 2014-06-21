@@ -14,23 +14,44 @@ import java.util.List;
  */
 public class SensorGroup {
     
-    private String id;
+    private int id;
     private String description;
     
     private HashMap<Integer,Sensor> sensors;
 
 
-    public SensorGroup(String id) {
+    public SensorGroup(int id) {
         this.id = id;
         sensors = new HashMap<Integer, Sensor>();
     }
 
-    public SensorGroup(String id, String description) {
+    public SensorGroup(int id, String description) {
         this(id);
         this.description = description;
         
     }
 
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(">> Sensorgroup");
+        sb.append(id);
+        sb.append("\n");
+        sb.append(description);
+        
+        
+        for(Sensor s: getSensors()){
+            sb.append("\n");
+            sb.append("\n");
+            sb.append(s);
+        }
+                
+        
+        return sb.toString();
+    }
+    
+    
     public List<Sensor> getSensors() {
         return new LinkedList<Sensor>(sensors.values());
     }
@@ -50,11 +71,11 @@ public class SensorGroup {
      * 
      */
     
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

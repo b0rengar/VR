@@ -40,6 +40,29 @@ public class Sensor {
     }
 
     
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Sensor ");
+        sb.append(group.getId());
+        sb.append("/");
+        sb.append(id);
+        sb.append("\n");
+        sb.append(floor);
+        sb.append("\t");
+        sb.append(room);
+        sb.append("\n");
+        sb.append("X:");
+        sb.append(x);
+        sb.append("\tY:");
+        sb.append(y);
+        sb.append("\tZ:");
+        sb.append(z);
+                
+        
+        return sb.toString();
+    }
+    
     
     /**
      * @return the group

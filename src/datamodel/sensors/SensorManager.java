@@ -5,10 +5,20 @@
 package datamodel.sensors;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  *
@@ -17,18 +27,60 @@ import java.util.List;
 public class SensorManager {
     
     HashMap<Integer, SensorGroup> sensorGroups;
+    
+    private static SensorManager instance;
 
-    public SensorManager() {
+    
+    public static SensorManager getInstance(){
+        if (instance == null){
+            instance = new SensorManager();
+        }
+        return instance;
+    }
+    
+    private SensorManager() {
         sensorGroups = new HashMap<Integer, SensorGroup>();
-        loadSensors(new File("ress/firesensors.xml"));
+        
+        try {
+            loadSensors(new File("ress/firesensors.xml"));
+        } catch (SAXException ex) {
+            Logger.getLogger(SensorManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(SensorManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SensorManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
-    public void loadSensors(File file){
+    public final void loadSensors(File file) throws SAXException, FileNotFoundException, IOException{
         System.out.println(file.exists());
         System.out.println(file.getAbsolutePath());
         System.out.println(file.getTotalSpace());
         
+        XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+        
+        InputSource is = new InputSource(new FileReader(file));
+        
+        xmlReader.setContentHandler(new SensorHandler(this));
+        
+        xmlReader.parse(is);
+        
+        //System.out.println(this);
+    }
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        
+        for(SensorGroup s: getSensorGroups()){
+            sb.append("\n");
+            sb.append("\n");
+            sb.append(s);
+        }
+                
+        
+        return sb.toString();
     }
 
     public void addSensorGroup(int id, SensorGroup sGroup){
