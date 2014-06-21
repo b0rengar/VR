@@ -43,6 +43,7 @@ public class ServerMain extends SimpleApplication {
     app.setSettings(settings);
     app.start();  // headless type for servers!
     FireAlarmSystemEventTriggerDialog.main(null);
+
 //    FireAlarmSystemEventTriggerDialog gui = new FireAlarmSystemEventTriggerDialog();
 //    gui.setVisible(true);
 //    gui.pack();

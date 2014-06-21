@@ -34,21 +34,7 @@ public class SensorGroup {
     
     @Override
     public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(">> Sensorgroup");
-        sb.append(id);
-        sb.append("\n");
-        sb.append(description);
-        
-        
-        for(Sensor s: getSensors()){
-            sb.append("\n");
-            sb.append("\n");
-            sb.append(s);
-        }
-                
-        
-        return sb.toString();
+        return getDescription();
     }
     
     

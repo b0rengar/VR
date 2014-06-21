@@ -6,10 +6,8 @@ import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
-import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
@@ -23,15 +21,18 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeContext;
+import com.jme3.ui.Picture;
 import config.Settings;
 import config.Setup;
 
 import controls.UserInputControl;
+import datamodel.building.H14;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.textfield.TextFieldControl;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import java.awt.Point;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -42,6 +43,7 @@ import manager.SyncManager;
 import messages.ActionMessage;
 import messages.ControlMessage;
 import messages.EntityActionMessage;
+import messages.ImageMessage;
 import messages.ServerAddEntityMessage;
 import messages.ServerAddPlayerMessage;
 import messages.ServerDisableEntityMessage;
@@ -62,7 +64,8 @@ import persistence.Player;
 public class ClientMain extends SimpleApplication implements ScreenController{
     Client myClient = null;
     private static ClientMain app;  
-    private boolean PlayerTab = false;
+        
+        private boolean PlayerTab = false;
 	private SceneManager sceneManager;
 	private SyncManager syncManager;
 	private Nifty nifty;
@@ -76,6 +79,13 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 	private UserInputControl userInputControl;
         
         private Geometry mark;
+        Picture mapPic;
+        private boolean playerInH14 = false;
+//        private Vector3f lastLocation = null;
+//        private Vector3f currentLocation = null;
+        private long lastTime = 0;
+        private long currentTime = 0;
+        private H14 h14;
 
     
     public static void main(String[] args) {
@@ -98,6 +108,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     public void simpleInitApp() {
         initMark();
         initKeys();
+        h14 = new H14();
         setDisplayFps(false);
         setDisplayStatView(false);
         startNifty();
@@ -123,6 +134,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             ServerDisableEntityMessage.class,
             ServerRemoveEntityMessage.class,
             ServerRemovePlayerMessage.class,
+            ImageMessage.class,
             EntityActionMessage.class);
         stateManager.attach(syncManager);
         sceneManager = new SceneManager(this, rootNode);
@@ -176,7 +188,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 
     public void connect() {
             final String userName = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("username_text").getControl(TextFieldControl.class).getText();
-            final String userO2 = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("username_text").getControl(TextFieldControl.class).getText();
             if (userName.trim().length() == 0) {
                     setStatusText("Username invalid");
                     return;
@@ -238,6 +249,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                             inputManager.setCursorVisible(true);
                     }
             }).start();
+            setUpMap();
     }
         
     public void bind(Nifty nifty, Screen screen) {}
@@ -245,7 +257,25 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     public void onEndScreen() {}
     
     @Override
-    public void simpleUpdate(float tpf) {}
+    public void simpleUpdate(float tpf) {
+        if(lastTime == 0){
+           lastTime = System.currentTimeMillis();
+//            lastLocation = currentLocation;
+//            System.out.println("TESTEST");
+        } else {
+            currentTime = System.currentTimeMillis();
+            if(currentTime - lastTime > 10000){
+//                lastLocation = currentLocation;
+                lastTime = currentTime;
+                Vector3f currentLocation = cam.getLocation();
+                currentLocation.x = currentLocation.x * -1;
+                currentLocation.z = currentLocation.z * -1;
+                
+                playerInH14 = h14.playerInBuildung(currentLocation);
+                setUpMap();
+            }
+        }       
+    }
 
     @Override
     public void simpleRender(RenderManager rm) {}
@@ -357,12 +387,36 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 //            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
           inputManager.addListener(actionListener2, "Shoot");
           inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
-          inputManager.addListener(actionListenerList, "List");
+          inputManager.addListener(actionListenerList, "List");          
         }
         
-        private ActionListener actionListenerList = new ActionListener() {
+        private void setUpMap(){
+            if(playerInH14){
+                if(mapPic == null){
+                    mapPic = new Picture ("HUD Picture");
+            //        if(floor == 0){
+            //          mapPic.setImage(assetManager, "Textures/building_map_small_50.png", true);
+            //        } else if (floor == 1){
+            //          mapPic.setImage(assetManager, "Textures/building_map_50.png", true);
+            //        } else{
+            //          mapPic.setImage(assetManager, "Textures/ColoredTex/Monkey.png", true);
+            //        }
+                    mapPic.setImage(assetManager, "Textures/map/building_map_50.png", true);
 
-          public void onAction(String name, boolean keyPressed, float tpf) {
+                    mapPic.setWidth(476);
+                    mapPic.setHeight(173);
+                    mapPic.setPosition(settings.getWidth() - 476 ,0);
+                    guiNode.attachChild(mapPic);
+                }
+            } else {
+                if(mapPic != null){
+                    guiNode.detachChild(mapPic);
+                    mapPic = null;
+                }
+            }
+        }
+        private ActionListener actionListenerList = new ActionListener() {
+        public void onAction(String name, boolean keyPressed, float tpf) {
             int cnt = 1;
             Integer cntInt;
             if (name.equals("List") && !keyPressed) {
@@ -382,6 +436,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     PlayerTab = false;
                 }
             }
-          }
-        };
+        }
+    };
 }

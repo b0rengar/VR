@@ -1,9 +1,13 @@
 package gui;
 
+import datamodel.sensors.Sensor;
+import datamodel.sensors.SensorGroup;
+import datamodel.sensors.SensorManager;
 import event.FireAlarmSystemEvent;
 import event.FireAlarmSystemEventTypes;
 
 import javax.swing.AbstractAction;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,7 +16,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -35,9 +38,9 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
   private JButton m_buttonTrigger;
   private JButton m_buttonCancel;
   private JComboBox m_comboBoxEvents;
-  private JTextField m_textFieldGroup;
-  private JTextField m_textFieldUnit;
   private JList m_listUnits;
+  private JComboBox m_comboBoxGroups;
+  private JComboBox m_comboBoxUnits;
 
   public FireAlarmSystemEventTriggerDialog() {
     setContentPane(m_contentPane);
@@ -89,6 +92,22 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
       comboBoxModel.addElement(event.getName());
     }
     m_comboBoxEvents.setModel(comboBoxModel);
+
+    DefaultComboBoxModel<SensorGroup> comboBoxGroupsModel = new DefaultComboBoxModel<SensorGroup>();
+    for (SensorGroup sensorGroup : SensorManager.getInstance().getSensorGroups()) {
+      comboBoxGroupsModel.addElement(sensorGroup);
+    }
+    m_comboBoxGroups.setModel(comboBoxGroupsModel);
+    m_comboBoxGroups.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        m_comboBoxUnits.setModel(getUnitsComboBoxModel(((SensorGroup) ((JComboBox) e.getSource()).getSelectedItem()).getId()));
+      }
+    });
+
+    if (m_comboBoxGroups.getModel().getSize() > 0) {
+      m_comboBoxUnits.setModel(getUnitsComboBoxModel(((SensorGroup) m_comboBoxGroups.getModel().getElementAt(0)).getId()));
+    }
   }
 
   public static void main(String[] args) {
@@ -100,8 +119,8 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
 
   private void onTrigger() {
     String type = (String) m_comboBoxEvents.getSelectedItem();
-    String group = m_textFieldGroup.getText().isEmpty() ? null : m_textFieldGroup.getText();
-    String unit = m_textFieldUnit.getText().isEmpty() ? null : m_textFieldUnit.getText();
+    String group = String.valueOf(((SensorGroup) m_comboBoxGroups.getSelectedItem()).getId());
+    String unit = String.valueOf(((Sensor) m_comboBoxUnits.getSelectedItem()).getId());
     FireAlarmSystemEvent event = new FireAlarmSystemEvent(type, group, unit);
 
     System.out.println(event);
@@ -110,6 +129,28 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
 
   private void onCancel() {
     dispose();
+  }
+
+  /**
+   * Assemble a new model for the combo box listing the sensor units based
+   * on the given group number to ensure only validate units are displayed
+   * and selectable.
+   *
+   * @param sensorGroupId The sensor group to list the sensors of.
+   * @return A list of all sensor within the given group. If no group was
+   * found by the given id the list will be empty.
+   */
+  private static ComboBoxModel<Sensor> getUnitsComboBoxModel(int sensorGroupId) {
+    SensorGroup sensorGroup = SensorManager.getInstance().getSensorGroup(sensorGroupId);
+    DefaultComboBoxModel<Sensor> comboBoxUnitsModel = new DefaultComboBoxModel<Sensor>();
+
+    if (sensorGroup == null) {
+      return comboBoxUnitsModel;
+    }
+    for (Sensor sensor : sensorGroup.getSensors()) {
+      comboBoxUnitsModel.addElement(sensor);
+    }
+    return comboBoxUnitsModel;
   }
 
   {
@@ -148,13 +189,9 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
     final JLabel label1 = new JLabel();
     label1.setText("Gruppe");
     panel3.add(label1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-    m_textFieldGroup = new JTextField();
-    panel3.add(m_textFieldGroup, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     final JLabel label2 = new JLabel();
     label2.setText("Melder");
     panel3.add(label2, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-    m_textFieldUnit = new JTextField();
-    panel3.add(m_textFieldUnit, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     final JPanel panel4 = new JPanel();
     panel4.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
     panel3.add(panel4, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -163,6 +200,10 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
     panel4.add(label3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     m_comboBoxEvents = new JComboBox();
     panel4.add(m_comboBoxEvents, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+    m_comboBoxGroups = new JComboBox();
+    panel3.add(m_comboBoxGroups, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+    m_comboBoxUnits = new JComboBox();
+    panel3.add(m_comboBoxUnits, new com.intellij.uiDesigner.core.GridConstraints(4, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     final JPanel panel5 = new JPanel();
     panel5.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
     m_contentPane.add(panel5, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
