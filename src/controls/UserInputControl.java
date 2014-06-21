@@ -1,5 +1,7 @@
 package controls;
 
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.input.InputManager;
@@ -10,6 +12,7 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
@@ -173,8 +176,8 @@ public class UserInputControl implements Control, ActionListener, AnalogListener
 		} else if (binding.equals("UserInput_Enter_Key")) {
 			manualControl.performAction(ActionMessage.ENTER_ACTION, value);
 		} else if (binding.equals("UserInput_Left_Mouse")) {
-			manualControl.performAction(ActionMessage.LEFT_CLICK_ACTION, value);
-		} else if (binding.equals("UserInput_Right_Mouse")) {
+                        manualControl.performAction(ActionMessage.LEFT_CLICK_ACTION, value);
+		} else if (binding.equals("UserInput_Right_Mouse")) {                        
 			manualControl.performAction(ActionMessage.RIGHT_CLICK_ACTION, value);
 		}
 	}
