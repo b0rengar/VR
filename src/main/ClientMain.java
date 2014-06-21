@@ -107,7 +107,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     @Override
     public void simpleInitApp() {
         initMark();
-        initKeys();
         h14 = new H14();
         setDisplayFps(false);
         setDisplayStatView(false);
@@ -144,6 +143,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         stateManager.attach(sceneManager);
         syncManager.addObject(-1, sceneManager);
         clientNetListener = new ClientNetListener(this, client, sceneManager);
+
    }
     
     private void startNifty() {
@@ -234,6 +234,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                                     statusText.setText("Fertig!");
                                     nifty.removeScreen("load_world");
                                     initCrossHair();
+                                    initKeys();
                                     return null;
                             }
                     }).get();
