@@ -175,16 +175,16 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		rootNode.attachChild(worldRoot);
 	}
 
-	public long addNewPlayer(int groupId, String name, int aiId) {
+	public long addNewPlayer(int groupId, String name, int aiId, int O2) {
 		long playerId = Player.getNew(name);
-		addPlayer(playerId, groupId, name);
+		addPlayer(playerId, groupId, name, O2);
 		return playerId;
 	}
 
-	public void addPlayer(long id, int clientId, String name) {
+	public void addPlayer(long id, int clientId, String name, int O2) {
 		Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Adding player: "+ id);
-		if (isServer())	syncManager.broadcast(new ServerAddPlayerMessage(id, name, clientId));
-		Player player = new Player(id, clientId, name);
+		if (isServer())	syncManager.broadcast(new ServerAddPlayerMessage(id, name, clientId, O2));
+		Player player = new Player(id, clientId, name, O2);
 		player.setCharacter_entity_id(-1l);
 		Player.add(id, player);
 	}

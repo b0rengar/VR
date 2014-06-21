@@ -30,6 +30,7 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 	private Client client;
 	private String name = "";
 	private String pass = "";
+        private int O2 = 0;
 	private SceneManager worldManager;
 	private boolean worldIsLoaded = false;
 
@@ -68,7 +69,7 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 				Logger.getLogger(ClientNetListener.class.getName()).log(Level.INFO, "Falsche Protokoll-Version, Verbindung wird getrennt");
 				return;
 			}
-			client.send(new ClientJoinMessage(this.name, this.pass));
+			client.send(new ClientJoinMessage(this.name, this.pass, this.O2));
 		} else if (message.getClass() == ServerJoinMessage.class) {
 			final ServerJoinMessage msg = (ServerJoinMessage) message;
 			if (!msg.rejected) {
@@ -100,7 +101,6 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 			final EntityActionMessage msg = (EntityActionMessage) message;
 			if(msg.getAction()==EntityActionMessage.PLAYER_INTERACT); //app.startChat(msg.getEntity_id());
 		}
-
 	}
 
 	public void setName(String name) {
@@ -113,5 +113,13 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+        
+        public void setO2(int o2) {
+		this.O2 = o2;
+	}
+
+	public int getO2() {
+		return O2;
 	}
 }

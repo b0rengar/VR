@@ -93,7 +93,7 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 			Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Neue Spieler-ID erstellt: "+ newPlayerId);
 			ServerClientData.setConnected(clientId, true);
 			ServerClientData.setPlayerId(clientId, newPlayerId);
-			ServerJoinMessage serverJoinMessage = new ServerJoinMessage(newPlayerId, clientId, msg.getName(), false);
+			ServerJoinMessage serverJoinMessage = new ServerJoinMessage(newPlayerId, clientId, msg.getName(), false, msg.getO2());
 			//TODO bei allen Spielern anzeigen -> neuer Spieler
 			//            server.broadcast(new ChatMessage("Server", msg.getName() + " joined the game"));
 			source.send(serverJoinMessage);
@@ -101,10 +101,10 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 			//Spieler hinzufuegen
 			app.enqueue(new Callable<Void>() {
 				public Void call() throws Exception {
-					worldManager.addPlayer(newPlayerId, clientId, msg.getName());
+					worldManager.addPlayer(newPlayerId, clientId, msg.getName(), msg.getO2());
 					for(Player player : Player.getPlayers()){
 						if (player.getId() != newPlayerId) {
-							worldManager.getSyncManager().send(clientId, new ServerAddPlayerMessage(player.getId(), player.getName(), player.getGroup_id()));
+							worldManager.getSyncManager().send(clientId, new ServerAddPlayerMessage(player.getId(), player.getName(), player.getGroup_id(), player.getO2()));
 							Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Sende Spieler "+new Object[]{player.getId()+" zu Client "+newPlayerId});
 						}
 					}

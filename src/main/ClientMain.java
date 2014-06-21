@@ -188,11 +188,19 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 
     public void connect() {
             final String userName = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("username_text").getControl(TextFieldControl.class).getText();
+            final String userO2 = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("usero2_text").getControl(TextFieldControl.class).getText();
+            int userO2int = 0;
             if (userName.trim().length() == 0) {
                     setStatusText("Username invalid");
                     return;
             }
+            try{
+                userO2int = Integer.parseInt(userO2);
+            } catch (Exception ex) {
+                userO2int = 300;
+            }
             clientNetListener.setName(userName);
+            clientNetListener.setO2(userO2int); //try if server messages are working
             statusText.setText("Connecting..");
             try {
                     client.connectToServer(Settings.getInstance().getServer(), Settings.getInstance().getPort_tcp(), Settings.getInstance().getPort_udp());
@@ -428,7 +436,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                         //System.out.println("Play: " + player.getName());
                         cntInt = new Integer (cnt);
                         playerLine = nifty.getScreen("playerTab").findElementByName("layer").findElementByName("panel").findElementByName(cntInt.toString()).getRenderer(TextRenderer.class);
-                        playerLine.setText(player.getName() + "                                               " + player.getO2() + "                                          " + player.getO2() + "                                          " + player.getO2());
+                        playerLine.setText(player.getName() + "                                               " + player.getO2() + "                                          110                                          100");
                         cnt++;
                     }
                     nifty.gotoScreen("playerTab");
