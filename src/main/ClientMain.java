@@ -42,7 +42,6 @@ import manager.SyncManager;
 import messages.ActionMessage;
 import messages.ControlMessage;
 import messages.EntityActionMessage;
-import messages.ImageMessage;
 import messages.ServerAddEntityMessage;
 import messages.ServerAddPlayerMessage;
 import messages.ServerDisableEntityMessage;
@@ -123,7 +122,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             ServerDisableEntityMessage.class,
             ServerRemoveEntityMessage.class,
             ServerRemovePlayerMessage.class,
-            ImageMessage.class,
             EntityActionMessage.class);
         stateManager.attach(syncManager);
         sceneManager = new SceneManager(this, rootNode);
