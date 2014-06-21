@@ -21,7 +21,6 @@ import messages.ServerRemoveEntityMessage;
 import messages.ServerRemovePlayerMessage;
 import messages.StartGameMessage;
 import messages.EntityActionMessage;
-import messages.ImageMessage;
 
 
 public class Setup {
@@ -60,7 +59,6 @@ public class Setup {
         Serializer.registerClass(ServerRemovePlayerMessage.class);
         Serializer.registerClass(StartGameMessage.class);
         Serializer.registerClass(EntityActionMessage.class);
-        Serializer.registerClass(ImageMessage.class);
         
     }
 

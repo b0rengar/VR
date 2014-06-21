@@ -14,6 +14,8 @@ public class Settings {
 	private float netw_sync_freq;
 	private float netw_max_physicsdelay;
 	private int scene_fps;
+
+
 	private int scene_resolution_width;
 	private int scene_resolution_height;
 	private float physics_fps;
@@ -100,4 +102,8 @@ public class Settings {
 	public int getCharacter_speed() {
 		return character_speed;
 	}
+     
+        public int getScene_fps() {
+            return scene_fps;
+        }
 }

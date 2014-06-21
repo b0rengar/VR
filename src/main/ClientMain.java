@@ -29,7 +29,6 @@ import manager.SyncManager;
 import messages.ActionMessage;
 import messages.ControlMessage;
 import messages.EntityActionMessage;
-import messages.ImageMessage;
 import messages.ServerAddEntityMessage;
 import messages.ServerAddPlayerMessage;
 import messages.ServerDisableEntityMessage;
@@ -65,28 +64,32 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     public static void main(String[] args) {
         AppSettings settings = new AppSettings(true);
         settings.setResolution(Settings.getInstance().getScene_resolution_width(),Settings.getInstance().getScene_resolution_height());
+        settings.setFrameRate(Settings.getInstance().getScene_fps());
         settings.setSettingsDialogImage("/Interface/Images/logo.png");
-        settings.setTitle("");
+        
+        settings.setTitle("GRISU");
         Setup.registerSerializers();
         Setup.setLogLevels(Settings.getInstance().isDebug());
         app = new ClientMain();
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
         
-        //app.start(); //startet mit dialog
+       // app.start(); //startet mit dialog
         
         app.start(JmeContext.Type.Display); // standard display type
     }
   
     @Override
     public void simpleInitApp() {
-        setDisplayFps(false);
-        setDisplayStatView(false);
+        setDisplayFps(true);
+        setDisplayStatView(true);
         startNifty();
         client = Network.createClient();
         bulletState = new BulletAppState();
+        
         bulletState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
         getStateManager().attach(bulletState);
+        bulletState.setDebugEnabled(Settings.getInstance().isDebug());
         bulletState.getPhysicsSpace().setAccuracy(Settings.getInstance().getPhysics_fps());
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
@@ -105,7 +108,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             ServerDisableEntityMessage.class,
             ServerRemoveEntityMessage.class,
             ServerRemovePlayerMessage.class,
-            ImageMessage.class,
             EntityActionMessage.class);
         stateManager.attach(syncManager);
         sceneManager = new SceneManager(this, rootNode);
@@ -201,7 +203,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     enqueue(new Callable<Void>() {
                             public Void call() throws Exception {
                                     sceneManager.attachLevel();
-                                    //sceneManager.addBox();
                                     statusText.setText("Fertig!");
                                     nifty.removeScreen("load_world");
                                     initCrossHair();
@@ -215,7 +216,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             new Thread(new Runnable() {
                     public void run() {
                             setScreenMode(true);
-                            try{Thread.sleep(2000);}catch(Exception e){}
+                            //try{Thread.sleep(2000);}catch(Exception e){}
                             nifty.gotoScreen("start");
                             inputManager.setCursorVisible(true);
                     }
@@ -227,7 +228,9 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     public void onEndScreen() {}
     
     @Override
-    public void simpleUpdate(float tpf) {}
+    public void simpleUpdate(float tpf) {
+        rootNode.updateGeometricState();
+    }
 
     @Override
     public void simpleRender(RenderManager rm) {}
@@ -246,6 +249,8 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 
 	protected void initCrossHair() {
 		guiNode.detachAllChildren();
+                guiNode.attachChild(fpsText);
+
 		guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
 		BitmapText crossHair = new BitmapText(guiFont, false);
 		crossHair.setSize(guiFont.getCharSet().getRenderedSize() * 0.8f);

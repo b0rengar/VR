@@ -1,6 +1,5 @@
 package main;
 
-import listener.ServerListener;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.network.Network;
@@ -71,7 +70,7 @@ public class ServerMain extends SimpleApplication {
         gameManager = new GameManager();
         stateManager.attach(gameManager);
         new ServerNetListener(this, server, worldManager, gameManager);
-        Logger.getLogger(ServerListener.class.getName()).log(Level.INFO, "Server bereit!");        
+        Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Server bereit!");        
     }
 
     @Override
