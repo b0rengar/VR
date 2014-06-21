@@ -4,6 +4,8 @@
  */
 package datamodel.sensors;
 
+import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +20,15 @@ public class SensorManager {
 
     public SensorManager() {
         sensorGroups = new HashMap<Integer, SensorGroup>();
+        loadSensors(new File("ress/firesensors.xml"));
+    }
+    
+    
+    public void loadSensors(File file){
+        System.out.println(file.exists());
+        System.out.println(file.getAbsolutePath());
+        System.out.println(file.getTotalSpace());
+        
     }
 
     public void addSensorGroup(int id, SensorGroup sGroup){
