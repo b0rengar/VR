@@ -73,9 +73,9 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
         
-        app.start(); //startet mit dialog
+        //app.start(); //startet mit dialog
         
-        //app.start(JmeContext.Type.Display); // standard display type
+        app.start(JmeContext.Type.Display); // standard display type
     }
   
     @Override
