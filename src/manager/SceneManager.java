@@ -6,7 +6,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.PhysicsRayTestResult;
-import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
@@ -53,6 +52,7 @@ import controls.UserCharacterControl;
 import controls.MovementControl;
 import controls.UserControl;
 import messages.EntityActionMessage;
+import messages.ImageMessage;
 import messages.ServerAddEntityMessage;
 import messages.ServerAddPlayerMessage;
 import messages.ServerDisableEntityMessage;
@@ -85,6 +85,13 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 	private PhysicsSpace space;
 	private List<Control> userControls = new LinkedList<Control>();
 	private SyncManager syncManager;
+
+
+	//nur zm testen erstmal hier
+	static final int IMAGE_WIDTH = 480;
+	static final int IMAGE_HEIGHT = 480;
+	Image[] images;
+
 
 	public SceneManager(Application app, Node rootNode) {
 		this.rootNode = rootNode;
@@ -133,6 +140,20 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 
 	public PhysicsSpace getPhysicsSpace() {
 		return space;
+	}
+
+	public void setUpLight() {
+		AmbientLight al = new AmbientLight();
+		al.setColor(ColorRGBA.White.mult(0.4f));
+		rootNode.addLight(al);
+
+		DirectionalLight sun = new DirectionalLight();
+		rootNode.addLight(sun);
+	}
+
+	public void setUpSky() {  
+		rootNode.attachChild(SkyFactory.createSky( assetManager,
+				"Textures/bright/FullskiesBlueClear03.dds", false));
 	}
 
 	public void loadLevel(String name) {
@@ -231,6 +252,11 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 			Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Broadcast adding entity: "+ id);
 			syncManager.broadcast(new ServerAddEntityMessage(id, modelIdentifier, location, rotation, scale));
 		}
+		//TODO alternative ueberlegen
+		if(modelIdentifier.equals("Box")){
+			addBox(id);
+			return;
+		}
 
 		Node entityModel = (Node) assetManager.loadModel(modelIdentifier);
 		setEntityTranslation(entityModel, location, rotation);
@@ -239,7 +265,7 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 			entityModel.addControl(new CharacterAnimControl());
 			entityModel.getControl(CharacterControl.class).setFallSpeed(55.0f);
 			entityModel.getControl(CharacterControl.class).setJumpSpeed(10.0f);
-			entityModel.getControl(CharacterControl.class).setGravity(30);
+			entityModel.getControl(CharacterControl.class).setGravity(9.8f * 3);
 			entityModel.getControl(CharacterControl.class).setMaxSlope(1.0f);
 			entityModel.getControl(CharacterControl.class).setPhysicsLocation(new Vector3f(20,15,20));
 		}
@@ -251,6 +277,31 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		syncManager.addObject(id, entityModel);
 		space.addAll(entityModel);
 		worldRoot.attachChild(entityModel);
+	}
+
+	//TODO nur zum testen erstmal so -> saubere Loesung finden (xml vlt)
+	public void addBox(long id){
+		if(id==-1){
+			newId++;
+			id = newId;
+		}
+		Box b = new Box(Vector3f.ZERO, 1, 1, 0.03f);
+		Geometry geom = new Geometry("Box", b);
+		Material geom_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		geom_mat.setColor("Color", ColorRGBA.LightGray);
+		geom.setMaterial(geom_mat);
+		Node n = new Node("Box");
+		n.attachChild(geom);
+		//Reihenfolge wichtig!
+		n.addControl(new RigidBodyControl(0.0f));
+		setEntityTranslation(n, new Vector3f(-25.66f , 5f, -48.25f), new Quaternion().fromAngles(0, -16, 0));
+		n.setUserData("player_id", -1l);
+		n.setUserData("group_id", -1);
+		n.setUserData("entity_id", id);
+		entities.put(id, n);
+		syncManager.addObject(id, n);
+		space.addAll(n);
+		worldRoot.attachChild(n);
 	}
 
 	public void addOtherPlayer(int client_id, long character_entity_id) {
@@ -267,7 +318,10 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 				String model = (String) entity.getUserData("model");
 				if(model!=null){
 					syncManager.send(client_id, new ServerAddEntityMessage(entity_id, model, entity.getLocalTranslation(), entity.getLocalRotation(), entity.getLocalScale()));
-				} 
+				} else {
+					//TODO alternative ueberlegen
+					syncManager.send(client_id, new ServerAddEntityMessage(entity_id, "Box", entity.getLocalTranslation(), entity.getLocalRotation(), entity.getLocalScale()));
+				}
 			}
 		}
 	}
@@ -327,11 +381,12 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 			CharacterControl control = entityModel.getControl(CharacterControl.class);
 			control.setPhysicsLocation(location);
 			//TODO anpassen
-
-                        control.getCollisionShape().setScale(new Vector3f(0.9F, 0.64F, 0.5F));
-			//CapsuleCollisionShape capsuleShape = new CapsuleCollisionShape(1.5f, 1, 1);
-                        //control.setCollisionShape(capsuleShape);
-                        control.setViewDirection(rotation.mult(Vector3f.UNIT_Z).multLocal(1.0F, 0.0F, 1.0F).normalizeLocal());
+			control.getCollisionShape().setScale(new Vector3f(0.9f, 0.64f, 0.5f));
+			//setCollisionShape(new CapsuleCollisionShape(1, 1, 1));
+			control.setViewDirection(rotation.mult(Vector3f.UNIT_Z).multLocal(1, 0, 1).normalizeLocal());
+		} else if (entityModel.getControl(VehicleControl.class) != null) {
+			entityModel.getControl(VehicleControl.class).setPhysicsLocation(location);
+			entityModel.getControl(VehicleControl.class).setPhysicsRotation(rotation.toRotationMatrix());
 		} else {
 			entityModel.setLocalTranslation(location);
 			entityModel.setLocalRotation(rotation);
@@ -490,6 +545,37 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		}
 	}
 
+	public void setNextImage(int client_id, int image_id, long entity_id) {
+		if (isServer()) {
+			if (image_id >= 0 && image_id < this.images.length) {
+				entities.get(entity_id).setUserData("image_id", image_id);
+				byte[] ib = getImageBytes(image_id);
+				//				System.out.println(ib.length);
+				if(ib.length>34000){
+					return;
+				}
+				ImageMessage resp = new ImageMessage(entity_id, image_id, ib);
+				Logger.getLogger(SceneManager.class.getName()).log(Level.INFO, "Neues Bild erstellt Image_ID: " + image_id);
+				syncManager.send(client_id, resp);
+			} 
+		}
+	}
+
+	public void setNextImage(long entity_id, byte[] image_data) {
+		Material geom_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		Spatial sp = entities.get(entity_id);
+		sp.setMaterial(geom_mat);
+		Texture texture = new Texture2D();
+		BufferedImage b;
+		try {
+			b = ImageUtil.getBufferedImage(ImageUtil.getImageFromBytes(ImageUtil.deCompress(image_data)));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		texture.setImage(new AWTLoader().load(b, true));
+		geom_mat.setTexture("ColorMap", texture);
+	}
 
 
 	public void setTextureScale(Spatial spatial, Vector2f vector) {
@@ -504,4 +590,8 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		}
 	}
 
+	public byte[] getImageBytes(int id){
+		BufferedImage bi = ImageUtil.drawingToGrayscaleBufferedImage(images[id]);
+		return ImageUtil.compress(ImageUtil.convertToPNG(bi));
+	}
 }
