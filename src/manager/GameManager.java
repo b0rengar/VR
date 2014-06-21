@@ -74,16 +74,13 @@ public class GameManager extends AbstractAppState {
 		}
 	}
 
+        //no funktion,just as example
 	private void executeLeftClickAction(int client_id, Spatial myEntity) {
 		Vector3f clickLocation = new Vector3f();
 		Spatial targetEntity = sceneManager.getTargetEntity(myEntity, 10, clickLocation);
 		if (targetEntity != null) {
 			long targetId = (Long) targetEntity.getUserData("entity_id");
-			if (targetEntity.getName().equals("Box")) {
-				Integer image_id = (Integer)targetEntity.getUserData("image_id");
-				image_id = (image_id==null) ? 0 : image_id+1;
-				sceneManager.setNextImage(client_id, image_id, targetId);
-			} else if(targetEntity.getName().equals("Ferrari"))
+                        if(targetEntity.getName().equals("Ferrari"))
 				sceneManager.sendAction(client_id, targetId);
 			
 			if(targetEntity.getControl(CharacterControl.class) != null){		
@@ -92,16 +89,12 @@ public class GameManager extends AbstractAppState {
 		}
 	}
 	
+        //no funktion,just as example
 	private void executeRightClickAction(int client_id, Spatial myEntity) {
 		Vector3f clickLocation = new Vector3f();
 		Spatial targetEntity = sceneManager.getTargetEntity(myEntity, 10, clickLocation);
 		if (targetEntity != null) {
 			long targetId = (Long) targetEntity.getUserData("entity_id");
-			if (targetEntity.getName().equals("Box")) {
-				Integer image_id = (Integer)targetEntity.getUserData("image_id");
-				image_id = (image_id==null) ? 0 : image_id-1;
-				sceneManager.setNextImage(client_id, image_id, targetId);
-			}
 		}
 	}
 
@@ -120,6 +113,4 @@ public class GameManager extends AbstractAppState {
 	public String[] getModelNames() {
 		return modelNames;
 	}
-
-
 }

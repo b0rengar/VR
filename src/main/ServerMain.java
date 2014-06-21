@@ -1,6 +1,5 @@
 package main;
 
-import listener.ServerListener;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.network.Network;
@@ -10,6 +9,7 @@ import com.jme3.system.AppSettings;
 import config.Settings;
 import config.Setup;
 import datamodel.sensors.SensorManager;
+import gui.FireAlarmSystemEventTriggerDialog;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +30,8 @@ public class ServerMain extends SimpleApplication {
 
   public static void main(String[] args) {
     
-      new SensorManager();
+    SensorManager.getInstance();
+    
     AppSettings settings = new AppSettings(true);
     settings.setRenderer(null);
     settings.setAudioRenderer(null);
@@ -41,6 +42,10 @@ public class ServerMain extends SimpleApplication {
     app.setPauseOnLostFocus(false);
     app.setSettings(settings);
     app.start();  // headless type for servers!
+    FireAlarmSystemEventTriggerDialog.main(null);
+//    FireAlarmSystemEventTriggerDialog gui = new FireAlarmSystemEventTriggerDialog();
+//    gui.setVisible(true);
+//    gui.pack();
  }
     private SceneManager worldManager;
     private GameManager gameManager;
@@ -74,7 +79,7 @@ public class ServerMain extends SimpleApplication {
         gameManager = new GameManager();
         stateManager.attach(gameManager);
         new ServerNetListener(this, server, worldManager, gameManager);
-        Logger.getLogger(ServerListener.class.getName()).log(Level.INFO, "Server bereit!");        
+        Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Server bereit!");        
     }
 
     @Override
