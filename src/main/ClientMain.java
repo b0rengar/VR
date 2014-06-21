@@ -350,5 +350,23 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             new KeyTrigger(KeyInput.KEY_M)); // trigger 1: spacebar
 //            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
           inputManager.addListener(actionListener2, "Shoot");
+          inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
+          inputManager.addListener(actionListenerList, "List");
         }
+        
+        private ActionListener actionListenerList = new ActionListener() {
+
+          public void onAction(String name, boolean keyPressed, float tpf) {
+            if (name.equals("List") && !keyPressed) {
+                //if(nifty. != true){    
+                    nifty.gotoScreen("start");
+                //}else{
+                    nifty.removeScreen("start");
+                //}
+                    for (Player player : Player.getPlayers()) {
+                          System.out.println("Play: " + player.getName());
+                    }
+            }
+          }
+        };
 }
