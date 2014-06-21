@@ -175,7 +175,7 @@
 				valign="center" style="nifty-panel" childLayout="vertical">
 				<text font="aurulent-sans-16.fnt" align="left" color="#ffff" text="Overview of relief units:" />
                                 <text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="-----------------------------------------------------------------------------------------------------------------------------------------" />
-				<text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="Name                                            |           O2           |           Pulse           |           Health" />
+				<text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="Name                                            |           O2 (in Bar)          |           Pulse (in bpm)          |           Health (in %)" />
                                 <text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="-----------------------------------------------------------------------------------------------------------------------------------------" />
                                 <text id="1" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
                                 <text id="2" font="aurulent-sans-16.fnt" align="center" color="#ffff" text="" />
