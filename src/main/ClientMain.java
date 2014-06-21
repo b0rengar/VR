@@ -2,12 +2,25 @@ package main;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.font.BitmapText;
+import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Ray;
+import com.jme3.math.Vector3f;
 import com.jme3.network.Client;
 import com.jme3.network.Network;
 import com.jme3.network.NetworkClient;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeContext;
 import config.Settings;
@@ -29,6 +42,7 @@ import manager.SyncManager;
 import messages.ActionMessage;
 import messages.ControlMessage;
 import messages.EntityActionMessage;
+import messages.ImageMessage;
 import messages.ServerAddEntityMessage;
 import messages.ServerAddPlayerMessage;
 import messages.ServerDisableEntityMessage;
@@ -60,36 +74,37 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 	private BulletAppState bulletState;
 	private BitmapText crossHair;
 	private UserInputControl userInputControl;
+        
+        private Geometry mark;
+
     
     public static void main(String[] args) {
         AppSettings settings = new AppSettings(true);
         settings.setResolution(Settings.getInstance().getScene_resolution_width(),Settings.getInstance().getScene_resolution_height());
-        settings.setFrameRate(Settings.getInstance().getScene_fps());
         settings.setSettingsDialogImage("/Interface/Images/logo.png");
-        
-        settings.setTitle("GRISU");
+        settings.setTitle("");
         Setup.registerSerializers();
         Setup.setLogLevels(Settings.getInstance().isDebug());
         app = new ClientMain();
         app.setSettings(settings);
         app.setPauseOnLostFocus(false);
         
-       // app.start(); //startet mit dialog
+        //app.start(); //startet mit dialog
         
         app.start(JmeContext.Type.Display); // standard display type
     }
   
     @Override
     public void simpleInitApp() {
-        setDisplayFps(true);
-        setDisplayStatView(true);
+        initMark();
+        initKeys();
+        setDisplayFps(false);
+        setDisplayStatView(false);
         startNifty();
         client = Network.createClient();
         bulletState = new BulletAppState();
-        
         bulletState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
         getStateManager().attach(bulletState);
-        bulletState.setDebugEnabled(Settings.getInstance().isDebug());
         bulletState.getPhysicsSpace().setAccuracy(Settings.getInstance().getPhysics_fps());
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
@@ -108,6 +123,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             ServerDisableEntityMessage.class,
             ServerRemoveEntityMessage.class,
             ServerRemovePlayerMessage.class,
+            ImageMessage.class,
             EntityActionMessage.class);
         stateManager.attach(syncManager);
         sceneManager = new SceneManager(this, rootNode);
@@ -203,6 +219,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     enqueue(new Callable<Void>() {
                             public Void call() throws Exception {
                                     sceneManager.attachLevel();
+                                    //sceneManager.addBox();
                                     statusText.setText("Fertig!");
                                     nifty.removeScreen("load_world");
                                     initCrossHair();
@@ -216,7 +233,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             new Thread(new Runnable() {
                     public void run() {
                             setScreenMode(true);
-                            //try{Thread.sleep(2000);}catch(Exception e){}
+                            try{Thread.sleep(2000);}catch(Exception e){}
                             nifty.gotoScreen("start");
                             inputManager.setCursorVisible(true);
                     }
@@ -228,9 +245,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     public void onEndScreen() {}
     
     @Override
-    public void simpleUpdate(float tpf) {
-        rootNode.updateGeometricState();
-    }
+    public void simpleUpdate(float tpf) {}
 
     @Override
     public void simpleRender(RenderManager rm) {}
@@ -249,8 +264,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 
 	protected void initCrossHair() {
 		guiNode.detachAllChildren();
-                guiNode.attachChild(fpsText);
-
 		guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
 		BitmapText crossHair = new BitmapText(guiFont, false);
 		crossHair.setSize(guiFont.getCharSet().getRenderedSize() * 0.8f);
@@ -277,5 +290,89 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 	public NetworkClient getClient() {
 		return client;
 	}
+        
+        /** Defining the "Shoot" action: Determine what was hit and how to respond. */
+        private ActionListener actionListener2 = new ActionListener() {
 
+          public void onAction(String name, boolean keyPressed, float tpf) {
+            if (name.equals("Shoot") && !keyPressed) {
+              // 1. Reset results list.
+              CollisionResults results = new CollisionResults();
+              // 2. Aim the ray from cam loc to cam direction.
+              Ray ray = new Ray(cam.getLocation(), cam.getDirection());
+              // 3. Collect intersections between Ray and Shootables in results list.
+              sceneManager.getWorldRoot().collideWith(ray, results);
+              // 4. Print the results
+              System.out.println("----- Collisions? " + results.size() + "-----");
+//              for (int i = 0; i < results.size(); i++) {
+//                // For each hit, we know distance, impact point, name of geometry.
+//                float dist = results.getCollision(i).getDistance();
+//                Vector3f pt = results.getCollision(i).getContactPoint();
+//                String hit = results.getCollision(i).getGeometry().getName();
+//                System.out.println("* Collision #" + i);
+//                System.out.println("  You shot " + hit + " at " + pt + ", " + dist + " wu away.");
+//              }
+              // 5. Use the results (we mark the hit object)
+              if (results.size() > 1) {
+                // The closest collision point is what was truly hit:
+                CollisionResult closest = results.getCollision(1);
+                // For each hit, we know distance, impact point, name of geometry.
+                float dist = closest.getDistance();
+                Vector3f pt = closest.getContactPoint();
+                double x = -1 * pt.getX();
+                double z = -1 * pt.getZ();
+                pt.setX((float)x);
+                pt.setZ((float)z);
+                String hit = closest.getGeometry().getName();
+                System.out.println("* Collision #");
+                System.out.println("  You shot " + hit + " at " + pt + ", " + dist + " wu away.");
+                // Let's interact - we mark the hit with a red dot.
+//                mark.setLocalTranslation(closest.getContactPoint());
+                mark.setLocalTranslation(pt);
+//                rootNode.attachChild(mark);
+                sceneManager.getWorldRoot().attachChild(mark);
+                
+              } else {
+                // No hits? Then remove the red mark.
+                sceneManager.getWorldRoot().detachChild(mark);
+//                rootNode.detachChild(mark);
+              }
+            }
+          }
+        };
+        
+        /** A red ball that marks the last spot that was "hit" by the "shot". */
+        protected void initMark() {
+            Sphere sphere = new Sphere(30, 30, 0.2f);
+            mark = new Geometry("BOOM!", sphere);
+            Material mark_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+            mark_mat.setColor("Color", ColorRGBA.Red);
+            mark.setMaterial(mark_mat);
+        }
+        
+        /** Declaring the "Shoot" action and mapping to its triggers. */
+        private void initKeys() {
+          inputManager.addMapping("Shoot",
+            new KeyTrigger(KeyInput.KEY_M)); // trigger 1: spacebar
+//            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
+          inputManager.addListener(actionListener2, "Shoot");
+          inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
+          inputManager.addListener(actionListenerList, "List");
+        }
+        
+        private ActionListener actionListenerList = new ActionListener() {
+
+          public void onAction(String name, boolean keyPressed, float tpf) {
+            if (name.equals("List") && !keyPressed) {
+                //if(nifty. != true){    
+                    nifty.gotoScreen("start");
+                //}else{
+                    nifty.removeScreen("start");
+                //}
+                    for (Player player : Player.getPlayers()) {
+                          System.out.println("Play: " + player.getName());
+                    }
+            }
+          }
+        };
 }
