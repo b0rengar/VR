@@ -436,9 +436,9 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         
         /** Declaring the "Shoot" action and mapping to its triggers. */
         private void initKeys() {
-          inputManager.addMapping("Shoot",
-            new KeyTrigger(KeyInput.KEY_M)); // trigger 1: spacebar
+          inputManager.addMapping("Shoot",new KeyTrigger(KeyInput.KEY_M)); // trigger 1: spacebar
 //            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
+          inputManager.addMapping("blow", new KeyTrigger((KeyInput.KEY_E)));
           inputManager.addListener(actionListener2, "Shoot");
           inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
           inputManager.addListener(actionListenerList, "List");          
