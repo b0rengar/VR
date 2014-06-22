@@ -4,6 +4,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -29,12 +31,14 @@ import config.Setup;
 import controls.UserInputControl;
 import datamodel.building.H14;
 import datamodel.sensors.Sensor;
+import datamodel.sensors.SensorChangeListener;
 import datamodel.sensors.SensorManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.textfield.TextFieldControl;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import event.FireAlarmSystemEventTypes;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.HashMap;
@@ -66,7 +70,7 @@ import persistence.Player;
  * test
  * @author fibu
  */
-public class ClientMain extends SimpleApplication implements ScreenController{
+public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener{
     Client myClient = null;
     private static ClientMain app;  
         
@@ -86,8 +90,9 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 	private UserInputControl userInputControl;
         
         private Geometry mark;
-        private HashMap<Sensor,Spatial> sensorMap;
+        private HashMap<Sensor,ParticleEmitter> sensorMap;
         private Spatial sensorObject;
+        private ParticleEmitter fire;
         Picture mapPic;
         BitmapText mapText;
         private boolean playerInH14 = false;
@@ -406,8 +411,26 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         }
         
         private void initSensor(){
-            sensorMap = new HashMap<Sensor, Spatial>();
+            sensorMap = new HashMap<Sensor, ParticleEmitter>();
             sensorObject = assetManager.loadModel("Models/Tools/rauchmelder2x.j3o");
+        }
+        
+        private void initFire(){
+            fire = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 30);
+            Material mat_red = new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");
+            mat_red.setTexture("Texture", assetManager.loadTexture("Effects/Explosion/flame.png"));
+            fire.setMaterial(mat_red);
+            fire.setImagesX(2); 
+            fire.setImagesY(2); // 2x2 texture animation
+            fire.setEndColor(  new ColorRGBA(1f, 0f, 0f, 1f));   // red
+            fire.setStartColor(new ColorRGBA(1f, 1f, 0f, 0.5f)); // yellow
+            fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 2, 0));
+            fire.setStartSize(1.5f);
+            fire.setEndSize(0.1f);
+            fire.setGravity(0, 0, 0);
+            fire.setLowLife(1f);
+            fire.setHighLife(3f);
+            fire.getParticleInfluencer().setVelocityVariation(0.3f);
         }
         
         /** Declaring the "Shoot" action and mapping to its triggers. */
@@ -520,7 +543,9 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         
         private void setUpSensors(){
             sensorManager = SensorManager.getInstance();
+            sensorManager.addSensorChangeListener(this);
             initSensor();
+            initFire();
             List<Sensor> sensors = sensorManager.getSensors();
             System.out.println("Sensor List:");
             Vector3f pt;
@@ -530,8 +555,26 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                 pt = new Vector3f((float)sensor.getX(),(float)sensor.getY(),(float)sensor.getZ());
                 sensObj = sensorObject.clone();
                 sensObj.setLocalTranslation(pt);
-                sensorMap.put(sensor, sensObj);
+                sensorMap.put(sensor, null);
                 sceneManager.getWorldRoot().attachChild(sensObj);
             }            
         }
+
+    public void sensorChanged(Sensor sensor) {
+        if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
+            if(sensorMap.get(sensor) == null){
+                ParticleEmitter fireEmitter = fire.clone();
+                fireEmitter.setLocalTranslation((float)sensor.getX(),(float)sensor.getY() - 3.0f,(float)sensor.getZ());
+                sensorMap.put(sensor, fireEmitter);
+                sceneManager.getWorldRoot().attachChild(fireEmitter);
+            }
+        } else {
+            if(sensorMap.get(sensor) != null){
+                sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+                sensorMap.put(sensor, null);
+            }
+        }
+    }       
+        
+    
 }
