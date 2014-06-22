@@ -64,6 +64,7 @@ import messages.ServerRemovePlayerMessage;
 import messages.StartGameMessage;
 import messages.SyncCharacterMessage;
 import messages.SyncRigidBodyMessage;
+import messages.ClientUserDataMessage;
 import persistence.Player;
 
 /**
@@ -492,7 +493,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                         //System.out.println("Play: " + player.getName());
                         cntInt = new Integer (cnt);
                         playerLine = nifty.getScreen("playerTab").findElementByName("layer").findElementByName("panel").findElementByName(cntInt.toString()).getRenderer(TextRenderer.class);
-                        playerLine.setText(player.getName() + "                                               " + player.getO2() + "                                          110");
+                        playerLine.setText(player.getName() + "                                               " + player.getO2() + "                                          " + player.getPulse());
                         cnt++;
                     }
                     nifty.gotoScreen("playerTab");
@@ -541,6 +542,15 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             }
         }
         
+        public void updatePlayerList(ClientUserDataMessage msg){
+           for(Player player : Player.getPlayers()){
+                if((player.getName()).equals(msg.getPlayerName())){
+                    player.setO2(msg.getO2());
+                    player.setPulse(msg.getPulse());
+                }
+            }
+        }
+
         private void setUpSensors(){
             sensorManager = SensorManager.getInstance();
             sensorManager.addSensorChangeListener(this);

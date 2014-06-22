@@ -22,7 +22,7 @@ import messages.ServerRemovePlayerMessage;
 import messages.StartGameMessage;
 import messages.EntityActionMessage;
 import messages.SensorChangeMessage;
-
+import messages.ClientUserDataMessage;
 
 public class Setup {
 
@@ -61,7 +61,7 @@ public class Setup {
         Serializer.registerClass(StartGameMessage.class);
         Serializer.registerClass(EntityActionMessage.class);
         Serializer.registerClass(SensorChangeMessage.class);
-        
+        Serializer.registerClass(ClientUserDataMessage.class);
     }
 
 }

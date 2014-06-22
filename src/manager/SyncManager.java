@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import messages.SyncMessage;
 import messages.SyncCharacterMessage;
 import messages.SyncRigidBodyMessage;
+import messages.ClientUserDataMessage;
 
 
 /**
@@ -138,7 +139,6 @@ public class SyncManager extends AbstractAppState implements MessageListener {
             return;
         }
         client.send(msg);
-        
     }
 
     @SuppressWarnings("unchecked")

@@ -18,6 +18,7 @@ import messages.ServerAddPlayerMessage;
 import messages.ServerJoinMessage;
 import messages.ServerRemovePlayerMessage;
 import messages.StartGameMessage;
+import messages.ClientUserDataMessage;
 
 /**
  * Listener Netzwerknachrichten f�r den Client
@@ -47,7 +48,8 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 				StartGameMessage.class,
 				ServerAddPlayerMessage.class,
 				ServerRemovePlayerMessage.class,
-				EntityActionMessage.class
+				EntityActionMessage.class,
+                                ClientUserDataMessage.class
 				);
 	}
 
@@ -101,6 +103,9 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 		} else if (message.getClass() == EntityActionMessage.class) {
 			final EntityActionMessage msg = (EntityActionMessage) message;
 			if(msg.getAction()==EntityActionMessage.PLAYER_INTERACT); //app.startChat(msg.getEntity_id());
+		} else if (message.getClass() == ClientUserDataMessage.class) {
+                        final ClientUserDataMessage msg = (ClientUserDataMessage) message;
+                        app.updatePlayerList(msg);
 		}
 	}
 
@@ -129,6 +134,13 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
         }
 
         public void setPulse(int pulse) {
-             this.pulse = pulse;
+            this.pulse = pulse;
+            if(client != null && client.isConnected()){
+                app.setStatusText("Sende Oxigen und Pulse to Server");
+                client.send(new ClientUserDataMessage(client.getId(), this.name, this.O2, this.pulse));
+                Logger.getLogger(ClientNetListener.class.getName()).log(Level.INFO, "gesendet Oxigen und Pulse to Server");
+            }else{
+                System.out.println("client down");
+            }
         } 
 }
