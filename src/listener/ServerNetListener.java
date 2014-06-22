@@ -13,6 +13,7 @@ import config.Settings;
 import manager.GameManager;
 import manager.SceneManager;
 import messages.ActionMessage;
+import messages.ClientUserDataMessage;
 import messages.ClientJoinMessage;
 import messages.HandshakeMessage;
 import messages.ServerAddPlayerMessage;
@@ -39,7 +40,7 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 		this.app = app;
 		this.gameManager = gameManager;
 		server.addConnectionListener(this);
-		server.addMessageListener(this, HandshakeMessage.class, ClientJoinMessage.class, StartGameMessage.class, ActionMessage.class);
+		server.addMessageListener(this, HandshakeMessage.class, ClientJoinMessage.class, StartGameMessage.class, ActionMessage.class, ClientUserDataMessage.class);
 	}
 
 	public void connectionAdded(Server serverr, HostedConnection client) {
@@ -71,7 +72,7 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 	}
 
 	public void messageReceived(HostedConnection source, Message message) {
-		if (message.getClass() == HandshakeMessage.class) {
+       		if (message.getClass() == HandshakeMessage.class) {
 			HandshakeMessage msg = (HandshakeMessage) message;
 			Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Handshake-Nachricht bekommen");
 			if (msg.getProtocol_version() != Settings.getInstance().getProtocol_version()) {
@@ -130,8 +131,28 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 					return null;
 				}
 			});
+		} else if (message.getClass() ==  ClientUserDataMessage.class) {
+                        System.out.println("message detected");
+			final ClientUserDataMessage msg = (ClientUserDataMessage) message;
+			final int clientId = (int) source.getId();
+                        app.enqueue(new Callable<Void>() {
+				public Void call() throws Exception {
+					for(Player player : Player.getPlayers()){
+                                            if((player.getName()).equals(msg.getPlayerName())){
+                                                player.setO2(msg.getO2());
+                                                player.setPulse(msg.getPulse());  
+                                                System.out.println(player.getName() + player.getO2() + player.getPulse());
+                                            }
+                                        }
+                                        for(Player player : Player.getPlayers()){
+                                            System.out.println(player.getName() + player.getO2() + player.getPulse());
+                                            server.broadcast(new ClientUserDataMessage(player.getName(),player.getO2(),player.getPulse()));
+                                            Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Sende Broadcast with UserData");
+					}
+					return null;
+				}
+			});
 		}
-
 //		else if (message instanceof ImageMessage) {
 //			ImageMessage msg = (ImageMessage) message;
 //			int id = msg.getImage_id();

@@ -9,6 +9,7 @@ public class Player {
 	private long id;
 	private String name;
         private int O2;
+        private int pulse;
 	private long character_entity_id = -1;
 	private long entity_id = -1;
 	private int group_id = -1;
@@ -67,6 +68,16 @@ public class Player {
                 this.O2 = o2;
 	}
         
+        public Player(long id, int groupId, String name, int o2, int pulse) {
+		this.id = id;
+		this.group_id = groupId;
+		this.name=name;
+		this.entity_id = -1l;
+		this.character_entity_id = -1l;
+                this.O2 = o2;
+                this.pulse = pulse;
+	}
+        
 	public long getId() {
 		return id;
 	}
@@ -109,5 +120,13 @@ public class Player {
         
         public void setO2(int o2){
                 this.O2 = o2;
+        }
+
+        public int getPulse() {
+            return pulse;
+        }
+
+        public void setPulse(int pulse) {
+            this.pulse = pulse;
         }
 }
