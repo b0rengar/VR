@@ -321,11 +321,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 	public void setScreenMode(boolean enabled){
 		inputManager.setCursorVisible(enabled);
 		userInputControl.setEnabled(!enabled);
-                playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
-                playerLine.setText( clientNetListener.getName());
-                playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("oxigen").getRenderer(TextRenderer.class);
-                playerLine.setText("Oxigen: " + clientNetListener.getO2());
-                nifty.gotoScreen("userDetails");
 	}
 
 	public void backtogame(){
