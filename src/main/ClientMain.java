@@ -33,7 +33,7 @@ import de.lessvoid.nifty.controls.textfield.TextFieldControl;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -66,7 +66,9 @@ public class ClientMain extends SimpleApplication implements ScreenController{
     Client myClient = null;
     private static ClientMain app;  
         
+        private int fiveSec = 0;
         private boolean PlayerTab = false;
+        private boolean blnUserData = false;
 	private SceneManager sceneManager;
 	private SyncManager syncManager;
 	private Nifty nifty;
@@ -81,6 +83,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         
         private Geometry mark;
         Picture mapPic;
+        BitmapText mapText;
         private boolean playerInH14 = false;
 //        private Vector3f lastLocation = null;
 //        private Vector3f currentLocation = null;
@@ -276,7 +279,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 //            System.out.println("TESTEST");
         } else {
             currentTime = System.currentTimeMillis();
-            if(currentTime - lastTime > 10000){
+            if(currentTime - lastTime > 3000){
 //                lastLocation = currentLocation;
                 lastTime = currentTime;
                 Vector3f currentLocation = cam.getLocation();
@@ -285,6 +288,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                 
                 playerInH14 = h14.playerInBuildung(currentLocation);
                 setUpMap();
+                reCalculateUserData();
             }
         }       
     }
@@ -327,6 +331,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 		setScreenMode(false);
 		nifty.gotoScreen("hud");
 		crossHair.setText("(-+-)");
+                blnUserData = true;
 	}
 
 	public NetworkClient getClient() {
@@ -418,11 +423,23 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     mapPic.setWidth(476);
                     mapPic.setHeight(173);
                     mapPic.setPosition(settings.getWidth() - 476 ,0);
-                    guiNode.attachChild(mapPic);
+                    guiNode.attachChild(mapPic);           
                 }
+                if(mapText != null)
+                    guiNode.detachChild(mapText);
+                mapText = new BitmapText(guiFont, false);          
+                mapText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
+                mapText.setColor(ColorRGBA.Red);                             // font color
+                mapText.setText("*");                             // the text
+                Point2D.Double p = h14.getPlayerLocationOnMap(cam.getLocation());
+                mapText.setLocalTranslation(settings.getWidth() - (476 - (int)p.x), (int)p.y, 0); // position
+//              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
+                guiNode.attachChild(mapText);
             } else {
                 if(mapPic != null){
                     guiNode.detachChild(mapPic);
+                    if(mapText != null)
+                        guiNode.detachChild(mapText);
                     mapPic = null;
                 }
             }
@@ -439,15 +456,46 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                         //System.out.println("Play: " + player.getName());
                         cntInt = new Integer (cnt);
                         playerLine = nifty.getScreen("playerTab").findElementByName("layer").findElementByName("panel").findElementByName(cntInt.toString()).getRenderer(TextRenderer.class);
-                        playerLine.setText(player.getName() + "                                               " + player.getO2() + "                                          110                                          100");
+                        playerLine.setText(player.getName() + "                                               " + player.getO2() + "                                          110");
                         cnt++;
                     }
                     nifty.gotoScreen("playerTab");
                 }else{
                     nifty.removeScreen("playerTab");
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
+                    playerLine.setText( clientNetListener.getName());
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("oxigen").getRenderer(TextRenderer.class);
+                    playerLine.setText("Oxigen: " + clientNetListener.getO2());
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("pulse").getRenderer(TextRenderer.class);
+                    playerLine.setText("Oxigen: " + clientNetListener.getO2());
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("pulse").getRenderer(TextRenderer.class);
+                    playerLine.setText("Pulse: " + clientNetListener.getPulse());
+                    nifty.gotoScreen("userDetails");
                     PlayerTab = false;
                 }
             }
         }
     };
+        private void reCalculateUserData(){
+            if(blnUserData == true){
+                if(fiveSec == 2){
+                    fiveSec = 0;
+                    int O2 = clientNetListener.getO2();
+                    O2 = O2 - 1;
+                    clientNetListener.setO2(O2);
+                    int oldPulse = clientNetListener.getPulse();
+                    double pulse = oldPulse + (Math.random() * 20 - 10);
+                    clientNetListener.setPulse((int)pulse);
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
+                    playerLine.setText( clientNetListener.getName());
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("oxigen").getRenderer(TextRenderer.class);
+                    playerLine.setText("Oxigen: " + clientNetListener.getO2());
+                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("pulse").getRenderer(TextRenderer.class);
+                    playerLine.setText("Pulse: " + clientNetListener.getPulse());
+                    nifty.gotoScreen("userDetails");
+                }else{
+                    fiveSec++;
+                }
+            }
+        }
 }
