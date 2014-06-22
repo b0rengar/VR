@@ -27,6 +27,7 @@ import config.Setup;
 
 import controls.UserInputControl;
 import datamodel.building.H14;
+import datamodel.sensors.SensorManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.textfield.TextFieldControl;
 import de.lessvoid.nifty.elements.render.TextRenderer;
@@ -145,6 +146,8 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         sceneManager.addUserControl(userInputControl);
         stateManager.attach(sceneManager);
         syncManager.addObject(-1, sceneManager);
+        
+        SensorManager.getInstance().setClient(client);
         clientNetListener = new ClientNetListener(this, client, sceneManager);
 
    }

@@ -14,7 +14,9 @@ public enum FireAlarmSystemEventTypes {
   /** The system is in maintenance mode. */
   MAINTENANCE("Wartung"),
   /** Switch the unit back to detecting hazards. */
-  RESET("Melder zurücksetzen");
+  RESET("Melder zurücksetzen"),
+  
+  READY("Melder bereit");
 
   /** The human-readable name of the event. Currently mainly in german. */
   private String m_name = null;

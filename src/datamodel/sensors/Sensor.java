@@ -4,6 +4,8 @@
  */
 package datamodel.sensors;
 
+import event.FireAlarmSystemEventTypes;
+
 /**
  *
  * @author Admin
@@ -17,6 +19,10 @@ public class Sensor {
     private String floor;
     private String room;
     private String positionDescription;
+    
+    protected FireAlarmSystemEventTypes status = FireAlarmSystemEventTypes.READY;
+    
+    protected double fireSeverity = 0;
     
     private double x;
     private double y;
@@ -52,7 +58,24 @@ public class Sensor {
         sb.append(')');
         return sb.toString();
     }
+
+    public double getFireSeverity() {
+        return fireSeverity;
+    }
+
+    public void setFireSeverity(double fireSeverity) {
+        this.fireSeverity = fireSeverity;
+        SensorManager.getInstance().sensorChanged(this);
+    }
     
+    public FireAlarmSystemEventTypes getStatus() {
+        return status;
+    }
+
+    public void setStatus(FireAlarmSystemEventTypes status) {
+        this.status = status;
+        SensorManager.getInstance().sensorChanged(this);
+    }
     
     /**
      * @return the group

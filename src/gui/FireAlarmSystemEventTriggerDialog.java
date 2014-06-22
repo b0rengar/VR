@@ -122,8 +122,10 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog {
     String group = String.valueOf(((SensorGroup) m_comboBoxGroups.getSelectedItem()).getId());
     String unit = String.valueOf(((Sensor) m_comboBoxUnits.getSelectedItem()).getId());
     FireAlarmSystemEvent event = new FireAlarmSystemEvent(type, group, unit);
-
-    System.out.println(event);
+    
+    SensorManager.getInstance().alarmEvent(event);
+    
+    //System.out.println(event);
     // send event for processing...
   }
 

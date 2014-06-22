@@ -4,6 +4,13 @@
  */
 package datamodel.sensors;
 
+import com.jme3.network.Client;
+import com.jme3.network.HostedConnection;
+import com.jme3.network.Message;
+import com.jme3.network.MessageListener;
+import com.jme3.network.Server;
+import event.FireAlarmSystemEvent;
+import event.FireAlarmSystemEventTypes;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import messages.SensorChangeMessage;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -24,14 +32,19 @@ import org.xml.sax.helpers.XMLReaderFactory;
  *
  * @author Admin
  */
-public class SensorManager {
+public class SensorManager  implements MessageListener{
     
     HashMap<Integer, SensorGroup> sensorGroups;
     
     private static SensorManager instance;
+    
+    private Server server;
+    
+    private Client client;
 
     
     public static SensorManager getInstance(){
+        //System.out.println("getinstance");
         if (instance == null){
             instance = new SensorManager();
         }
@@ -40,7 +53,7 @@ public class SensorManager {
     
     private SensorManager() {
         sensorGroups = new HashMap<Integer, SensorGroup>();
-        
+        //System.out.println("construct");
         try {
             loadSensors(new File("ress/firesensors.xml"));
         } catch (SAXException ex) {
@@ -54,9 +67,9 @@ public class SensorManager {
     
     
     public final void loadSensors(File file) throws SAXException, FileNotFoundException, IOException{
-        System.out.println(file.exists());
-        System.out.println(file.getAbsolutePath());
-        System.out.println(file.getTotalSpace());
+//        System.out.println(file.exists());
+//        System.out.println(file.getAbsolutePath());
+//        System.out.println(file.getTotalSpace());
         
         XMLReader xmlReader = XMLReaderFactory.createXMLReader();
         
@@ -118,5 +131,78 @@ public class SensorManager {
         }
         return s;
     }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        if(server != null){
+            server.removeMessageListener(this);
+        }
+        this.server = server;
+        server.addMessageListener(this, SensorChangeMessage.class);
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        if(client != null){
+            client.removeMessageListener(this);
+        }
+        this.client = client;
+        client.addMessageListener(this);
+    }
     
+    
+    public void sensorChanged(Sensor s){
+        if(server == null && client != null){
+//            System.out.println("client send");
+            client.send(new SensorChangeMessage(s.getGroup().getId(), s.getId(), s.getStatus(), s.getFireSeverity()));
+        }
+        else if(server != null && client == null){
+//            System.out.println("server broadcast");
+            server.broadcast(new SensorChangeMessage(s.getGroup().getId(), s.getId(), s.getStatus(), s.getFireSeverity()));
+        }
+    }
+    
+    public void alarmEvent(FireAlarmSystemEvent fase){
+        int groupID = Integer.parseInt(fase.getGroup());
+        int sensorID = Integer.parseInt(fase.getAlarmUnit());
+        Sensor s = getSensor(groupID, sensorID);
+        
+        System.out.println("server sensor:\n" + s);
+        
+        for(FireAlarmSystemEventTypes t : FireAlarmSystemEventTypes.values()){
+            if(t.getName().equals(fase.getType())){
+                s.setStatus(t);
+            }
+        }       
+    }
+
+    
+    public void messageReceived(Object source, Message m) {
+        //System.out.println("receive");
+        if(server == null && client != null){
+            if(m instanceof SensorChangeMessage){
+                SensorChangeMessage scm = (SensorChangeMessage)m;
+                Sensor s = getSensor(scm.getSensorGroupID(), scm.getSensorID());
+                s.fireSeverity = scm.getFireSeverity();
+                s.status =  scm.getStatus();
+                System.out.println("client netsensor:\n" + s);
+            }
+        }
+        else if(server != null && client == null){
+            if(m instanceof SensorChangeMessage){
+                SensorChangeMessage scm = (SensorChangeMessage)m;
+                Sensor s = getSensor(scm.getSensorGroupID(), scm.getSensorID());
+                s.fireSeverity = scm.getFireSeverity();
+                s.status =  scm.getStatus();
+                System.out.println("server netsensor:\n" + s);
+                server.broadcast(m);
+            }
+        }
+    }
 }
