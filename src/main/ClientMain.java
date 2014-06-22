@@ -482,6 +482,12 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     clientNetListener.setO2(O2);
                     int oldPulse = clientNetListener.getPulse();
                     double pulse = oldPulse + (Math.random() * 20 - 10);
+                    if(pulse < 80.0){
+                        pulse = 80.0;
+                    }
+                    if(pulse > 190){
+                        pulse = 190.0;
+                    }
                     clientNetListener.setPulse((int)pulse);
                     playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
                     playerLine.setText( clientNetListener.getName());
