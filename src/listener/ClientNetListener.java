@@ -31,6 +31,7 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 	private String name = "";
 	private String pass = "";
         private int O2 = 0;
+        private int pulse = 140;
 	private SceneManager worldManager;
 	private boolean worldIsLoaded = false;
 
@@ -122,4 +123,12 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 	public int getO2() {
 		return O2;
 	}
+
+        public int getPulse() {
+            return pulse;
+        }
+
+        public void setPulse(int pulse) {
+             this.pulse = pulse;
+        } 
 }
