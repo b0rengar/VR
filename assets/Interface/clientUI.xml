@@ -51,7 +51,7 @@
 	<screen id="load_world" controller="main.ClientMain">
 		<layer id="layer" childLayout="center">
 			<panel id="load_world_panel" height="140px" width="350px"
-				align="center" valign="center" style="nifty-panel" childLayout="vertical">
+				align="center" valign="center" style="nifty-panel-simple" childLayout="vertical">
 				<!-- <effect> -->
 				<!-- <onStartScreen name="move" mode="in" direction="top" length="300" 
 					startDelay="0" inherit="true"/> -->
@@ -93,7 +93,7 @@
 	<screen id="start" controller="main.ClientMain">
 		<layer id="layer" childLayout="center" backgroundColor="#fff0">
 			<panel id="panel" height="450px" width="400px" align="center"
-				valign="center" style="nifty-panel" childLayout="vertical">
+				valign="center" style="nifty-panel-simple" childLayout="vertical">
 				<effect>
 					<onEndScreen name="move" mode="out" direction="bottom"
 						length="300" startDelay="0" inherit="true" />
@@ -172,7 +172,7 @@
 	<screen id="playerTab" controller="main.ClientMain">
 		<layer id="layer" childLayout="center" backgroundColor="#fff0">
 			<panel id="panel" height="450px" width="450px" align="center"
-				valign="center" style="nifty-panel" childLayout="vertical">
+				valign="center" style="nifty-panel-simple" childLayout="vertical">
 				<text font="aurulent-sans-16.fnt" align="left" color="#ffff" text="Overview of relief units:" />
                                 <text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="-----------------------------------------------------------------------------------------------------" />
 				<text font="aurulent-sans-16.fnt" align="center" color="#ffff" text="Name                                            |           O2 (in Bar)          |           Pulse (in bpm)" />
@@ -190,7 +190,7 @@
         <screen id="userDetails" controller="main.ClientMain">
 		<layer id="layer" childLayout="center" backgroundColor="#fff0">
 			<panel id="panel" height="75px" width="125px" align="left"
-				valign="bottom" style="nifty-panel" childLayout="vertical">
+				valign="bottom" style="nifty-panel-simple" childLayout="vertical">
                                 <text id="name" font="aurulent-sans-16.fnt" align="left" color="#ffff" text="           " />
 				<text id="oxigen" font="aurulent-sans-16.fnt" align="left" color="#ffff" text="Oxigen:      " />
         			<text id="pulse" font="aurulent-sans-16.fnt" align="left" color="#ffff" text="Pulse:       " />

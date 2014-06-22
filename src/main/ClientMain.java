@@ -518,7 +518,9 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 if(fiveSec == 2){
                     fiveSec = 0;
                     int O2 = clientNetListener.getO2();
-                    O2 = O2 - 1;
+                    if(O2 > 0){
+                        O2 = O2 - 1;
+                    }
                     clientNetListener.setO2(O2);
                     int oldPulse = clientNetListener.getPulse();
                     double pulse = oldPulse + (Math.random() * 20 - 10);
@@ -529,13 +531,15 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                         pulse = 190.0;
                     }
                     clientNetListener.setPulse((int)pulse);
-                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
-                    playerLine.setText( clientNetListener.getName());
-                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("oxigen").getRenderer(TextRenderer.class);
-                    playerLine.setText("Oxigen: " + clientNetListener.getO2());
-                    playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("pulse").getRenderer(TextRenderer.class);
-                    playerLine.setText("Pulse: " + clientNetListener.getPulse());
-                    nifty.gotoScreen("userDetails");
+                    if(PlayerTab == false){
+                        playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
+                        playerLine.setText( clientNetListener.getName());
+                        playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("oxigen").getRenderer(TextRenderer.class);
+                        playerLine.setText("Oxigen: " + clientNetListener.getO2());
+                        playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("pulse").getRenderer(TextRenderer.class);
+                        playerLine.setText("Pulse: " + clientNetListener.getPulse());
+                        nifty.gotoScreen("userDetails");
+                    }
                 }else{
                     fiveSec++;
                 }

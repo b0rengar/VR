@@ -4,6 +4,7 @@
  */
 package datamodel.sensors;
 
+import com.jme3.math.Vector3f;
 import event.FireAlarmSystemEventTypes;
 
 /**
@@ -87,6 +88,11 @@ public class Sensor {
         this.status = status;
         SensorManager.getInstance().sensorChanged(this);
     }
+    
+    public Vector3f getLocationVector(){
+        return new Vector3f((float)x, (float)y, (float)z);
+    }
+    
     
     /**
      * @return the group
