@@ -178,6 +178,9 @@ public class SensorManager  implements MessageListener{
         for(FireAlarmSystemEventTypes t : FireAlarmSystemEventTypes.values()){
             if(t.getName().equals(fase.getType())){
                 s.setStatus(t);
+                if(t.equals(FireAlarmSystemEventTypes.ALARM)){
+                    s.setFireSeverity(Math.random()*100 + 1);
+                }
             }
         }       
     }
@@ -192,6 +195,7 @@ public class SensorManager  implements MessageListener{
                 s.fireSeverity = scm.getFireSeverity();
                 s.status =  scm.getStatus();
                 System.out.println("client netsensor:\n" + s);
+                System.out.println(s.getStatus().toString());
             }
         }
         else if(server != null && client == null){
@@ -204,5 +208,8 @@ public class SensorManager  implements MessageListener{
                 server.broadcast(m);
             }
         }
+        
+        
+        
     }
 }
