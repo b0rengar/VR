@@ -90,7 +90,7 @@ public class H14 {
         if(xMap > mapWidth)
             xMap = mapWidth;
         
-        System.out.println("y = " + yMap + " --- x = " + xMap);
+//        System.out.println("y = " + yMap + " --- x = " + xMap);
         
         return new Point2D.Double(xMap, yMap);
     }
