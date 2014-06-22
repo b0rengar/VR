@@ -440,6 +440,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
 //            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
           inputManager.addMapping("blow", new KeyTrigger((KeyInput.KEY_E)));
           inputManager.addListener(actionListener2, "Shoot");
+          inputManager.addListener(actionListenerList, "blow");
           inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
           inputManager.addListener(actionListenerList, "List");          
         }
@@ -509,6 +510,20 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                     playerLine.setText("Pulse: " + clientNetListener.getPulse());
                     nifty.gotoScreen("userDetails");
                     PlayerTab = false;
+                }
+            }
+            if (name.equals("blow") && !keyPressed) {
+                List<Sensor> sensors = sensorManager.getSensors();
+                Vector3f location = cam.getLocation();
+                for(Sensor sensor : sensors){
+                    System.out.println(location.distance(sensor.getLocationVector()));
+                    if(location.distance(sensor.getLocationVector()) < 5){
+//                        sensorMap.get(s)
+                        if(sensorMap.get(sensor) != null){
+                            sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+                            sensorMap.put(sensor, null);
+                        }
+                    }
                 }
             }
         }
