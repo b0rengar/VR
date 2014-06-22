@@ -47,9 +47,9 @@ public class SensorHandler implements ContentHandler{
             
         }
         else if(qName.equals("coordinates")){
-            int x = Integer.parseInt(atts.getValue("x"));
-            int y = Integer.parseInt(atts.getValue("y"));
-            int z = Integer.parseInt(atts.getValue("z"));
+            double x = Double.parseDouble(atts.getValue("x"));
+            double y = Double.parseDouble(atts.getValue("y"));
+            double z = Double.parseDouble(atts.getValue("z"));
             
             sensor.setX(x);
             sensor.setY(y);
