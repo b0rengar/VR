@@ -18,6 +18,7 @@ import com.jme3.network.NetworkClient;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeContext;
@@ -27,6 +28,7 @@ import config.Setup;
 
 import controls.UserInputControl;
 import datamodel.building.H14;
+import datamodel.sensors.Sensor;
 import datamodel.sensors.SensorManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.textfield.TextFieldControl;
@@ -35,6 +37,8 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +87,8 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 	private UserInputControl userInputControl;
         
         private Geometry mark;
+        private HashMap<Sensor,Spatial> sensorMap;
+        private Spatial sensorObject;
         Picture mapPic;
         BitmapText mapText;
         private boolean playerInH14 = false;
@@ -91,6 +97,8 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         private long lastTime = 0;
         private long currentTime = 0;
         private H14 h14;
+        
+        private SensorManager sensorManager;
 
     
     public static void main(String[] args) {
@@ -150,7 +158,6 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         
         SensorManager.getInstance().setClient(client);
         clientNetListener = new ClientNetListener(this, client, sceneManager);
-
    }
     
     private void startNifty() {
@@ -244,6 +251,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     sceneManager.preloadModels(modelNames);
                     enqueue(new Callable<Void>() {
                             public Void call() throws Exception {
+                                    setUpSensors();
                                     sceneManager.attachLevel();
                                     //sceneManager.addBox();
                                     statusText.setText("Fertig!");
@@ -265,7 +273,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                             inputManager.setCursorVisible(true);
                     }
             }).start();
-            setUpMap();
+            setUpMap();            
     }
         
     public void bind(Nifty nifty, Screen screen) {}
@@ -398,6 +406,11 @@ public class ClientMain extends SimpleApplication implements ScreenController{
             mark.setMaterial(mark_mat);
         }
         
+        private void initSensor(){
+            sensorMap = new HashMap<Sensor, Spatial>();
+            sensorObject = assetManager.loadModel("Models/Tools/rauchmelder2x.j3o");
+        }
+        
         /** Declaring the "Shoot" action and mapping to its triggers. */
         private void initKeys() {
           inputManager.addMapping("Shoot",
@@ -513,5 +526,21 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     player.setPulse(msg.getPulse());
                 }
             }
+
+        private void setUpSensors(){
+            sensorManager = SensorManager.getInstance();
+            initSensor();
+            List<Sensor> sensors = sensorManager.getSensors();
+            System.out.println("Sensor List:");
+            Vector3f pt;
+            Spatial sensObj;
+            for(Sensor sensor : sensors){
+                System.out.println(sensor.getGroup() + " --> " + sensor.getId() + " --> " + sensor.getX() + " , " + sensor.getY() + " , " + sensor.getZ());
+                pt = new Vector3f((float)sensor.getX(),(float)sensor.getY(),(float)sensor.getZ());
+                sensObj = sensorObject.clone();
+                sensObj.setLocalTranslation(pt);
+                sensorMap.put(sensor, sensObj);
+                sceneManager.getWorldRoot().attachChild(sensObj);
+            }            
         }
 }

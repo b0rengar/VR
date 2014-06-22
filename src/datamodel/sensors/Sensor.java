@@ -62,9 +62,20 @@ public class Sensor {
     public double getFireSeverity() {
         return fireSeverity;
     }
+    
+    public void extinguish(){
+        setFireSeverity(getFireSeverity() - (Math.random()*10));
+    }
 
     public void setFireSeverity(double fireSeverity) {
+        if(fireSeverity <= 0.1){
+            fireSeverity = 0;
+            if(status.equals(FireAlarmSystemEventTypes.ALARM)){
+                setStatus(FireAlarmSystemEventTypes.READY);
+            }
+        }
         this.fireSeverity = fireSeverity;
+        
         SensorManager.getInstance().sensorChanged(this);
     }
     
