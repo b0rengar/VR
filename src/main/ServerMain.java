@@ -29,9 +29,7 @@ public class ServerMain extends SimpleApplication {
     private static Server server;
 
   public static void main(String[] args) {
-    
-    SensorManager.getInstance();
-    
+
     AppSettings settings = new AppSettings(true);
     settings.setRenderer(null);
     settings.setAudioRenderer(null);
@@ -42,11 +40,10 @@ public class ServerMain extends SimpleApplication {
     app.setPauseOnLostFocus(false);
     app.setSettings(settings);
     app.start();  // headless type for servers!
+    
+    
     FireAlarmSystemEventTriggerDialog.main(null);
 
-//    FireAlarmSystemEventTriggerDialog gui = new FireAlarmSystemEventTriggerDialog();
-//    gui.setVisible(true);
-//    gui.pack();
  }
     private SceneManager worldManager;
     private GameManager gameManager;
@@ -80,6 +77,9 @@ public class ServerMain extends SimpleApplication {
         gameManager = new GameManager();
         stateManager.attach(gameManager);
         new ServerNetListener(this, server, worldManager, gameManager);
+        
+        SensorManager.getInstance().setServer(server);
+        
         Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Server bereit!");        
     }
 
