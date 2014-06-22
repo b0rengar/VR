@@ -32,7 +32,7 @@ import de.lessvoid.nifty.controls.textfield.TextFieldControl;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -80,6 +80,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
         
         private Geometry mark;
         Picture mapPic;
+        BitmapText mapText;
         private boolean playerInH14 = false;
 //        private Vector3f lastLocation = null;
 //        private Vector3f currentLocation = null;
@@ -273,7 +274,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
 //            System.out.println("TESTEST");
         } else {
             currentTime = System.currentTimeMillis();
-            if(currentTime - lastTime > 10000){
+            if(currentTime - lastTime > 3000){
 //                lastLocation = currentLocation;
                 lastTime = currentTime;
                 Vector3f currentLocation = cam.getLocation();
@@ -415,11 +416,23 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     mapPic.setWidth(476);
                     mapPic.setHeight(173);
                     mapPic.setPosition(settings.getWidth() - 476 ,0);
-                    guiNode.attachChild(mapPic);
+                    guiNode.attachChild(mapPic);           
                 }
+                if(mapText != null)
+                    guiNode.detachChild(mapText);
+                mapText = new BitmapText(guiFont, false);          
+                mapText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
+                mapText.setColor(ColorRGBA.Red);                             // font color
+                mapText.setText("*");                             // the text
+                Point2D.Double p = h14.getPlayerLocationOnMap(cam.getLocation());
+                mapText.setLocalTranslation(settings.getWidth() - (476 - (int)p.x), (int)p.y, 0); // position
+//              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
+                guiNode.attachChild(mapText);
             } else {
                 if(mapPic != null){
                     guiNode.detachChild(mapPic);
+                    if(mapText != null)
+                        guiNode.detachChild(mapText);
                     mapPic = null;
                 }
             }
