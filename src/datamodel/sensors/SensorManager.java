@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,6 +42,8 @@ public class SensorManager  implements MessageListener{
     private Server server;
     
     private Client client;
+    
+    private HashSet<SensorChangeListener> listener;
 
     
     public static SensorManager getInstance(){
@@ -96,6 +99,8 @@ public class SensorManager  implements MessageListener{
         return sb.toString();
     }
 
+    
+    
     public void addSensorGroup(int id, SensorGroup sGroup){
         sensorGroups.put(id, sGroup);
     }
@@ -160,6 +165,7 @@ public class SensorManager  implements MessageListener{
     public void sensorChanged(Sensor s){
         if(server == null && client != null){
 //            System.out.println("client send");
+            
             client.send(new SensorChangeMessage(s.getGroup().getId(), s.getId(), s.getStatus(), s.getFireSeverity()));
         }
         else if(server != null && client == null){
@@ -196,6 +202,7 @@ public class SensorManager  implements MessageListener{
                 s.status =  scm.getStatus();
                 System.out.println("client netsensor:\n" + s);
                 System.out.println(s.getStatus().toString());
+                notifyListeners(s);
             }
         }
         else if(server != null && client == null){
@@ -208,8 +215,21 @@ public class SensorManager  implements MessageListener{
                 server.broadcast(m);
             }
         }
-        
-        
-        
     }
+    
+    
+    public void addSensorChangeListener(SensorChangeListener scl){
+        listener.add(scl);
+    }
+    
+    public void removeSensorChangeListener(SensorChangeListener scl){
+        listener.remove(scl);
+    }
+    
+    private void notifyListeners(Sensor s){
+        for(SensorChangeListener scl : listener){
+            scl.sensorChanged(s);
+        }
+    }
+    
 }

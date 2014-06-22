@@ -8,8 +8,8 @@ package datamodel.sensors;
  *
  * @author Admin
  */
-public class SensorChangeListener {
+public interface SensorChangeListener {
     
-    
+    public void sensorChanged(Sensor sensor);
     
 }
