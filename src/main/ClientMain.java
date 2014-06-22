@@ -526,6 +526,7 @@ public class ClientMain extends SimpleApplication implements ScreenController{
                     player.setPulse(msg.getPulse());
                 }
             }
+        }
 
         private void setUpSensors(){
             sensorManager = SensorManager.getInstance();
