@@ -56,6 +56,7 @@ public class SensorManager  implements MessageListener{
     
     private SensorManager() {
         sensorGroups = new HashMap<Integer, SensorGroup>();
+        listener = new HashSet<SensorChangeListener>();
         //System.out.println("construct");
         try {
             loadSensors(new File("ress/firesensors.xml"));
