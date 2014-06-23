@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.ws.soap.Addressing;
 import listener.ClientNetListener;
+import com.jme3.math.Vector3f;
 
 /**
  * 
@@ -21,21 +22,24 @@ public class ClientUserDataMessage extends AbstractMessage{
     private String playerName;
     private int O2;
     private int pulse;
+    private Vector3f location;
 
     public ClientUserDataMessage() { }
 
-    public ClientUserDataMessage(String playerName, int O2, int pulse) {
+    public ClientUserDataMessage(String playerName, int O2, int pulse, Vector3f loc) {
         this.playerName = playerName;
         this.O2 = O2;
         this.pulse = pulse;
+        this.location = loc;
         Logger.getLogger(ClientNetListener.class.getName()).log(Level.INFO, "ServerUserDataMessage");
     }
     
-    public ClientUserDataMessage(int clientID, String playerName, int O2, int pulse) {
+    public ClientUserDataMessage(int clientID, String playerName, int O2, int pulse, Vector3f loc) {
         this.clientID = clientID;
         this.playerName = playerName;
         this.O2 = O2;
         this.pulse = pulse;
+        this.location = loc;
         Logger.getLogger(ClientNetListener.class.getName()).log(Level.INFO, "ClientUserDataMessage");
     }
 
@@ -69,6 +73,14 @@ public class ClientUserDataMessage extends AbstractMessage{
 
     public void setPulse(int pulse) {
         this.pulse = pulse;
+    }
+
+    public Vector3f getLocation() {
+        return location;
+    }
+
+    public void setLocation(Vector3f location) {
+        this.location = location;
     }
     
 }
