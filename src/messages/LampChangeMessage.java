@@ -20,6 +20,8 @@ public class LampChangeMessage extends AbstractMessage{
 
     private boolean visited;
 
+    public LampChangeMessage(){}
+    
     public LampChangeMessage(Lamp l) {
         this.setName(l.getName());
         this.setVisited(l.isVisited());
