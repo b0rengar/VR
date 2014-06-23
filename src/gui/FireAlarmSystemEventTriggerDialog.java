@@ -141,7 +141,7 @@ public class FireAlarmSystemEventTriggerDialog extends JDialog implements Sensor
     FireAlarmSystemEventTriggerDialog dialog = new FireAlarmSystemEventTriggerDialog();
     dialog.pack();
     dialog.setVisible(true);
-    //System.exit(0);
+    System.exit(0);
   }
 
   private void onTrigger() {

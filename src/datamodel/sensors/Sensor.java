@@ -11,7 +11,7 @@ import event.FireAlarmSystemEventTypes;
  *
  * @author Admin
  */
-public class Sensor {
+public class Sensor implements Comparable<Sensor>{
     
     private SensorGroup group;
     private int id;
@@ -239,6 +239,10 @@ public class Sensor {
      */
     public void setZ(double z) {
         this.z = z;
+    }
+
+    public int compareTo(Sensor o) {
+        return this.toString().compareTo(o.toString());
     }
     
    

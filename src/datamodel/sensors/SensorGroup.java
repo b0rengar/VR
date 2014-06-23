@@ -4,6 +4,7 @@
  */
 package datamodel.sensors;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Admin
  */
-public class SensorGroup {
+public class SensorGroup implements Comparable<SensorGroup>{
     
     private int id;
     private String description;
@@ -39,7 +40,9 @@ public class SensorGroup {
     
     
     public List<Sensor> getSensors() {
-        return new LinkedList<Sensor>(sensors.values());
+        List<Sensor> list = new LinkedList<Sensor>(sensors.values());
+        Collections.sort(list);
+        return list;
     }
     
     public Sensor getSensor(int id){
@@ -71,6 +74,10 @@ public class SensorGroup {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int compareTo(SensorGroup o) {
+       return this.toString().compareTo(o.toString());
     }
     
 }
