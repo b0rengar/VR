@@ -30,6 +30,7 @@ import config.Setup;
 
 import controls.UserInputControl;
 import datamodel.building.H14;
+import datamodel.lamps.LampManager;
 import datamodel.sensors.Sensor;
 import datamodel.sensors.SensorChangeListener;
 import datamodel.sensors.SensorManager;
@@ -44,7 +45,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import listener.ClientNetListener;
@@ -105,6 +105,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         private H14 h14;
         
         private SensorManager sensorManager;
+        private LampManager lampManager;
 
     
     public static void main(String[] args) {
@@ -546,7 +547,6 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                         if(sensorMap.get(sensor) != null){
                             sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
                             sensor.extinguish();
-                            sensor.setStatus(FireAlarmSystemEventTypes.READY);
                             sensorMap.put(sensor, null);
                         }
                     }
@@ -678,24 +678,26 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
 //        }
     }
     
-//    private void setUpSensors(){
-//        sensorManager = SensorManager.getInstance();
-//        sensorManager.addSensorChangeListener(this);
-//        initSensor();
-//        initFire();
-//        List<Sensor> sensors = sensorManager.getSensors();
-//        System.out.println("Sensor List:");
-//        Vector3f pt;
-//        Spatial sensObj;
-//        for(Sensor sensor : sensors){
-//            System.out.println(sensor.getGroup() + " --> " + sensor.getId() + " --> " + sensor.getX() + " , " + sensor.getY() + " , " + sensor.getZ());
-//            pt = new Vector3f((float)sensor.getX(),(float)sensor.getY(),(float)sensor.getZ());
-//            sensObj = sensorObject.clone();
-//            sensObj.setLocalTranslation(pt);
-//            sensorMap.put(sensor, null);
-//            sceneManager.getWorldRoot().attachChild(sensObj);
-//            setFire(sensor);
-//        }        
-//    }
+    private void setUpLamps(){
+        lampManager = LampManager.getInstance();
+        
+        sensorManager = SensorManager.getInstance();
+        sensorManager.addSensorChangeListener(this);
+        initSensor();
+        initFire();
+        List<Sensor> sensors = sensorManager.getSensors();
+        System.out.println("Sensor List:");
+        Vector3f pt;
+        Spatial sensObj;
+        for(Sensor sensor : sensors){
+            System.out.println(sensor.getGroup() + " --> " + sensor.getId() + " --> " + sensor.getX() + " , " + sensor.getY() + " , " + sensor.getZ());
+            pt = new Vector3f((float)sensor.getX(),(float)sensor.getY(),(float)sensor.getZ());
+            sensObj = sensorObject.clone();
+            sensObj.setLocalTranslation(pt);
+            sensorMap.put(sensor, null);
+            sceneManager.getWorldRoot().attachChild(sensObj);
+            setFire(sensor);
+        }        
+    }
     
 }
