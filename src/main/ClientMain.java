@@ -1,6 +1,10 @@
 package main;
 
+import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
+import com.jme3.animation.Animation;
+import com.jme3.animation.LoopMode;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.collision.CollisionResult;
@@ -77,7 +81,7 @@ import persistence.Player;
  * test
  * @author fibu
  */
-public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener{
+public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener, AnimEventListener{
     Client myClient = null;
     private static ClientMain app;  
         
@@ -115,6 +119,9 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         
         private SensorManager sensorManager;
         private LampManager lampManager;
+        
+        Animation anim;
+        AnimChannel channel;
 
     
     public static void main(String[] args) {
@@ -711,36 +718,54 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             lampObj = lampObject.clone();
             lampObj.setLocalTranslation(pt);
             lampMap.put(lamp, lampObj);
+            
             sceneManager.getWorldRoot().attachChild(lampObj);
-            setLamp(lamp);
+            setLamp(lamp, lampObj);
         }      
     }
     
     public void lampChanged(Lamp lamp){
-        setLamp(lamp);
+        setLamp(lamp, lampMap.get(lamp));
     }
     
-    private void setLamp(final Lamp lamp){
+    private void setLamp(final Lamp lamp, final Spatial lampObj){
         enqueue(new Callable<Void>() {
             public Void call() throws Exception {
+
                 
                 AnimControl playerControl; // you need one Control per model
-                Node player = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o"); // load a model
-                playerControl = player.getControl(AnimControl.class); // get control over this model
+//                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
+                Node lampRed = (Node) lampObj;
+                Node child = (Node)lampRed.getChild("Armature");
+                child = (Node)lampRed.getChild("Cylinder");
+                child = (Node)lampRed.getChild("Cylinder-entity");
+                child = (Node)lampRed.getChild("Cylinder-ogremesh");
+
+                playerControl = child.getControl(AnimControl.class); // get control over this model
                 System.out.println(playerControl.getAnimationNames());
                 
-                // INSERT CODE HERE
-//                if(lamp.isVisited()){
-//                    Spatial lampObj = lampMap.get(lamp);
-//                    AnimControl control =  sceneManager.getWorldRoot().getChild("Armature").getControl(AnimControl.class);
-//                    System.out.println(control.getAnimationNames());
-//                }else {
-//                    
-//                }
+//                Animation anim = playerControl.getAnim("RedOn");
+                AnimChannel channel = playerControl.createChannel();
+                channel.setAnim("RedOn");
+                
                 
                 return null;
             }
         });
     }
+
+    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+//        if (animName.equals("Walk")) {
+            channel.setAnim("RedOn");
+            channel.setLoopMode(LoopMode.DontLoop);
+            channel.setSpeed(1f);
+//        }
+    }
+
+    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+
+    }
+    
+    
     
 }
