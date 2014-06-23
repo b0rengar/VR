@@ -7,6 +7,7 @@ import com.jme3.network.Message;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.jme3.math.Vector3f;
 
 import main.ClientMain;
 import config.Settings;
@@ -33,6 +34,7 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
 	private String pass = "";
         private int O2 = 0;
         private int pulse = 140;
+        private Vector3f location;
 	private SceneManager worldManager;
 	private boolean worldIsLoaded = false;
 
@@ -108,6 +110,16 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
                         app.updatePlayerList(msg);
 		}
 	}
+        
+        public void sendUserData(){
+            if(client != null && client.isConnected()){
+                app.setStatusText("Send Oxigen, Pulse and location to Server");
+                client.send(new ClientUserDataMessage(client.getId(), this.name, this.O2, this.pulse, this.location));
+                Logger.getLogger(ClientNetListener.class.getName()).log(Level.INFO, "Send Oxigen, Pulse and location to Server: successfull");
+            }else{
+                System.out.println("client down");
+            }
+        }
 
 	public void setName(String name) {
 		this.name = name;
@@ -133,14 +145,15 @@ public class ClientNetListener implements MessageListener, ClientStateListener {
             return pulse;
         }
 
+        public Vector3f getLocation() {
+            return location;
+        }
+
+        public void setLocation(Vector3f location) {
+            this.location = location;
+        }
+        
         public void setPulse(int pulse) {
             this.pulse = pulse;
-            if(client != null && client.isConnected()){
-                app.setStatusText("Sende Oxigen und Pulse to Server");
-                client.send(new ClientUserDataMessage(client.getId(), this.name, this.O2, this.pulse));
-                Logger.getLogger(ClientNetListener.class.getName()).log(Level.INFO, "gesendet Oxigen und Pulse to Server");
-            }else{
-                System.out.println("client down");
-            }
         } 
 }
