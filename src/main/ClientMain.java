@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import listener.ClientNetListener;
@@ -520,12 +521,9 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
 //                    System.out.println(distance);
                     if(distance < 3.0){
 //                        sensorMap.get(s)
-                        System.out.println("+++++++++++++++++");
-                        System.out.println(sensor.getFireSeverity());
-                        sensor.extinguish();
-                        System.out.println(sensor.getFireSeverity());
                         if(sensorMap.get(sensor) != null){
-                            sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));              
+                            sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+                            sensor.setStatus(FireAlarmSystemEventTypes.READY);
                             sensorMap.put(sensor, null);
                         }
                     }
@@ -604,7 +602,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         setFire(sensor);
     }
     
-    private void setFire(Sensor sensor){
+    private void setFire(final Sensor sensor){
         if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
             if(sensorMap.get(sensor) == null){
                 ParticleEmitter fireEmitter = fire.clone();
@@ -618,7 +616,6 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 sensorMap.put(sensor, null);
             }
         }
-    }
-        
+    }  
     
 }
