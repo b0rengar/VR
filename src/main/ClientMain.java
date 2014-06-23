@@ -523,6 +523,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
 //                        sensorMap.get(s)
                         if(sensorMap.get(sensor) != null){
                             sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+                            
                             sensor.setStatus(FireAlarmSystemEventTypes.READY);
                             sensorMap.put(sensor, null);
                         }
@@ -607,6 +608,8 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             if(sensorMap.get(sensor) == null){
                 ParticleEmitter fireEmitter = fire.clone();
                 fireEmitter.setLocalTranslation((float)sensor.getX(),(float)sensor.getY() - 3.0f,(float)sensor.getZ());
+//                fireEmitter.
+                fireEmitter.setStartSize((1.5f/100.0f)*(float)sensor.getFireSeverity());
                 sensorMap.put(sensor, fireEmitter);
                 sceneManager.getWorldRoot().attachChild(fireEmitter);
             }
