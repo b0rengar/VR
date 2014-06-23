@@ -95,6 +95,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         private ParticleEmitter fire;
         Picture mapPic;
         BitmapText mapText;
+        private HashMap<Long, BitmapText> mapTextOthers = new HashMap<Long, BitmapText>();
         private boolean playerInH14 = false;
 //        private Vector3f lastLocation = null;
 //        private Vector3f currentLocation = null;
@@ -471,6 +472,27 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 mapText.setLocalTranslation(settings.getWidth() - (476 - (int)p.x), (int)p.y, 0); // position
 //              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
                 guiNode.attachChild(mapText);
+                for(Long elem : mapTextOthers.keySet()){
+                    BitmapText mapTextOther = mapTextOthers.get(elem);
+                    if(mapTextOther != null)
+                        guiNode.detachChild(mapTextOther);
+                }
+                mapTextOthers.clear();
+                for(Player player : Player.getPlayers()){
+                    if(!(clientNetListener.getName()).equals(player.getName())){
+                        if(player.getLocation() != null){
+                            BitmapText mapTextOther = new BitmapText(guiFont,false);
+                            mapTextOther.setSize(guiFont.getCharSet().getRenderedSize());      // font size
+                            mapTextOther.setColor(ColorRGBA.Green);                             // font color
+                            mapTextOther.setText("*");                             // the text
+                            Point2D.Double pOther = h14.getPlayerLocationOnMap(player.getLocation());
+                            mapTextOther.setLocalTranslation(settings.getWidth() - (476 - (int)pOther.x), (int)pOther.y, 0); // position
+            //              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
+                            mapTextOthers.put(player.getId(), mapTextOther);
+                            guiNode.attachChild(mapTextOther);
+                        }
+                    }
+                }
             } else {
                 if(mapPic != null){
                     guiNode.detachChild(mapPic);
