@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import listener.ClientNetListener;
@@ -536,11 +537,15 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 List<Sensor> sensors = sensorManager.getSensors();
                 Vector3f location = cam.getLocation();
                 for(Sensor sensor : sensors){
-                    System.out.println(location.distance(sensor.getLocationVector()));
-                    if(location.distance(sensor.getLocationVector()) < 5){
+//                    System.out.println("Loc = " + location.x + " x " + location.y +
+//                            " --> sensorLoc : " + sensor.getX() + " x " + sensor.getZ());
+                    double distance = Math.sqrt(Math.pow(-location.x - sensor.getX(), 2.0) + Math.pow(-location.z - sensor.getZ(), 2.0));
+//                    System.out.println(distance);
+                    if(distance < 3.0){
 //                        sensorMap.get(s)
                         if(sensorMap.get(sensor) != null){
                             sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+                            sensor.setStatus(FireAlarmSystemEventTypes.READY);
                             sensorMap.put(sensor, null);
                         }
                     }
@@ -611,10 +616,15 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 sensObj.setLocalTranslation(pt);
                 sensorMap.put(sensor, null);
                 sceneManager.getWorldRoot().attachChild(sensObj);
+                setFire(sensor);
             }            
         }
 
     public void sensorChanged(Sensor sensor) {
+        setFire(sensor);
+    }
+    
+    private void setFire(final Sensor sensor){
         if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
             if(sensorMap.get(sensor) == null){
                 ParticleEmitter fireEmitter = fire.clone();
@@ -628,7 +638,6 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 sensorMap.put(sensor, null);
             }
         }
-    }       
-        
+    }  
     
 }
