@@ -21,6 +21,7 @@ import com.jme3.network.NetworkClient;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.system.AppSettings;
@@ -34,7 +35,6 @@ import datamodel.building.H14;
 import datamodel.lamps.Lamp;
 import datamodel.lamps.LampChangeListener;
 import datamodel.lamps.LampManager;
-import datamodel.sensors.Sensor;
 import datamodel.sensors.Sensor;
 import datamodel.sensors.SensorChangeListener;
 import datamodel.sensors.SensorManager;
@@ -719,6 +719,12 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     private void setLamp(final Lamp lamp){
         enqueue(new Callable<Void>() {
             public Void call() throws Exception {
+                
+                AnimControl playerControl; // you need one Control per model
+                Node player = (Node) assetManager.loadModel("Models/Sinbad/Sinbad.j3o"); // load a model
+                playerControl = player.getControl(AnimControl.class); // get control over this model
+                System.out.println(playerControl.getAnimationNames());
+                
                 // INSERT CODE HERE
 //                if(lamp.isVisited()){
 //                    Spatial lampObj = lampMap.get(lamp);
