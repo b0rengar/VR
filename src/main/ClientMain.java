@@ -81,7 +81,7 @@ import persistence.Player;
  * test
  * @author fibu
  */
-public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener, AnimEventListener{
+public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener {
     Client myClient = null;
     private static ClientMain app;  
         
@@ -728,6 +728,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     
     private void setUpLamps(){
         lampManager = LampManager.getInstance();
+        lampManager.addLampChangeListener(this);
         initLamp();
         
         List<Lamp> lamps = lampManager.getLamps();
@@ -748,7 +749,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     public void lampChanged(Lamp lamp){
-        System.out.println("lampChanged");
+//        System.out.println("lampChanged");
         setLamp(lamp, lampMap.get(lamp));
     }
     
@@ -763,17 +764,17 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setRed(Spatial lampObj, boolean status){
-        System.out.println("Set Red");
+//        System.out.println("Set Red");
         AnimControl playerControl; // you need one Control per model
     //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
         Node lampRed = (Node) lampObj;
-        Node child = (Node)lampRed.getChild("Armature");
-        child = (Node)lampRed.getChild("Cylinder");
-        child = (Node)lampRed.getChild("Cylinder-entity");
-        child = (Node)lampRed.getChild("Cylinder-ogremesh");
+//        Node child = (Node)lampRed.getChild("Armature");
+//        child = (Node)lampRed.getChild("Cylinder");
+//        child = (Node)lampRed.getChild("Cylinder-entity");
+        Node child = (Node)lampRed.getChild("Cylinder-ogremesh");
 
         playerControl = child.getControl(AnimControl.class); // get control over this model
-        System.out.println(playerControl.getAnimationNames());
+//        System.out.println(playerControl.getAnimationNames());
 
 //                Animation anim = playerControl.getAnim("RedOn");
         AnimChannel channel;
@@ -790,17 +791,17 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setGreen(Spatial lampObj, boolean status){
-        System.out.println("Set Green");
+//        System.out.println("Set Green");
         AnimControl playerControl; // you need one Control per model
     //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
         Node lampGreen = (Node) lampObj;
-        Node child = (Node)lampGreen.getChild("Armature.001");
-        child = (Node)lampGreen.getChild("Cylinder.001");
-        child = (Node)lampGreen.getChild("Cylinder.002-entity");
-        child = (Node)lampGreen.getChild("Cylinder.002-ogremesh");
+//        Node child = (Node)lampGreen.getChild("Armature.001");
+//        child = (Node)lampGreen.getChild("Cylinder.001");
+//        child = (Node)lampGreen.getChild("Cylinder.002-entity");
+        Node child = (Node)lampGreen.getChild("Cylinder.002-ogremesh");
 
         playerControl = child.getControl(AnimControl.class); // get control over this model
-        System.out.println(playerControl.getAnimationNames());
+//        System.out.println(playerControl.getAnimationNames());
 
 //                Animation anim = playerControl.getAnim("RedOn");
         AnimChannel channel;
@@ -817,17 +818,17 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
 
-    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-//        if (animName.equals("Walk")) {
-            channel.setAnim("RedOn");
-            channel.setLoopMode(LoopMode.DontLoop);
-            channel.setSpeed(1f);
-//        }
-    }
-
-    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-
-    }
+//    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+////        if (animName.equals("Walk")) {
+//            channel.setAnim("RedOn");
+//            channel.setLoopMode(LoopMode.DontLoop);
+//            channel.setSpeed(1f);
+////        }
+//    }
+//
+//    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+//
+//    }
     
     
     
