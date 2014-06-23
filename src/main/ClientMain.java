@@ -80,7 +80,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     Client myClient = null;
     private static ClientMain app;  
         
-        private int fiveSec = 0;
+        private int fiveSec = 2;
         private boolean PlayerTab = false;
         private boolean blnUserData = false;
 	private SceneManager sceneManager;
