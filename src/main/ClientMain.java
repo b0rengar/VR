@@ -474,8 +474,10 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
           inputManager.addMapping("Shoot",new KeyTrigger(KeyInput.KEY_M)); // trigger 1: spacebar
 //            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
           inputManager.addMapping("blow", new KeyTrigger((KeyInput.KEY_E)));
+          inputManager.addMapping("check", new KeyTrigger((KeyInput.KEY_C)));
           inputManager.addListener(actionListener2, "Shoot");
           inputManager.addListener(actionListenerList, "blow");
+          inputManager.addListener(actionListenerList, "check");
           inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
           inputManager.addListener(actionListenerList, "List");          
         }
@@ -597,6 +599,22 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                         }
                     }
                 }
+            }
+            if (name.equals("check") && !keyPressed) {
+                List<Lamp> lamps = lampManager.getLamps();
+                Vector3f location = cam.getLocation();
+                for(Lamp lamp : lamps){
+                    double distance = Math.sqrt(Math.pow(-location.x - lamp.getX(), 2.0) + Math.pow(-location.z - lamp.getZ(), 2.0));
+                    System.out.println(distance);
+                    if(distance < 6.0){
+                        if(lampMap.get(lamp) != null){
+                            System.out.println("Set Lamp as marked");
+                            lamp.setVisited(true);
+                            setRed(lampMap.get(lamp), false);
+                            setGreen(lampMap.get(lamp), true);
+                        }
+                    }
+                }                
             }
         }
     };
@@ -739,6 +757,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setRed(Spatial lampObj, boolean status){
+        System.out.println("Set Red");
         AnimControl playerControl; // you need one Control per model
     //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
         Node lampRed = (Node) lampObj;
@@ -751,7 +770,12 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         System.out.println(playerControl.getAnimationNames());
 
 //                Animation anim = playerControl.getAnim("RedOn");
-        AnimChannel channel = playerControl.createChannel();
+        AnimChannel channel;
+        if(playerControl.getNumChannels() == 0){
+            channel = playerControl.createChannel();
+        }else {
+            channel = playerControl.getChannel(0);
+        }
         if(status){
             channel.setAnim("RedOn");
         } else {
@@ -760,6 +784,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setGreen(Spatial lampObj, boolean status){
+        System.out.println("Set Green");
         AnimControl playerControl; // you need one Control per model
     //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
         Node lampGreen = (Node) lampObj;
@@ -772,7 +797,12 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         System.out.println(playerControl.getAnimationNames());
 
 //                Animation anim = playerControl.getAnim("RedOn");
-        AnimChannel channel = playerControl.createChannel();
+        AnimChannel channel;
+        if(playerControl.getNumChannels() == 0){
+            channel = playerControl.createChannel();
+        }else {
+            channel = playerControl.getChannel(0);
+        }
         if(status){
             channel.setAnim("GreenOn");
         } else {
