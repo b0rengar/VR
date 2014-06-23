@@ -81,7 +81,7 @@ import persistence.Player;
  * test
  * @author fibu
  */
-public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener, AnimEventListener{
+public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener {
     Client myClient = null;
     private static ClientMain app;  
         
@@ -475,8 +475,10 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
           inputManager.addMapping("Shoot",new KeyTrigger(KeyInput.KEY_M)); // trigger 1: spacebar
 //            new MouseButtonTrigger(MouseInput.BUTTON_LEFT)); // trigger 2: left-button click
           inputManager.addMapping("blow", new KeyTrigger((KeyInput.KEY_E)));
+          inputManager.addMapping("check", new KeyTrigger((KeyInput.KEY_C)));
           inputManager.addListener(actionListener2, "Shoot");
           inputManager.addListener(actionListenerList, "blow");
+          inputManager.addListener(actionListenerList, "check");
           inputManager.addMapping("List", new KeyTrigger(KeyInput.KEY_TAB));
           inputManager.addListener(actionListenerList, "List");          
         }
@@ -510,13 +512,12 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                     floor = 2;
                     mapPic.setImage(assetManager, "Textures/map/H14_2_OG_nur Raumnummerierung_dwg.png", true);
                 }
-                System.out.println("FLOOR = " + floor);
                 if(mapText != null)
                     guiNode.detachChild(mapText);
                 mapText = new BitmapText(guiFont, false);          
                 mapText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
                 mapText.setColor(ColorRGBA.Red);                             // font color
-                mapText.setText("*");                             // the text
+                mapText.setText("*  " + clientNetListener.getName());                             // the text
                 Point2D.Double p = h14.getPlayerLocationOnMap(cam.getLocation());
                 mapText.setLocalTranslation(settings.getWidth() - (476 - (int)p.x), (int)p.y, 0); // position
 //              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
@@ -533,7 +534,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                             BitmapText mapTextOther = new BitmapText(guiFont,false);
                             mapTextOther.setSize(guiFont.getCharSet().getRenderedSize());      // font size
                             mapTextOther.setColor(ColorRGBA.Green);                             // font color
-                            mapTextOther.setText("*");                             // the text
+                            mapTextOther.setText("*  " + player.getName());                             // the text
                             Point2D.Double pOther = h14.getPlayerLocationOnMap(player.getLocation());
                             mapTextOther.setLocalTranslation(settings.getWidth() - (476 - (int)pOther.x), (int)pOther.y, 0); // position
             //              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
@@ -545,8 +546,14 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             } else {
                 if(mapPic != null){
                     guiNode.detachChild(mapPic);
-                    if(mapText != null)
+                    if(mapText != null){
                         guiNode.detachChild(mapText);
+                        for(Long id : mapTextOthers.keySet()){
+                            guiNode.detachChild(mapTextOthers.get(id));
+                        }
+                        mapTextOthers.clear();
+                    }
+                    
                     mapPic = null;
                 }
             }
@@ -598,6 +605,22 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                         }
                     }
                 }
+            }
+            if (name.equals("check") && !keyPressed) {
+                List<Lamp> lamps = lampManager.getLamps();
+                Vector3f location = cam.getLocation();
+                for(Lamp lamp : lamps){
+                    double distance = Math.sqrt(Math.pow(-location.x - lamp.getX(), 2.0) + Math.pow(-location.z - lamp.getZ(), 2.0));
+                    System.out.println(distance);
+                    if(distance < 6.0){
+                        if(lampMap.get(lamp) != null){
+                            System.out.println("Set Lamp as marked");
+                            lamp.setVisited(true);
+//                            setRed(lampMap.get(lamp), false);
+//                            setGreen(lampMap.get(lamp), true);
+                        }
+                    }
+                }                
             }
         }
     };
@@ -706,6 +729,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     
     private void setUpLamps(){
         lampManager = LampManager.getInstance();
+        lampManager.addLampChangeListener(this);
         initLamp();
         
         List<Lamp> lamps = lampManager.getLamps();
@@ -726,6 +750,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     public void lampChanged(Lamp lamp){
+//        System.out.println("lampChanged");
         setLamp(lamp, lampMap.get(lamp));
     }
     
@@ -740,19 +765,25 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setRed(Spatial lampObj, boolean status){
+//        System.out.println("Set Red");
         AnimControl playerControl; // you need one Control per model
     //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
         Node lampRed = (Node) lampObj;
-        Node child = (Node)lampRed.getChild("Armature");
-        child = (Node)lampRed.getChild("Cylinder");
-        child = (Node)lampRed.getChild("Cylinder-entity");
-        child = (Node)lampRed.getChild("Cylinder-ogremesh");
+//        Node child = (Node)lampRed.getChild("Armature");
+//        child = (Node)lampRed.getChild("Cylinder");
+//        child = (Node)lampRed.getChild("Cylinder-entity");
+        Node child = (Node)lampRed.getChild("Cylinder-ogremesh");
 
         playerControl = child.getControl(AnimControl.class); // get control over this model
-        System.out.println(playerControl.getAnimationNames());
+//        System.out.println(playerControl.getAnimationNames());
 
 //                Animation anim = playerControl.getAnim("RedOn");
-        AnimChannel channel = playerControl.createChannel();
+        AnimChannel channel;
+        if(playerControl.getNumChannels() == 0){
+            channel = playerControl.createChannel();
+        }else {
+            channel = playerControl.getChannel(0);
+        }
         if(status){
             channel.setAnim("RedOn");
         } else {
@@ -761,19 +792,25 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setGreen(Spatial lampObj, boolean status){
+//        System.out.println("Set Green");
         AnimControl playerControl; // you need one Control per model
     //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
         Node lampGreen = (Node) lampObj;
-        Node child = (Node)lampGreen.getChild("Armature.001");
-        child = (Node)lampGreen.getChild("Cylinder.001");
-        child = (Node)lampGreen.getChild("Cylinder.002-entity");
-        child = (Node)lampGreen.getChild("Cylinder.002-ogremesh");
+//        Node child = (Node)lampGreen.getChild("Armature.001");
+//        child = (Node)lampGreen.getChild("Cylinder.001");
+//        child = (Node)lampGreen.getChild("Cylinder.002-entity");
+        Node child = (Node)lampGreen.getChild("Cylinder.002-ogremesh");
 
         playerControl = child.getControl(AnimControl.class); // get control over this model
-        System.out.println(playerControl.getAnimationNames());
+//        System.out.println(playerControl.getAnimationNames());
 
 //                Animation anim = playerControl.getAnim("RedOn");
-        AnimChannel channel = playerControl.createChannel();
+        AnimChannel channel;
+        if(playerControl.getNumChannels() == 0){
+            channel = playerControl.createChannel();
+        }else {
+            channel = playerControl.getChannel(0);
+        }
         if(status){
             channel.setAnim("GreenOn");
         } else {
@@ -782,17 +819,17 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
 
-    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
-//        if (animName.equals("Walk")) {
-            channel.setAnim("RedOn");
-            channel.setLoopMode(LoopMode.DontLoop);
-            channel.setSpeed(1f);
-//        }
-    }
-
-    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
-
-    }
+//    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+////        if (animName.equals("Walk")) {
+//            channel.setAnim("RedOn");
+//            channel.setLoopMode(LoopMode.DontLoop);
+//            channel.setSpeed(1f);
+////        }
+//    }
+//
+//    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+//
+//    }
     
     
     

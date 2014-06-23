@@ -56,6 +56,8 @@ public class LampManager  implements MessageListener{
     }
 
     private LampManager() {
+        
+        listener = new HashSet<LampChangeListener>();
         try {
             load(new File("ress/lamps.xml"));
         } catch (SAXException ex) {
@@ -89,10 +91,11 @@ public class LampManager  implements MessageListener{
         lamps.add(lamp);
     }
     
-    public Lamp getLamp(String name){
+    public Lamp getLamp(int id){
         for(Lamp l : lamps){
-            if(l.equals(name))
+            if(l.getID() == id){
                 return l;
+            }
         }
         return null;
     }
@@ -110,13 +113,16 @@ public class LampManager  implements MessageListener{
     }
     
     private void notifyListeners(Lamp l){
+        System.out.println("alle Lamp Listener aufrufen");
         for(LampChangeListener lcl : listener){
+            System.out.println("LampListener.lampChanged\n" + l);
             lcl.lampChanged(l);
         }
     }
     
     
     public void lampChanged(Lamp l){
+        System.out.println("lamp changed");
         if(server == null && client != null){
 //            System.out.println("client send");
             
@@ -137,11 +143,11 @@ public class LampManager  implements MessageListener{
     }
 
     public void setServer(Server server) {
-        if(server != null){
-            server.removeMessageListener(this);
+        if(this.server != null){
+            this.server.removeMessageListener(this);
         }
         this.server = server;
-        server.addMessageListener(this, LampChangeMessage.class, ClientJoinMessage.class);
+        this.server.addMessageListener(this, LampChangeMessage.class, ClientJoinMessage.class);
     }
 
     public Client getClient() {
@@ -153,7 +159,7 @@ public class LampManager  implements MessageListener{
             client.removeMessageListener(this);
         }
         this.client = client;
-        client.addMessageListener(this);
+        this.client.addMessageListener(this);
     }
     
     
@@ -161,10 +167,12 @@ public class LampManager  implements MessageListener{
     public void messageReceived(Object source, Message m) {
         //System.out.println("receive");
         //client
+        //System.out.println("recieve " + m.getClass());
         if(server == null && client != null){
+            //System.out.println("client");
             if(m instanceof LampChangeMessage){
                 LampChangeMessage lcm = (LampChangeMessage)m;
-                Lamp l = getLamp(lcm.getName());
+                Lamp l = getLamp(lcm.getID());
                 
                 l.visited =  lcm.isVisited();
                 System.out.println("client netlamp:\n" + l);
@@ -174,14 +182,15 @@ public class LampManager  implements MessageListener{
         }
         //server
         else if(server != null && client == null){
-            if(m instanceof SensorChangeMessage){
+            //System.out.println("server");
+            if(m instanceof LampChangeMessage){
                 LampChangeMessage lcm = (LampChangeMessage)m;
-                Lamp l = getLamp(lcm.getName());
+                Lamp l = getLamp(lcm.getID());
 
                 l.visited = lcm.isVisited();
                 
                 System.out.println("server netlamp:\n" + l);
-                server.broadcast(m);
+                server.broadcast(new LampChangeMessage(l));
                 notifyListeners(l);
             }
             else if(m instanceof ClientJoinMessage){

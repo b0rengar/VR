@@ -16,23 +16,23 @@ import event.FireAlarmSystemEventTypes;
 @Serializable
 public class LampChangeMessage extends AbstractMessage{
     
-    private String name;
+    private int id;
 
     private boolean visited;
 
     public LampChangeMessage(){}
     
     public LampChangeMessage(Lamp l) {
-        this.setName(l.getName());
+        this.setID(l.getID());
         this.setVisited(l.isVisited());
     }
 
-    public String getName() {
-        return name;
+    public int getID() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setID(int name) {
+        this.id = name;
     }
 
     public boolean isVisited() {

@@ -18,6 +18,8 @@ public class LampHandler implements ContentHandler{
     
     private LampManager lm;
     
+    private int count = 0;
+    
     public LampHandler(LampManager lm){
         this.lm = lm;
     }
@@ -28,7 +30,7 @@ public class LampHandler implements ContentHandler{
             double y = Double.parseDouble(atts.getValue("y"));
             double z = Double.parseDouble(atts.getValue("z"));
             
-            lm.addLamp(new Lamp(atts.getValue("name"), x, y, z));
+            lm.addLamp(new Lamp(atts.getValue("name"), x, y, z, ++count));
         }
     }
 
