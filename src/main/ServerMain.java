@@ -8,6 +8,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import config.Settings;
 import config.Setup;
+import datamodel.lamps.LampManager;
 import datamodel.sensors.SensorManager;
 import gui.FireAlarmSystemEventTriggerDialog;
 import java.io.IOException;
@@ -79,6 +80,7 @@ public class ServerMain extends SimpleApplication {
         new ServerNetListener(this, server, worldManager, gameManager);
         
         SensorManager.getInstance().setServer(server);
+        LampManager.getInstance().setServer(server);
         
         Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Server bereit!");        
     }

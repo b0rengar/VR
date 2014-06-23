@@ -174,6 +174,7 @@ public class SensorManager  implements MessageListener{
         else if(server != null && client == null){
 //            System.out.println("server broadcast");
             server.broadcast(new SensorChangeMessage(s.getGroup().getId(), s.getId(), s.getStatus(), s.getFireSeverity()));
+            notifyListeners(s);
         }
     }
     
@@ -218,12 +219,12 @@ public class SensorManager  implements MessageListener{
                 s.status =  scm.getStatus();
                 System.out.println("server netsensor:\n" + s);
                 server.broadcast(m);
+                notifyListeners(s);
             }
             else if(m instanceof ClientJoinMessage){
                 HostedConnection hc = (HostedConnection)source;
                 
                 for(Sensor s: getSensors()){
-                    System.out.println("loop sensors");
                     if(s.getStatus() != FireAlarmSystemEventTypes.READY){
                         System.out.println("send init sensors");
                         hc.send(new SensorChangeMessage(s.getGroup().getId(), s.getId(), s.getStatus(), s.getFireSeverity()));

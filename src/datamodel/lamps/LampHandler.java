@@ -4,6 +4,7 @@
  */
 package datamodel.lamps;
 
+import datamodel.sensors.SensorGroup;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
@@ -15,9 +16,20 @@ import org.xml.sax.SAXException;
  */
 public class LampHandler implements ContentHandler{  
     
+    private LampManager lm;
+    
+    public LampHandler(LampManager lm){
+        this.lm = lm;
+    }
     
      public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-         
+          if(qName.equals("lamp")){
+            double x = Double.parseDouble(atts.getValue("x"));
+            double y = Double.parseDouble(atts.getValue("y"));
+            double z = Double.parseDouble(atts.getValue("z"));
+            
+            lm.addLamp(new Lamp(atts.getValue("name"), x, y, z));
+        }
     }
 
 

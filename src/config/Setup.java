@@ -23,6 +23,7 @@ import messages.StartGameMessage;
 import messages.EntityActionMessage;
 import messages.SensorChangeMessage;
 import messages.ClientUserDataMessage;
+import messages.LampChangeMessage;
 
 public class Setup {
 
@@ -61,6 +62,7 @@ public class Setup {
         Serializer.registerClass(StartGameMessage.class);
         Serializer.registerClass(EntityActionMessage.class);
         Serializer.registerClass(SensorChangeMessage.class);
+        Serializer.registerClass(LampChangeMessage.class);
         Serializer.registerClass(ClientUserDataMessage.class);
     }
 
