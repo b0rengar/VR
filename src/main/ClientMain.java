@@ -545,7 +545,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
 //                        sensorMap.get(s)
                         if(sensorMap.get(sensor) != null){
                             sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
-                            
+                            sensor.extinguish();
                             sensor.setStatus(FireAlarmSystemEventTypes.READY);
                             sensorMap.put(sensor, null);
                         }
@@ -626,21 +626,76 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     private void setFire(final Sensor sensor){
-        if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
-            if(sensorMap.get(sensor) == null){
-                ParticleEmitter fireEmitter = fire.clone();
-                fireEmitter.setLocalTranslation((float)sensor.getX(),(float)sensor.getY() - 3.0f,(float)sensor.getZ());
-//                fireEmitter.
-                fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
-                sensorMap.put(sensor, fireEmitter);
-                sceneManager.getWorldRoot().attachChild(fireEmitter);
+        
+        enqueue(new Callable<Void>() {
+            public Void call() throws Exception {
+                System.out.println("setFire");
+                if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
+                    ParticleEmitter fireEmitter;
+                    if(sensorMap.get(sensor) == null){
+                        System.out.println("Set FLAME");
+                        fireEmitter = fire.clone();
+                        fireEmitter.setLocalTranslation((float)sensor.getX(),(float)sensor.getY() - 3.0f,(float)sensor.getZ());
+        //                fireEmitter.
+                        fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
+                        sensorMap.put(sensor, fireEmitter);
+                        sceneManager.getWorldRoot().attachChild(fireEmitter);
+                    } else {
+                        System.out.println("Feuer wird kleienr --> " + (1.5f*(float)sensor.getFireSeverity())/100 );
+                        fireEmitter = sensorMap.get(sensor);
+                        fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
+                    }
+                } else {
+                    if(sensorMap.get(sensor) != null){
+                        System.out.println("Feuer gelöscht");
+                        sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+                        sensorMap.put(sensor, null);
+                    }
+                }
+                return null;
             }
-        } else {
-            if(sensorMap.get(sensor) != null){
-                sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
-                sensorMap.put(sensor, null);
-            }
-        }
-    }  
+        });
+        
+        
+//        if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
+//            ParticleEmitter fireEmitter;
+//            if(sensorMap.get(sensor) == null){
+//                fireEmitter = fire.clone();
+//                fireEmitter.setLocalTranslation((float)sensor.getX(),(float)sensor.getY() - 3.0f,(float)sensor.getZ());
+////                fireEmitter.
+//                fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
+//                sensorMap.put(sensor, fireEmitter);
+//                sceneManager.getWorldRoot().attachChild(fireEmitter);
+//            } else {
+//                fireEmitter = sensorMap.get(sensor);
+//                fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
+//            }
+//        } else {
+//            if(sensorMap.get(sensor) != null){
+//                sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
+//                sensorMap.put(sensor, null);
+//            }
+//        }
+    }
+    
+//    private void setUpSensors(){
+//        sensorManager = SensorManager.getInstance();
+//        sensorManager.addSensorChangeListener(this);
+//        initSensor();
+//        initFire();
+//        List<Sensor> sensors = sensorManager.getSensors();
+//        System.out.println("Sensor List:");
+//        Vector3f pt;
+//        Spatial sensObj;
+//        for(Sensor sensor : sensors){
+//            System.out.println(sensor.getGroup() + " --> " + sensor.getId() + " --> " + sensor.getX() + " , " + sensor.getY() + " , " + sensor.getZ());
+//            pt = new Vector3f((float)sensor.getX(),(float)sensor.getY(),(float)sensor.getZ());
+//            sensObj = sensorObject.clone();
+//            sensObj.setLocalTranslation(pt);
+//            sensorMap.put(sensor, null);
+//            sceneManager.getWorldRoot().attachChild(sensObj);
+//            setFire(sensor);
+//        }        
+//    }
     
 }
