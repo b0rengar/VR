@@ -30,7 +30,10 @@ import config.Setup;
 
 import controls.UserInputControl;
 import datamodel.building.H14;
+import datamodel.lamps.Lamp;
+import datamodel.lamps.LampChangeListener;
 import datamodel.lamps.LampManager;
+import datamodel.sensors.Sensor;
 import datamodel.sensors.Sensor;
 import datamodel.sensors.SensorChangeListener;
 import datamodel.sensors.SensorManager;
@@ -71,7 +74,7 @@ import persistence.Player;
  * test
  * @author fibu
  */
-public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener{
+public class ClientMain extends SimpleApplication implements ScreenController, SensorChangeListener, LampChangeListener{
     Client myClient = null;
     private static ClientMain app;  
         
@@ -92,8 +95,11 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         
         private Geometry mark;
         private HashMap<Sensor,ParticleEmitter> sensorMap;
+        private HashMap<Lamp, Spatial> lampMap;
         private Spatial sensorObject;
+        private Spatial lampObject;
         private ParticleEmitter fire;
+        private int floor = 0;
         Picture mapPic;
         BitmapText mapText;
         private HashMap<Long, BitmapText> mapTextOthers = new HashMap<Long, BitmapText>();
@@ -163,6 +169,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         syncManager.addObject(-1, sceneManager);
         
         SensorManager.getInstance().setClient(client);
+        LampManager.getInstance().setClient(client);
         clientNetListener = new ClientNetListener(this, client, sceneManager);
    }
     
@@ -258,6 +265,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                     enqueue(new Callable<Void>() {
                             public Void call() throws Exception {
                                     setUpSensors();
+                                    setUpLamps();
                                     sceneManager.attachLevel();
                                     //sceneManager.addBox();
                                     statusText.setText("Fertig!");
@@ -417,6 +425,11 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             sensorObject = assetManager.loadModel("Models/Tools/rauchmelder2x.j3o");
         }
         
+        private void initLamp(){
+            lampMap = new HashMap<Lamp, Spatial>();
+            lampObject = assetManager.loadModel("Models/lampe/lampe.j3o");
+        }
+        
         private void initFire(){
             fire = new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 30);
             Material mat_red = new Material(assetManager,"Common/MatDefs/Misc/Particle.j3md");
@@ -457,13 +470,25 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             //        } else{
             //          mapPic.setImage(assetManager, "Textures/ColoredTex/Monkey.png", true);
             //        }
-                    mapPic.setImage(assetManager, "Textures/map/building_map_50.png", true);
+                    mapPic.setImage(assetManager, "Textures/map/H14_EG_nur Raumnummerierung_dwg.png", true);
 
                     mapPic.setWidth(476);
                     mapPic.setHeight(173);
                     mapPic.setPosition(settings.getWidth() - 476 ,0);
                     guiNode.attachChild(mapPic);           
                 }
+                double yLoc = cam.getLocation().y;
+                if(yLoc > -0.5 && yLoc < 3.0 && floor != 0){
+                    floor = 0;
+                    mapPic.setImage(assetManager, "Textures/map/H14_EG_nur Raumnummerierung_dwg.png", true);
+                } else if(yLoc > 3.2 && yLoc < 6.0 && floor != 1){
+                    floor = 1;
+                    mapPic.setImage(assetManager, "Textures/map/H14_1.OG_nur Raumnummerierung.png", true);
+                } else if(yLoc > 6.5 && yLoc < 10.0 && floor != 2){
+                    floor = 2;
+                    mapPic.setImage(assetManager, "Textures/map/H14_2_OG_nur Raumnummerierung_dwg.png", true);
+                }
+                System.out.println("FLOOR = " + floor);
                 if(mapText != null)
                     guiNode.detachChild(mapText);
                 mapText = new BitmapText(guiFont, false);          
@@ -655,49 +680,46 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 return null;
             }
         });
-        
-        
-//        if(sensor.getStatus() == FireAlarmSystemEventTypes.ALARM){
-//            ParticleEmitter fireEmitter;
-//            if(sensorMap.get(sensor) == null){
-//                fireEmitter = fire.clone();
-//                fireEmitter.setLocalTranslation((float)sensor.getX(),(float)sensor.getY() - 3.0f,(float)sensor.getZ());
-////                fireEmitter.
-//                fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
-//                sensorMap.put(sensor, fireEmitter);
-//                sceneManager.getWorldRoot().attachChild(fireEmitter);
-//            } else {
-//                fireEmitter = sensorMap.get(sensor);
-//                fireEmitter.setStartSize((1.5f*(float)sensor.getFireSeverity())/100);
-//            }
-//        } else {
-//            if(sensorMap.get(sensor) != null){
-//                sceneManager.getWorldRoot().detachChild(sensorMap.get(sensor));
-//                sensorMap.put(sensor, null);
-//            }
-//        }
     }
     
     private void setUpLamps(){
         lampManager = LampManager.getInstance();
+        initLamp();
         
-        sensorManager = SensorManager.getInstance();
-        sensorManager.addSensorChangeListener(this);
-        initSensor();
-        initFire();
-        List<Sensor> sensors = sensorManager.getSensors();
-        System.out.println("Sensor List:");
+        List<Lamp> lamps = lampManager.getLamps();
+        System.out.println("Lamp List:");
         Vector3f pt;
-        Spatial sensObj;
-        for(Sensor sensor : sensors){
-            System.out.println(sensor.getGroup() + " --> " + sensor.getId() + " --> " + sensor.getX() + " , " + sensor.getY() + " , " + sensor.getZ());
-            pt = new Vector3f((float)sensor.getX(),(float)sensor.getY(),(float)sensor.getZ());
-            sensObj = sensorObject.clone();
-            sensObj.setLocalTranslation(pt);
-            sensorMap.put(sensor, null);
-            sceneManager.getWorldRoot().attachChild(sensObj);
-            setFire(sensor);
-        }        
+        Spatial lampObj;
+        
+        for(Lamp lamp : lamps){
+            System.out.println("Lamp attributes ..");
+            pt = lamp.getLocationVector();
+            lampObj = lampObject.clone();
+            lampObj.setLocalTranslation(pt);
+            lampMap.put(lamp, lampObj);
+            sceneManager.getWorldRoot().attachChild(lampObj);
+            setLamp(lamp);
+        }      
+    }
+    
+    public void lampChanged(Lamp lamp){
+        setLamp(lamp);
+    }
+    
+    private void setLamp(final Lamp lamp){
+        enqueue(new Callable<Void>() {
+            public Void call() throws Exception {
+                // INSERT CODE HERE
+                if(lamp.isVisited()){
+                    
+                    
+                }else {
+                    
+                }
+                
+                return null;
+            }
+        });
     }
     
 }

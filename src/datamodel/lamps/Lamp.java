@@ -4,6 +4,8 @@
  */
 package datamodel.lamps;
 
+import com.jme3.math.Vector3f;
+
 /**
  *
  * @author Admin
@@ -18,7 +20,7 @@ public class Lamp {
     
     private double z;
 
-    private boolean visited = false;
+    protected boolean visited = false;
 
     public Lamp(String name, double x, double y, double z) {
         this.name = name;
@@ -27,6 +29,15 @@ public class Lamp {
         this.z = z;
     }
     
+    
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Lampe ");
+        sb.append(name);
+        return sb.toString();
+    }
     
     
     public String getName() {
@@ -61,12 +72,17 @@ public class Lamp {
         this.z = z;
     }
 
+    public Vector3f getLocationVector(){
+        return new Vector3f((float)x, (float)y, (float)z);
+    }     
+    
     public boolean isVisited() {
         return visited;
     }
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+        LampManager.getInstance().lampChanged(this);
     }
     
     
