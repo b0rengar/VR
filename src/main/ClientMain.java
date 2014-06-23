@@ -543,7 +543,10 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                     if(pulse > 190){
                         pulse = 190.0;
                     }
+                    Vector3f loc = cam.getLocation();
+                    clientNetListener.setLocation(loc);
                     clientNetListener.setPulse((int)pulse);
+                    clientNetListener.sendUserData();
                     if(PlayerTab == false){
                         playerLine = nifty.getScreen("userDetails").findElementByName("layer").findElementByName("panel").findElementByName("name").getRenderer(TextRenderer.class);
                         playerLine.setText( clientNetListener.getName());
@@ -564,6 +567,8 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 if((player.getName()).equals(msg.getPlayerName())){
                     player.setO2(msg.getO2());
                     player.setPulse(msg.getPulse());
+                    player.setLocation(msg.getLocation());
+                    //System.out.println("location: " + player.getLocation().toString());
                 }
             }
         }

@@ -21,6 +21,7 @@ import messages.ServerJoinMessage;
 import messages.StartGameMessage;
 import persistence.Player;
 import persistence.ServerClientData;
+import com.jme3.math.Vector3f;
 
 /**
  * listener f�r den Netzwerk-Nachrichten-Transfer
@@ -132,21 +133,22 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 				}
 			});
 		} else if (message.getClass() ==  ClientUserDataMessage.class) {
-                        System.out.println("message detected");
+                        //System.out.println("message detected");
 			final ClientUserDataMessage msg = (ClientUserDataMessage) message;
-			final int clientId = (int) source.getId();
+			//final int clientId = (int) source.getId();
                         app.enqueue(new Callable<Void>() {
 				public Void call() throws Exception {
 					for(Player player : Player.getPlayers()){
                                             if((player.getName()).equals(msg.getPlayerName())){
                                                 player.setO2(msg.getO2());
-                                                player.setPulse(msg.getPulse());  
-                                                System.out.println(player.getName() + player.getO2() + player.getPulse());
+                                                player.setPulse(msg.getPulse()); 
+                                                player.setLocation(msg.getLocation());
+                                                //System.out.println(player.getName() + player.getO2() + player.getPulse());
                                             }
                                         }
                                         for(Player player : Player.getPlayers()){
-                                            System.out.println(player.getName() + player.getO2() + player.getPulse());
-                                            server.broadcast(new ClientUserDataMessage(player.getName(),player.getO2(),player.getPulse()));
+                                            //System.out.println(player.getName() + player.getO2() + player.getPulse());
+                                            server.broadcast(new ClientUserDataMessage(player.getName(),player.getO2(),player.getPulse(),player.getLocation()));
                                             Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Sende Broadcast with UserData");
 					}
 					return null;

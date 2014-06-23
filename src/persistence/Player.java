@@ -2,6 +2,7 @@ package persistence;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import com.jme3.math.Vector3f;
 
 public class Player {
 
@@ -10,6 +11,7 @@ public class Player {
 	private String name;
         private int O2;
         private int pulse;
+        private Vector3f location;
 	private long character_entity_id = -1;
 	private long entity_id = -1;
 	private int group_id = -1;
@@ -128,5 +130,13 @@ public class Player {
 
         public void setPulse(int pulse) {
             this.pulse = pulse;
+        }
+
+        public Vector3f getLocation() {
+            return location;
+        }
+
+        public void setLocation(Vector3f location) {
+            this.location = location;
         }
 }
