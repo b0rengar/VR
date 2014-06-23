@@ -515,7 +515,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                 mapText = new BitmapText(guiFont, false);          
                 mapText.setSize(guiFont.getCharSet().getRenderedSize());      // font size
                 mapText.setColor(ColorRGBA.Red);                             // font color
-                mapText.setText("*");                             // the text
+                mapText.setText("*  " + clientNetListener.getName());                             // the text
                 Point2D.Double p = h14.getPlayerLocationOnMap(cam.getLocation());
                 mapText.setLocalTranslation(settings.getWidth() - (476 - (int)p.x), (int)p.y, 0); // position
 //              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);
@@ -532,7 +532,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                             BitmapText mapTextOther = new BitmapText(guiFont,false);
                             mapTextOther.setSize(guiFont.getCharSet().getRenderedSize());      // font size
                             mapTextOther.setColor(ColorRGBA.Green);                             // font color
-                            mapTextOther.setText("*");                             // the text
+                            mapTextOther.setText("*  " + player.getName());                             // the text
                             Point2D.Double pOther = h14.getPlayerLocationOnMap(player.getLocation());
                             mapTextOther.setLocalTranslation(settings.getWidth() - (476 - (int)pOther.x), (int)pOther.y, 0); // position
             //              hudText.setLocalTranslation(settings.getWidth() - 400, 100, 0);

@@ -79,7 +79,7 @@ public class H14 {
         
         double yMap = mapHeight - ((locX * mapHeight)/-34.0);
         double xMap = mapWidth - ((locY * mapWidth)/-107.8);
-        xMap -= 25;
+        xMap -= 20;
         yMap += 10;
         if(yMap < 0)
             yMap = 0;
