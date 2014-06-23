@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import messages.ClientJoinMessage;
 import messages.SensorChangeMessage;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.xml.sax.InputSource;
@@ -147,7 +148,7 @@ public class SensorManager  implements MessageListener{
             server.removeMessageListener(this);
         }
         this.server = server;
-        server.addMessageListener(this, SensorChangeMessage.class);
+        server.addMessageListener(this, SensorChangeMessage.class, ClientJoinMessage.class);
     }
 
     public Client getClient() {
@@ -195,6 +196,7 @@ public class SensorManager  implements MessageListener{
     
     public void messageReceived(Object source, Message m) {
         //System.out.println("receive");
+        //client
         if(server == null && client != null){
             if(m instanceof SensorChangeMessage){
                 SensorChangeMessage scm = (SensorChangeMessage)m;
@@ -206,6 +208,7 @@ public class SensorManager  implements MessageListener{
                 notifyListeners(s);
             }
         }
+        //server
         else if(server != null && client == null){
             if(m instanceof SensorChangeMessage){
                 SensorChangeMessage scm = (SensorChangeMessage)m;
@@ -214,6 +217,17 @@ public class SensorManager  implements MessageListener{
                 s.status =  scm.getStatus();
                 System.out.println("server netsensor:\n" + s);
                 server.broadcast(m);
+            }
+            else if(m instanceof ClientJoinMessage){
+                HostedConnection hc = (HostedConnection)source;
+                
+                for(Sensor s: getSensors()){
+                    System.out.println("loop sensors");
+                    if(s.getStatus() != FireAlarmSystemEventTypes.READY){
+                        System.out.println("send init sensors");
+                        hc.send(new SensorChangeMessage(s.getGroup().getId(), s.getId(), s.getStatus(), s.getFireSeverity()));
+                    }
+                }
             }
         }
     }

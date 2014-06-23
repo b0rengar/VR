@@ -10,6 +10,7 @@
 			<positiondescription>AUSGANG A.2</positiondescription>
 			<coordinates x="-13.886844" y="3.373728" z="-68.39667" />
 		</sensor>
+	</sensorgroup>
 	<sensorgroup id="15">
 		<description>Meldergruppe 15 in Halle 14</description>
 		<sensor id="1">
@@ -218,7 +219,6 @@
 			<coordinates x="-37.3013" y="3.373728" z="-32.948147" />
 		</sensor>
 	</sensorgroup>
-	</sensorgroup>
 	<sensorgroup id="23">
 		<description>Meldergruppe 23 in Halle 14</description>
 		<sensor id="1">
@@ -337,6 +337,7 @@
 			<positiondescription>14A-0.01</positiondescription>
 			<coordinates x="-34.814156" y="3.3737278" z="-3.3120885" />
 		</sensor>
+	</sensorgroup>
 	<sensorgroup id="28">
 		<description>Meldergruppe 28 in Halle 14</description>
 		<sensor id="1">
