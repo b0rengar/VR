@@ -128,47 +128,6 @@
 		<attributes width="28px" height="28px" />
 	</style>
 
-
-	<screen id="menu" controller="main.ClientMain" defaultFocusElement="exitButton">
-		<layer id="layer" childLayout="center" backgroundColor="#fff0">
-			<effect>
-				<onStartScreen name="move" timeType="exp" factor="3.5"
-					direction="top" mode="in" length="500" startDelay="250" inherit="true" />
-				<onEndScreen name="move" timeType="exp" factor="3.5"
-					direction="bottom" mode="out" length="500" startDelay="250"
-					inherit="true" />
-			</effect>
-			<panel id="mainpanel" style="nifty-panel" childLayout="center"
-				padding="16px,16px,30px,16px" width="40%" height="30%" align="center"
-				valign="center">
-				<panel childLayout="center">
-					<panel id="panel_1" width="50%"
-						childLayout="vertical">
-						<panel childLayout="horizontal" height="4%" />
-						<control id="mensaButton" name="button" label="Mensaplan" align="center">
-							<interact onClick="showMensa()" />
-						</control>
-						<panel childLayout="horizontal" height="4%" />
-						<control id="weatherButton" name="button" label="Wetter"
-							align="center">
-							<interact onClick="showWeather()" />
-						</control>
-						<panel childLayout="horizontal" height="4%" />
-						<control id="questionButton" name="button" label="Quizfragen"
-							align="center">
-							<interact onClick="showQiz()" />
-						</control>
-						<panel childLayout="horizontal" height="*" />
-						<control id="exitButton" name="button" label="Beenden"
-							align="center">
-							<interact onClick="backtogame()" />
-						</control>
-					</panel>
-				</panel>
-			</panel>
-		</layer>
-	</screen>
-	
 	<screen id="playerTab" controller="main.ClientMain">
 		<layer id="layer" childLayout="center" backgroundColor="#fff0">
 			<panel id="panel" height="450px" width="450px" align="center"

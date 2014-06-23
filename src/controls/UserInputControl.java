@@ -1,7 +1,5 @@
 package controls;
 
-import com.jme3.collision.CollisionResult;
-import com.jme3.collision.CollisionResults;
 import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.input.InputManager;
@@ -12,7 +10,6 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
-import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
@@ -21,7 +18,6 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import java.io.IOException;
 
-import controls.UserControl;
 import messages.ActionMessage;
 
 public class UserInputControl implements Control, ActionListener, AnalogListener {

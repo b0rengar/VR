@@ -9,15 +9,10 @@ import com.jme3.bullet.collision.PhysicsRayTestResult;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
-import com.jme3.bullet.control.VehicleControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapFont.Align;
 import com.jme3.font.BitmapText;
-import com.jme3.light.AmbientLight;
-import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
@@ -29,14 +24,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
-import com.jme3.scene.shape.Box;
-import com.jme3.texture.Texture;
-import com.jme3.texture.Texture2D;
-import com.jme3.texture.plugins.AWTLoader;
-import com.jme3.util.SkyFactory;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -52,7 +40,6 @@ import controls.UserCharacterControl;
 import controls.MovementControl;
 import controls.UserControl;
 import messages.EntityActionMessage;
-import messages.ImageMessage;
 import messages.ServerAddEntityMessage;
 import messages.ServerAddPlayerMessage;
 import messages.ServerDisableEntityMessage;
@@ -64,7 +51,6 @@ import messages.ServerRemovePlayerMessage;
 import persistence.Player;
 import messages.SyncMessageValidator;
 import messages.SyncMessage;
-import util.ImageUtil;
 
 /**
  * speichert und l�dt die Entit�ten
@@ -140,20 +126,6 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 
 	public PhysicsSpace getPhysicsSpace() {
 		return space;
-	}
-
-	public void setUpLight() {
-		AmbientLight al = new AmbientLight();
-		al.setColor(ColorRGBA.White.mult(0.4f));
-		rootNode.addLight(al);
-
-		DirectionalLight sun = new DirectionalLight();
-		rootNode.addLight(sun);
-	}
-
-	public void setUpSky() {  
-		rootNode.attachChild(SkyFactory.createSky( assetManager,
-				"Textures/bright/FullskiesBlueClear03.dds", false));
 	}
 
 	public void loadLevel(String name) {
@@ -252,11 +224,6 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 			Logger.getLogger(this.getClass().getName()).log(Level.INFO, "Broadcast adding entity: "+ id);
 			syncManager.broadcast(new ServerAddEntityMessage(id, modelIdentifier, location, rotation, scale));
 		}
-		//TODO alternative ueberlegen
-		if(modelIdentifier.equals("Box")){
-			addBox(id);
-			return;
-		}
 
 		Node entityModel = (Node) assetManager.loadModel(modelIdentifier);
 		setEntityTranslation(entityModel, location, rotation);
@@ -279,31 +246,6 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		worldRoot.attachChild(entityModel);
 	}
 
-	//TODO nur zum testen erstmal so -> saubere Loesung finden (xml vlt)
-	public void addBox(long id){
-		if(id==-1){
-			newId++;
-			id = newId;
-		}
-		Box b = new Box(Vector3f.ZERO, 1, 1, 0.03f);
-		Geometry geom = new Geometry("Box", b);
-		Material geom_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-		geom_mat.setColor("Color", ColorRGBA.LightGray);
-		geom.setMaterial(geom_mat);
-		Node n = new Node("Box");
-		n.attachChild(geom);
-		//Reihenfolge wichtig!
-		n.addControl(new RigidBodyControl(0.0f));
-		setEntityTranslation(n, new Vector3f(-25.66f , 5f, -48.25f), new Quaternion().fromAngles(0, -16, 0));
-		n.setUserData("player_id", -1l);
-		n.setUserData("group_id", -1);
-		n.setUserData("entity_id", id);
-		entities.put(id, n);
-		syncManager.addObject(id, n);
-		space.addAll(n);
-		worldRoot.attachChild(n);
-	}
-
 	public void addOtherPlayer(int client_id, long character_entity_id) {
 		Spatial entity = entities.get(character_entity_id);
 		String model = (String) entity.getUserData("model");
@@ -318,9 +260,6 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 				String model = (String) entity.getUserData("model");
 				if(model!=null){
 					syncManager.send(client_id, new ServerAddEntityMessage(entity_id, model, entity.getLocalTranslation(), entity.getLocalRotation(), entity.getLocalScale()));
-				} else {
-					//TODO alternative ueberlegen
-					syncManager.send(client_id, new ServerAddEntityMessage(entity_id, "Box", entity.getLocalTranslation(), entity.getLocalRotation(), entity.getLocalScale()));
 				}
 			}
 		}
@@ -384,9 +323,6 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 			control.getCollisionShape().setScale(new Vector3f(0.9f, 0.64f, 0.5f));
 			//setCollisionShape(new CapsuleCollisionShape(1, 1, 1));
 			control.setViewDirection(rotation.mult(Vector3f.UNIT_Z).multLocal(1, 0, 1).normalizeLocal());
-		} else if (entityModel.getControl(VehicleControl.class) != null) {
-			entityModel.getControl(VehicleControl.class).setPhysicsLocation(location);
-			entityModel.getControl(VehicleControl.class).setPhysicsRotation(rotation.toRotationMatrix());
 		} else {
 			entityModel.setLocalTranslation(location);
 			entityModel.setLocalRotation(rotation);
@@ -466,10 +402,7 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 	private void addUserControls(Spatial spat) {
 		for (Iterator<Control> it = userControls.iterator(); it.hasNext();) {
 			Control control = it.next();
-//                        System.out.println("controll:");
-//                        System.out.println(control.toString()); 
-//			if (control!=null)
-                            spat.addControl(control);
+                        spat.addControl(control);
                         
 		}
 	}
@@ -545,39 +478,6 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		}
 	}
 
-	public void setNextImage(int client_id, int image_id, long entity_id) {
-		if (isServer()) {
-			if (image_id >= 0 && image_id < this.images.length) {
-				entities.get(entity_id).setUserData("image_id", image_id);
-				byte[] ib = getImageBytes(image_id);
-				//				System.out.println(ib.length);
-				if(ib.length>34000){
-					return;
-				}
-				ImageMessage resp = new ImageMessage(entity_id, image_id, ib);
-				Logger.getLogger(SceneManager.class.getName()).log(Level.INFO, "Neues Bild erstellt Image_ID: " + image_id);
-				syncManager.send(client_id, resp);
-			} 
-		}
-	}
-
-	public void setNextImage(long entity_id, byte[] image_data) {
-		Material geom_mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-		Spatial sp = entities.get(entity_id);
-		sp.setMaterial(geom_mat);
-		Texture texture = new Texture2D();
-		BufferedImage b;
-		try {
-			b = ImageUtil.getBufferedImage(ImageUtil.getImageFromBytes(ImageUtil.deCompress(image_data)));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		texture.setImage(new AWTLoader().load(b, true));
-		geom_mat.setTexture("ColorMap", texture);
-	}
-
-
 	public void setTextureScale(Spatial spatial, Vector2f vector) {
 		if (spatial instanceof Node) {
 			Node findingnode = (Node) spatial;
@@ -590,8 +490,4 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 		}
 	}
 
-	public byte[] getImageBytes(int id){
-		BufferedImage bi = ImageUtil.drawingToGrayscaleBufferedImage(images[id]);
-		return ImageUtil.compress(ImageUtil.convertToPNG(bi));
-	}
 }
