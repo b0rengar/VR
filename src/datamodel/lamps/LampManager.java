@@ -113,7 +113,9 @@ public class LampManager  implements MessageListener{
     }
     
     private void notifyListeners(Lamp l){
+        System.out.println("alle Lamp Listener aufrufen");
         for(LampChangeListener lcl : listener){
+            System.out.println("LampListener.lampChanged\n" + l);
             lcl.lampChanged(l);
         }
     }
