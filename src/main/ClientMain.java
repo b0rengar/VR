@@ -731,28 +731,55 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     private void setLamp(final Lamp lamp, final Spatial lampObj){
         enqueue(new Callable<Void>() {
             public Void call() throws Exception {
-
-                
-                AnimControl playerControl; // you need one Control per model
-//                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
-                Node lampRed = (Node) lampObj;
-                Node child = (Node)lampRed.getChild("Armature");
-                child = (Node)lampRed.getChild("Cylinder");
-                child = (Node)lampRed.getChild("Cylinder-entity");
-                child = (Node)lampRed.getChild("Cylinder-ogremesh");
-
-                playerControl = child.getControl(AnimControl.class); // get control over this model
-                System.out.println(playerControl.getAnimationNames());
-                
-//                Animation anim = playerControl.getAnim("RedOn");
-                AnimChannel channel = playerControl.createChannel();
-                channel.setAnim("RedOn");
-                
-                
+                setRed(lampObj, !lamp.isVisited());
+                setGreen(lampObj, lamp.isVisited());               
                 return null;
             }
         });
     }
+    
+    private void setRed(Spatial lampObj, boolean status){
+        AnimControl playerControl; // you need one Control per model
+    //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
+        Node lampRed = (Node) lampObj;
+        Node child = (Node)lampRed.getChild("Armature");
+        child = (Node)lampRed.getChild("Cylinder");
+        child = (Node)lampRed.getChild("Cylinder-entity");
+        child = (Node)lampRed.getChild("Cylinder-ogremesh");
+
+        playerControl = child.getControl(AnimControl.class); // get control over this model
+        System.out.println(playerControl.getAnimationNames());
+
+//                Animation anim = playerControl.getAnim("RedOn");
+        AnimChannel channel = playerControl.createChannel();
+        if(status){
+            channel.setAnim("RedOn");
+        } else {
+            channel.setAnim("RedOff");
+        }
+    }
+    
+    private void setGreen(Spatial lampObj, boolean status){
+        AnimControl playerControl; // you need one Control per model
+    //                Node lampRed = (Node) assetManager.loadModel("Models/lampe/lampe.j3o"); // load a model
+        Node lampGreen = (Node) lampObj;
+        Node child = (Node)lampGreen.getChild("Armature.001");
+        child = (Node)lampGreen.getChild("Cylinder.001");
+        child = (Node)lampGreen.getChild("Cylinder.002-entity");
+        child = (Node)lampGreen.getChild("Cylinder.002-ogremesh");
+
+        playerControl = child.getControl(AnimControl.class); // get control over this model
+        System.out.println(playerControl.getAnimationNames());
+
+//                Animation anim = playerControl.getAnim("RedOn");
+        AnimChannel channel = playerControl.createChannel();
+        if(status){
+            channel.setAnim("GreenOn");
+        } else {
+            channel.setAnim("GreenOff");
+        }
+    }
+    
 
     public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
 //        if (animName.equals("Walk")) {
