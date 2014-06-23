@@ -19,14 +19,17 @@ public class Lamp {
     private double y;
     
     private double z;
+    
+    private int id;
 
     protected boolean visited = false;
 
-    public Lamp(String name, double x, double y, double z) {
+    public Lamp(String name, double x, double y, double z, int id) {
         this.name = name;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.id = id;
     }
     
     
@@ -80,9 +83,21 @@ public class Lamp {
         return visited;
     }
 
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
+    }
+    
+    
+
     public void setVisited(boolean visited) {
+        System.out.println("visited");
         this.visited = visited;
         LampManager.getInstance().lampChanged(this);
+        
     }
     
     
