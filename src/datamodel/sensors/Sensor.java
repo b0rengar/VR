@@ -70,7 +70,9 @@ public class Sensor {
     }
     
     public void extinguish(){
+        System.out.println("before extiguish: " +getFireSeverity());
         setFireSeverity(getFireSeverity() - (Math.random()*10));
+        System.out.println("after extiguish: " +getFireSeverity());
     }
 
     public void setFireSeverity(double fireSeverity) {

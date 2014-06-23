@@ -56,7 +56,7 @@ public class SensorManager  implements MessageListener{
     }
     
     private SensorManager() {
-        sensorGroups = new HashMap<Integer, SensorGroup>();
+        
         listener = new HashSet<SensorChangeListener>();
         //System.out.println("construct");
         try {
@@ -75,6 +75,7 @@ public class SensorManager  implements MessageListener{
 //        System.out.println(file.exists());
 //        System.out.println(file.getAbsolutePath());
 //        System.out.println(file.getTotalSpace());
+        sensorGroups = new HashMap<Integer, SensorGroup>();
         
         XMLReader xmlReader = XMLReaderFactory.createXMLReader();
         
