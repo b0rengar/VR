@@ -7,7 +7,7 @@
 
 	<screen id="load_game" controller="main.ClientMain">
 		<layer id="layer" childLayout="center">
-			<panel id="panel" height="350px" width="350px" align="center"
+			<panel id="panel" height="400px" width="350px" align="center"
 				valign="center" style="nifty-panel-simple" childLayout="vertical">
 				<effect>
 					
@@ -23,7 +23,7 @@
 					
 				</image>
 				<text style="nifty-label" text="" />
-				<text style="nifty-label" text="Enter Username" valign="center" />
+				<text style="nifty-label" text="Username" valign="center" />
 				<control id="username_text" name="textfield" align="center"
 					valign="center" width="60%">
 					<interact onEnter="connect()" />
@@ -31,6 +31,11 @@
                                 <text style="nifty-label" text=" User Oxigen (in Bar)" valign="center" />
 				<control id="usero2_text" name="textfield" align="center"
 					valign="center" width="60%">
+					<interact onEnter="connect()" />
+				</control>
+                                <text style="nifty-label" text="Server IP" valign="center" />
+				<control id="serverip_text" name="textfield" align="center"
+					valign="center" width="60%" text="127.0.0.1">
 					<interact onEnter="connect()" />
 				</control>
 				<text style="nifty-label" text="" />
@@ -42,7 +47,6 @@
 				<panel childLayout="horizontal" height="15%" />
 				<text id="status_text" font="aurulent-sans-16.fnt" color="#ffff"
 					text="" align="center" valign="center">
-					
 				</text>
 			</panel>
 		</layer>
