@@ -1,5 +1,6 @@
 package main;
 
+import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.collision.CollisionResult;
@@ -222,7 +223,11 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             int userO2int = 0;
             InetAddress serverIP = null;
             try {
-                serverIP = InetAddress.getByName(serverIPstr);
+                if(serverIPstr != ""){
+                    serverIP = InetAddress.getByName(serverIPstr);
+                }else{
+                    serverIP = InetAddress.getByName(Settings.getInstance().getServer());
+                }
                 userO2int = Integer.parseInt(userO2);
             } catch (UnknownHostException ex) {
                 Logger.getLogger(ClientMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -719,12 +724,13 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         enqueue(new Callable<Void>() {
             public Void call() throws Exception {
                 // INSERT CODE HERE
-                if(lamp.isVisited()){
-                    
-                    
-                }else {
-                    
-                }
+//                if(lamp.isVisited()){
+//                    Spatial lampObj = lampMap.get(lamp);
+//                    AnimControl control =  sceneManager.getWorldRoot().getChild("Armature").getControl(AnimControl.class);
+//                    System.out.println(control.getAnimationNames());
+//                }else {
+//                    
+//                }
                 
                 return null;
             }
