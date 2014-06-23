@@ -1,5 +1,6 @@
 package main;
 
+import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.collision.CollisionResult;
@@ -710,12 +711,13 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         enqueue(new Callable<Void>() {
             public Void call() throws Exception {
                 // INSERT CODE HERE
-                if(lamp.isVisited()){
-                    
-                    
-                }else {
-                    
-                }
+//                if(lamp.isVisited()){
+//                    Spatial lampObj = lampMap.get(lamp);
+//                    AnimControl control =  sceneManager.getWorldRoot().getChild("Armature").getControl(AnimControl.class);
+//                    System.out.println(control.getAnimationNames());
+//                }else {
+//                    
+//                }
                 
                 return null;
             }
