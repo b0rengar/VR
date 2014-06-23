@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sensorlist>
+	<sensorgroup id="34">
+		<description>Meldergruppe 34 in Halle 14</description>
+		<sensor id="1">
+			<description>Melder für Raum 14B-0.10</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.10</room>
+			<positiondescription>14A-0.10</positiondescription>
+			<coordinates x="-33.15652" y="3.3737278" z="-91.9881" />
+		</sensor>
+		<sensor id="2">
+			<description>Melder für Raum 14B-0.10</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.10</room>
+			<positiondescription>14B-0.10</positiondescription>
+			<coordinates x="-36.79163" y="3.3737278" z="-92.929276" />
+		</sensor>
+		<sensor id="3">
+			<description>Melder für Raum 14B-0.09</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.09</room>
+			<positiondescription>14B-0.09</positiondescription>
+			<coordinates x="-33.403347" y="3.3737278" z="-88.96337" />
+		</sensor>
+		<sensor id="4">
+			<description>Melder für Raum 14B-0.10</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.10</room>
+			<positiondescription>14B-0.10</positiondescription>
+			<coordinates x="-38.725784" y="3.3737278" z="-89.28045" />
+		</sensor>
+		<sensor id="5">
+			<description>Melder für Raum 14B-0.09</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.09</room>
+			<positiondescription>14B-0.09</positiondescription>
+			<coordinates x="-34.8929" y="3.3737278" z="-84.20727" />
+		</sensor>
+		<sensor id="6">
+			<description>Melder für Raum 14B-0.09</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.09</room>
+			<positiondescription>14B-0.09</positiondescription>
+			<coordinates x="-38.497124" y="3.3737278" z="-85.544556" />
+		</sensor>
+		<sensor id="7">
+			<description>Melder für Raum 14B-0.09a</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.09a</room>
+			<positiondescription>14B-0.09a</positiondescription>
+			<coordinates x="-36.841152" y="3.3737278" z="-79.89934" />
+		</sensor>
+		<sensor id="8">
+			<description>Melder für Raum 14B-0.09b</description>
+			<type>AUTOMATISCHER MELDER</type>
+			<floor>EG</floor>
+			<room>14B-0.09b</room>
+			<positiondescription>14B-0.09b</positiondescription>
+			<coordinates x="-40.447983" y="3.3737278" z="-80.4707" /> 
+		</sensor>
+	</sensorgroup>
+</sensorlist>
