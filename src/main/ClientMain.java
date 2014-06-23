@@ -222,7 +222,11 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             int userO2int = 0;
             InetAddress serverIP = null;
             try {
-                serverIP = InetAddress.getByName(serverIPstr);
+                if(serverIPstr != ""){
+                    serverIP = InetAddress.getByName(serverIPstr);
+                }else{
+                    serverIP = InetAddress.getByName(Settings.getInstance().getServer());
+                }
                 userO2int = Integer.parseInt(userO2);
             } catch (UnknownHostException ex) {
                 Logger.getLogger(ClientMain.class.getName()).log(Level.SEVERE, null, ex);
