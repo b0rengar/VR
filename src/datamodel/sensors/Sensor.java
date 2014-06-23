@@ -60,6 +60,11 @@ public class Sensor {
         return sb.toString();
     }
 
+    public boolean isAutomaticSensor(){
+        if(type == null) return false;
+        return type.indexOf("NICHTAUTOMAT") == -1;
+    }
+    
     public double getFireSeverity() {
         return fireSeverity;
     }
