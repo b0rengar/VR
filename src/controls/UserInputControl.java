@@ -101,7 +101,8 @@ public class UserInputControl implements Control, ActionListener, AnalogListener
 		Vector3f currentUp = spatial.getWorldRotation().mult(Vector3f.UNIT_Y);
 		Vector3f camLocation = spatial.getWorldTranslation().add(currentUp);
 //		System.out.println(camLocation);
-		camLocation.setY(camLocation.y-0.5f);
+//		camLocation.setY(camLocation.y-0.5f);
+		camLocation.setY(camLocation.y+0.5f);
 		//        camLocation.setZ(camLocation.z+5);
 		//        camLocation.setX(camLocation.x+5);
 		cam.setLocation(camLocation);

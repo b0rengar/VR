@@ -8,6 +8,7 @@ import com.jme3.export.JmeExporter;
 import com.jme3.export.JmeImporter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.Control;
 import java.io.IOException;
@@ -30,7 +31,8 @@ public class CharacterAnimControl implements Control {
 
     public void setSpatial(Spatial spatial) {
         if (spatial == null) return;
-        animControl = spatial.getControl(AnimControl.class);
+//        animControl = spatial.getControl(AnimControl.class);
+        animControl = ((Node)spatial).getChild("Mesh_0583-ogremesh").getControl(AnimControl.class);
         characterControl = spatial.getControl(CharacterControl.class);
         if (animControl != null && characterControl != null) {
             upperBodyAnimChannel = animControl.createChannel();
@@ -42,24 +44,25 @@ public class CharacterAnimControl implements Control {
 
     public void update(float tpf) {
     	//wenn der Character sich in der Luft befindet..
-        if(!characterControl.onGround()){
-            if(!"JumpLoop".equals(upperBodyAnimChannel.getAnimationName())&&!"RunTop".equals(upperBodyAnimChannel.getAnimationName())) upperBodyAnimChannel.setAnim("JumpLoop");
-            if(!"JumpLoop".equals(lowerBodyAnimChannel.getAnimationName())&&!"RunBase".equals(lowerBodyAnimChannel.getAnimationName())) lowerBodyAnimChannel.setAnim("JumpLoop");
-            return;
-        }
+//        if(!characterControl.onGround()){
+//            if(!"JumpLoop".equals(upperBodyAnimChannel.getAnimationName())&&!"RunTop".equals(upperBodyAnimChannel.getAnimationName())) upperBodyAnimChannel.setAnim("JumpLoop");
+//            if(!"JumpLoop".equals(lowerBodyAnimChannel.getAnimationName())&&!"RunBase".equals(lowerBodyAnimChannel.getAnimationName())) lowerBodyAnimChannel.setAnim("JumpLoop");
+//            return;
+//        }
 
         //wenn der Character sich bewegt
         if (characterControl.getWalkDirection().length() > 0) {
-            if(!"RunTop".equals(upperBodyAnimChannel.getAnimationName()))
-                upperBodyAnimChannel.setAnim("RunTop");
-            if(!"RunBase".equals(lowerBodyAnimChannel.getAnimationName()))
-                lowerBodyAnimChannel.setAnim("RunBase");
-        }else{
-            if(!"IdleTop".equals(upperBodyAnimChannel.getAnimationName()))
-                upperBodyAnimChannel.setAnim("IdleTop");
-            if(!"IdleBase".equals(lowerBodyAnimChannel.getAnimationName()))
-                lowerBodyAnimChannel.setAnim("IdleBase");
+            if(!"walk".equals(upperBodyAnimChannel.getAnimationName()))
+                upperBodyAnimChannel.setAnim("walk");
+//            if(!"RunBase".equals(lowerBodyAnimChannel.getAnimationName()))
+//                lowerBodyAnimChannel.setAnim("RunBase");
         }
+//        else{
+//            if(!"IdleTop".equals(upperBodyAnimChannel.getAnimationName()))
+//                upperBodyAnimChannel.setAnim("IdleTop");
+//            if(!"IdleBase".equals(lowerBodyAnimChannel.getAnimationName()))
+//                lowerBodyAnimChannel.setAnim("IdleBase");
+//        }
     }
 
     public void render(RenderManager rm, ViewPort vp) { }

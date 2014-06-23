@@ -20,7 +20,8 @@ public class GameManager extends AbstractAppState {
 	private SceneManager sceneManager;
 	private boolean isRunning = false;
 	private String mapName = "Scenes/thwildau.j3o";
-	private String[] modelNames = new String[]{"Models/Sinbad/Sinbad.j3o"};
+//	private String[] modelNames = new String[]{"Models/Sinbad/Sinbad.j3o"};
+	private String[] modelNames = new String[]{"Models/fireman/fireman.j3o"};
 
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
@@ -44,7 +45,7 @@ public class GameManager extends AbstractAppState {
 	public synchronized boolean addEntity(int client_id) {
 		for (Player player : Player.getPlayers()) {
 			if(player.getGroup_id()==client_id){
-				long character_entity_id = sceneManager.addNewEntity("Models/Sinbad/Sinbad.j3o", new Vector3f(20,15,20), new Quaternion(),new Vector3f(0.27f, 0.27f, 0.27f),true);
+				long character_entity_id = sceneManager.addNewEntity(modelNames[0], new Vector3f(20,15,20), new Quaternion(),new Vector3f(0.2f, 0.2f, 0.2f),true);
 				player.setCharacter_entity_id(character_entity_id);
 				sceneManager.enterEntity(player.getId(), character_entity_id);
 			} else {

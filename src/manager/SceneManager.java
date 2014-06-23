@@ -320,7 +320,7 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
 			CharacterControl control = entityModel.getControl(CharacterControl.class);
 			control.setPhysicsLocation(location);
 			//TODO anpassen
-			control.getCollisionShape().setScale(new Vector3f(0.9f, 0.64f, 0.5f));
+			control.getCollisionShape().setScale(new Vector3f(0.5f, 0.64f, 0.5f));
 			//setCollisionShape(new CapsuleCollisionShape(1, 1, 1));
 			control.setViewDirection(rotation.mult(Vector3f.UNIT_Z).multLocal(1, 0, 1).normalizeLocal());
 		} else {
