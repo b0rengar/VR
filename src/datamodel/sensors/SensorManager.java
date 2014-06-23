@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -116,7 +117,9 @@ public class SensorManager  implements MessageListener{
     }
     
     public List<SensorGroup> getSensorGroups(){
-        return new LinkedList<SensorGroup>(sensorGroups.values());
+        List<SensorGroup> list = new LinkedList<SensorGroup>(sensorGroups.values());
+        Collections.sort(list);
+        return list;
     }
     
     public List<Sensor> getSensors(){
@@ -124,6 +127,7 @@ public class SensorManager  implements MessageListener{
         for(SensorGroup sg : sensorGroups.values()){
             list.addAll(sg.getSensors());
         }
+        Collections.sort(list);
         return list;
     }
     
