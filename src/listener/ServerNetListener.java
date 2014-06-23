@@ -22,6 +22,7 @@ import messages.StartGameMessage;
 import persistence.Player;
 import persistence.ServerClientData;
 import com.jme3.math.Vector3f;
+import logging.UserDataLog;
 
 /**
  * listener f�r den Netzwerk-Nachrichten-Transfer
@@ -33,6 +34,8 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 	com.jme3.network.Server server;
 	SceneManager worldManager;
 	GameManager gameManager;
+        
+        UserDataLog usl;
 	
 
 	public ServerNetListener(ServerMain app, Server server, SceneManager worldManager, GameManager gameManager) {
@@ -42,7 +45,8 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
 		this.gameManager = gameManager;
 		server.addConnectionListener(this);
 		server.addMessageListener(this, HandshakeMessage.class, ClientJoinMessage.class, StartGameMessage.class, ActionMessage.class, ClientUserDataMessage.class);
-	}
+                usl = new UserDataLog();
+        }
 
 	public void connectionAdded(Server serverr, HostedConnection client) {
 		int clientId = (int) client.getId();
@@ -151,6 +155,7 @@ public class ServerNetListener implements MessageListener<HostedConnection>, Con
                                             server.broadcast(new ClientUserDataMessage(player.getName(),player.getO2(),player.getPulse(),player.getLocation()));
                                             Logger.getLogger(ServerNetListener.class.getName()).log(Level.INFO, "Sende Broadcast with UserData");
 					}
+                                        usl.writeLogFile(msg);
 					return null;
 				}
 			});

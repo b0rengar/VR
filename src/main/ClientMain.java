@@ -46,6 +46,8 @@ import de.lessvoid.nifty.screen.ScreenController;
 import event.FireAlarmSystemEventTypes;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -79,7 +81,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     Client myClient = null;
     private static ClientMain app;  
         
-        private int fiveSec = 0;
+        private int fiveSec = 2;
         private boolean PlayerTab = false;
         private boolean blnUserData = false;
 	private SceneManager sceneManager;
@@ -217,21 +219,28 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     public void connect() {
             final String userName = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("username_text").getControl(TextFieldControl.class).getText();
             final String userO2 = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("usero2_text").getControl(TextFieldControl.class).getText();
+            final String serverIPstr = nifty.getScreen("load_game").findElementByName("layer").findElementByName("panel").findElementByName("serverip_text").getControl(TextFieldControl.class).getText();
             int userO2int = 0;
+            InetAddress serverIP = null;
+            try {
+                serverIP = InetAddress.getByName(serverIPstr);
+                userO2int = Integer.parseInt(userO2);
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(ClientMain.class.getName()).log(Level.SEVERE, null, ex);
+                setStatusText("IP address invalid");
+                return;
+            } catch (Exception ex) {
+                userO2int = 300;
+            }           
             if (userName.trim().length() == 0) {
                     setStatusText("Username invalid");
                     return;
-            }
-            try{
-                userO2int = Integer.parseInt(userO2);
-            } catch (Exception ex) {
-                userO2int = 300;
             }
             clientNetListener.setName(userName);
             clientNetListener.setO2(userO2int); //try if server messages are working
             statusText.setText("Connecting..");
             try {
-                    client.connectToServer(Settings.getInstance().getServer(), Settings.getInstance().getPort_tcp(), Settings.getInstance().getPort_udp());
+                    client.connectToServer(serverIP, Settings.getInstance().getPort_tcp(), Settings.getInstance().getPort_udp());
                     client.start();
             } catch (IOException ex) {
                     setStatusText(ex.getMessage());
