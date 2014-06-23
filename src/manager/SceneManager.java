@@ -354,15 +354,24 @@ public class SceneManager extends AbstractAppState implements SyncMessageValidat
                     spat.setUserData("player_id", playerId);
                     spat.setUserData("group_id", groupId);
                     BitmapFont fnt = assetManager.loadFont("Interface/Fonts/Default.fnt");
-                    BitmapText txt = new BitmapText(fnt, false);
+                    BitmapText txt = new BitmapText(fnt, true);
                     txt.setBox(new com.jme3.font.Rectangle(0, 0, 6, 3));
                     txt.setQueueBucket(Bucket.Transparent);
                     txt.setSize( 0.5f );
                     txt.setText(Player.getPlayer(playerId).getName());
     //	        txt.setAlpha(0.6f);
                     txt.setAlignment(Align.Center);
-                    txt.setLocalTranslation(-3f , 6, 0.4f);
+                  //  txt.setLocalTranslation(-3f , 6, 0.4f);
+                    //spat.attachChild(txt);
+
+                 //   BitmapText txtMirror = txt.clone();
+
+                    txt.setLocalTranslation(3f , 6, 0.4f);
+                    Quaternion roll180 = new Quaternion(); 
+                    roll180.fromAngleAxis( FastMath.PI , new Vector3f(0,1,0) ); 
+                    txt.setLocalRotation(roll180);
                     spat.attachChild(txt);
+                    
                     if (groupId == getMyClientId()) { //only true on clients
                             makeUserControl(entityId, client);
                             //move controls for local user to new spatial
