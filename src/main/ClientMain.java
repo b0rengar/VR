@@ -511,7 +511,6 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                     floor = 2;
                     mapPic.setImage(assetManager, "Textures/map/H14_2_OG_nur Raumnummerierung_dwg.png", true);
                 }
-                System.out.println("FLOOR = " + floor);
                 if(mapText != null)
                     guiNode.detachChild(mapText);
                 mapText = new BitmapText(guiFont, false);          
@@ -546,8 +545,14 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
             } else {
                 if(mapPic != null){
                     guiNode.detachChild(mapPic);
-                    if(mapText != null)
+                    if(mapText != null){
                         guiNode.detachChild(mapText);
+                        for(Long id : mapTextOthers.keySet()){
+                            guiNode.detachChild(mapTextOthers.get(id));
+                        }
+                        mapTextOthers.clear();
+                    }
+                    
                     mapPic = null;
                 }
             }
@@ -610,8 +615,8 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
                         if(lampMap.get(lamp) != null){
                             System.out.println("Set Lamp as marked");
                             lamp.setVisited(true);
-                            setRed(lampMap.get(lamp), false);
-                            setGreen(lampMap.get(lamp), true);
+//                            setRed(lampMap.get(lamp), false);
+//                            setGreen(lampMap.get(lamp), true);
                         }
                     }
                 }                
@@ -743,6 +748,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
     }
     
     public void lampChanged(Lamp lamp){
+        System.out.println("lampChanged");
         setLamp(lamp, lampMap.get(lamp));
     }
     
