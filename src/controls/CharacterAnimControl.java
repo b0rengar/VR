@@ -54,15 +54,16 @@ public class CharacterAnimControl implements Control {
         if (characterControl.getWalkDirection().length() > 0) {
             if(!"walk".equals(upperBodyAnimChannel.getAnimationName()))
                 upperBodyAnimChannel.setAnim("walk");
+                upperBodyAnimChannel.setSpeed(2f);
 //            if(!"RunBase".equals(lowerBodyAnimChannel.getAnimationName()))
 //                lowerBodyAnimChannel.setAnim("RunBase");
         }
-//        else{
-//            if(!"IdleTop".equals(upperBodyAnimChannel.getAnimationName()))
-//                upperBodyAnimChannel.setAnim("IdleTop");
+        else{
+            if(!"Idle".equals(upperBodyAnimChannel.getAnimationName()))
+                upperBodyAnimChannel.setAnim("Idle");
 //            if(!"IdleBase".equals(lowerBodyAnimChannel.getAnimationName()))
 //                lowerBodyAnimChannel.setAnim("IdleBase");
-//        }
+        }
     }
 
     public void render(RenderManager rm, ViewPort vp) { }

@@ -6,6 +6,9 @@
 	<useControls filename="nifty-default-controls.xml" />
 
 	<screen id="load_game" controller="main.ClientMain">
+                <layer id="background" childLayout="center">
+                    <image filename="Interface/Images/start-background-g.png"></image>
+                </layer>
 		<layer id="layer" childLayout="center">
 			<panel id="panel" height="400px" width="350px" align="center"
 				valign="center" style="nifty-panel-simple" childLayout="vertical">

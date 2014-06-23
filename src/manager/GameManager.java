@@ -21,8 +21,8 @@ public class GameManager extends AbstractAppState {
 	private boolean isRunning = false;
 	private String mapName = "Scenes/thwildau.j3o";
 //	private String[] modelNames = new String[]{"Models/Sinbad/Sinbad.j3o"};
-	private String[] modelNames = new String[]{"Models/fireman/fireman.j3o"};
-
+//	private String[] modelNames = new String[]{"Models/fireman21/fireman.j3o"};
+	private String[] modelNames = new String[]{"Models/feuerman21/feuerman.j3o"};
 	@Override
 	public void initialize(AppStateManager stateManager, Application app) {
 		super.initialize(stateManager, app);

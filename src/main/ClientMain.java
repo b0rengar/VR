@@ -151,7 +151,7 @@ public class ClientMain extends SimpleApplication implements ScreenController, S
         bulletState = new BulletAppState();
         bulletState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
         getStateManager().attach(bulletState);
-        bulletState.getPhysicsSpace().enableDebug(assetManager);
+        //bulletState.getPhysicsSpace().enableDebug(assetManager);
         bulletState.getPhysicsSpace().setAccuracy(Settings.getInstance().getPhysics_fps());
         inputManager.setCursorVisible(true);
         flyCam.setEnabled(false);
